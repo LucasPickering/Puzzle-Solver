@@ -57,15 +57,21 @@ public final class SimpleSide implements Side {
     if (getCornerDistance() == other.getCornerDistance()) {
       return Double.compare(getCornerDistance(), other.getCornerDistance());
     }
-      Point[] otherPoints = simpleOther.getPoints();
 
-    if ()
+    Point[] otherPoints = simpleOther.getPoints();
 
-    {
-      for (int point = 0; point <; point++) {
+    assert points != null && otherPoints != null;
+    if (points.length != otherPoints.length) {
+      return Integer.compare(points.length, otherPoints.length);
+    }
 
+    for (int point = 0; point < points.length; point++) {
+      if (!points[point].equals(otherPoints[point])) {
+        return points[point].compareTo(otherPoints[point]);
       }
     }
+
+    return 0;
   }
 
   public Point[] getPoints() {
