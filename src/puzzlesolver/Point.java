@@ -35,6 +35,6 @@ public class Point implements Comparable<Point> {
 
   @Override
   public int compareTo(Point p) {
-    return (x == p.x) ? Double.compare(y, p.y) : Double.compare(x, p.x);
+    return Double.compare(y, p.y);
   }
 }
