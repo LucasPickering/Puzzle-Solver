@@ -3,7 +3,7 @@ package puzzlesolver;
 /**
  * A class to represent immutable points, with x and y values.
  */
-public class Point {
+public class Point implements Comparable<Point> {
 
   public final double x;
   public final double y;
@@ -16,5 +16,10 @@ public class Point {
   public Point(double x, double y){
     this.x = x;
     this.y = y;
+  }
+
+  @Override
+  public int compareTo(Point p) {
+    return (x == p.x) ? Double.compare(y, p.y) : Double.compare(x, p.x);
   }
 }
