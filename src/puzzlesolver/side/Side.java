@@ -20,7 +20,7 @@ public interface Side extends Comparable<Side> {
    *
    * @return the straight-line corner distance
    */
-  float getCornerDistance();
+  double getCornerDistance();
 
   /**
    * Gets the {@link SideType} of this side
