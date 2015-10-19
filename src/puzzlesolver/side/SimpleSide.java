@@ -1,6 +1,7 @@
 package puzzlesolver.side;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 import puzzlesolver.Point;
 
@@ -9,25 +10,74 @@ public final class SimpleSide implements Side {
   /**
    * List of points on the side.
    *
-   * points[i].x = distance from left side
-   * points[i].y = height from side base
+   * points[i].x = distance from left side points[i].y = height from side base
    */
   private final Point[] points;
   private final SideType sideType;
 
-  public SimpleSide(Point... points){
+  /**
+   * Constructs a new {@code SimpleSide} from the given points.
+   *
+   * @param points the series of points making up the side, relative to the piece.
+   *
+   *               These must be in the desired order along the side.
+   */
+  public SimpleSide(Point... points) {
     this.points = points.clone();
-    Arrays.sort(this.points, 0, this.points.length, Point.PointComparator.class);
+    Arrays.sort(this.points, 0, this.points.length, Comparator.<Point>naturalOrder());
     sideType = findSideType();
   }
 
-  private SideType findSideType(){
-    return sideType;
+  private SideType findSideType() {
+    final double maxHeight = points[0].y;
+
+    for (int i = 1; i < points.length; i++) {
+      if (points[i].y < maxHeight) {
+        return SideType.IN;
+      } else if (points[i].y > maxHeight) {
+        return SideType.OUT;
+      }
+    }
+    return SideType.FLAT;
   }
 
   @Override
-  public int compareTo(Side side) {
-    return
+  public int compareTo(Side other) {
+    if (!SimpleSide.class.isInstance(other)) {
+      throw new ClassCastException(String.format("Cannot compare %s to %s.", getClass().toString(),
+                                                 other.getClass().toString()));
+    }
+
+    SimpleSide simpleOther = (SimpleSide) other;
+
+    if (!getSideType().equals(other.getSideType())) {
+      return getSideType().compareTo(other.getSideType());
+    }
+
+    if (getCornerDistance() == other.getCornerDistance()) {
+      return Double.compare(getCornerDistance(), other.getCornerDistance());
+    }
+      Point[] otherPoints = simpleOther.getPoints();
+
+    if ()
+
+    {
+      for (int point = 0; point <; point++) {
+
+      }
+    }
+  }
+
+  public Point[] getPoints() {
+    Point[] copy = new Point[points.length];
+    for (int i = 0; i < points.length; i++) {
+      try {
+        copy[i] = points[i].clone();
+      } catch (CloneNotSupportedException e) {
+        return null;
+      }
+    }
+    return copy;
   }
 
   @Override

@@ -2,10 +2,19 @@ package puzzlesolver;
 
 /**
  * A class to represent immutable points, with x and y values.
+ *
+ * Origin is at the top-left.
  */
 public class Point implements Comparable<Point> {
 
+  /**
+   * X-coordinate of the point (distance from left).
+   */
   public final double x;
+
+  /**
+   * Y-coordinate of the point (distance from top).
+   */
   public final double y;
 
   /**
@@ -16,6 +25,12 @@ public class Point implements Comparable<Point> {
   public Point(double x, double y){
     this.x = x;
     this.y = y;
+  }
+
+  @Override
+  public Point clone() throws CloneNotSupportedException {
+    super.clone();
+    return new Point(x, y);
   }
 
   @Override
