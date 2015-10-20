@@ -7,7 +7,7 @@ import puzzlesolver.side.Side;
  */
 public class Piece {
 
-  enum Direction {
+  public enum Direction {
     NORTH, EAST, SOUTH, WEST
   }
 
@@ -17,4 +17,19 @@ public class Piece {
    */
   private final Side[] sides = new Side[4];
 
+  /**
+   * Adds the given side to this piece in the given direction. If this piece already has a side in
+   * that direction, does nothing.
+   *
+   * @param side   the side to be added
+   * @param dir    the direction of the side in this piece
+   * @return whether or not the piece was added
+   */
+  public boolean addSide(Side side, Direction dir) {
+    if (sides[dir.ordinal()] == null) {
+      sides[dir.ordinal()] = side;
+      return true;
+    }
+    return false;
+  }
 }
