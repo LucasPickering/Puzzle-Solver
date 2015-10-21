@@ -1,5 +1,7 @@
 package puzzlesolver.side;
 
+import com.sun.istack.internal.NotNull;
+
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -36,7 +38,6 @@ public final class SimpleSide implements Side {
   public SimpleSide(Point... points) {
     this.points = points.clone();
     Arrays.sort(this.points, 0, this.points.length, Comparator.<Point>naturalOrder());
-    sideType = findSideType();
   }
 
   /**
@@ -45,9 +46,19 @@ public final class SimpleSide implements Side {
    * Should only be called by {@link #getSideType()}. All other functions should call
    * {@link this.getSideType()}.
    *
+   * Assuming {@link #sideType} is currently {@link null}.
+   *
    * @return the type of the side.
    */
   private SideType findSideType() {
+    if (points == null || points.length == 0) {
+      return null;
+    }
+
+    if (points.length == 2) {
+      return sideType = SideType.FLAT;
+    }
+
     final double maxHeight = points[0].y;
 
     for (int i = 1; i < points.length; i++) {
@@ -66,16 +77,25 @@ public final class SimpleSide implements Side {
    *
    * @param other the {@link Side} to compare this side to.
    * @return 0 if they are equivalent.
+   * @throws NullPointerException if the {@code other} {@link Side} is {@link null}.
    * @throws ClassCastException if the {@link Side} given is not a {@link SimpleSide}.
    */
   @Override
-  public int compareTo(Side other) {
+  public int compareTo(@NotNull Side other) {
+    if (other == null) {
+      throw new NullPointerException("Other side cannot be null");
+    }
+
     if (!SimpleSide.class.isInstance(other)) {
       throw new ClassCastException(String.format("Cannot compare %s to %s.", getClass().toString(),
                                                  other.getClass().toString()));
     }
 
     SimpleSide simpleOther = (SimpleSide) other;
+
+    if (getSideType() == null || other.getSideType() == null) {
+      return (getSideType() == null && other.getSideType() == null) ? 0 : -1;
+    }
 
     if (!getSideType().equals(other.getSideType())) {
       return getSideType().compareTo(other.getSideType());
