@@ -5,6 +5,13 @@ import java.util.Comparator;
 
 import puzzlesolver.Point;
 
+/**
+ * An implementation of {@code Side}, where each side is represented by a list of {@code Point}s.
+ *
+ * The coordinates of the {@code Point}s are on an axis relative to the side. The x-axis is the
+ * line between the two endpoints of the side, and the y-axis is perpendicular to that, going away
+ * from the center of the piece.
+ */
 public final class SimpleSide implements Side {
 
   /**
@@ -13,7 +20,11 @@ public final class SimpleSide implements Side {
    * points[i].x = distance from left side points[i].y = height from side base
    */
   private final Point[] points;
-  private final SideType sideType;
+
+  /**
+   * The {@link SideType} of this {@link SimpleSide}.
+   */
+  private SideType sideType;
 
   /**
    * Constructs a new {@code SimpleSide} from the given points.
@@ -28,19 +39,35 @@ public final class SimpleSide implements Side {
     sideType = findSideType();
   }
 
+  /**
+   * Calculate the {@link SideType} based on the points making up this {@link SimpleSide}.
+   *
+   * Should only be called by {@link #getSideType()}. All other functions should call
+   * {@link this.getSideType()}.
+   *
+   * @return the type of the side.
+   */
   private SideType findSideType() {
     final double maxHeight = points[0].y;
 
     for (int i = 1; i < points.length; i++) {
       if (points[i].y < maxHeight) {
-        return SideType.IN;
+        return sideType = SideType.IN;
       } else if (points[i].y > maxHeight) {
-        return SideType.OUT;
+        return sideType = SideType.OUT;
       }
     }
-    return SideType.FLAT;
+
+    return sideType = SideType.FLAT;
   }
 
+  /**
+   * Compares this {@code SimpleSide} to the given {@code other} {@code SimpleSide}
+   *
+   * @param other the {@link Side} to compare this side to.
+   * @return 0 if they are equivalent.
+   * @throws ClassCastException if the {@link Side} given is not a {@link SimpleSide}.
+   */
   @Override
   public int compareTo(Side other) {
     if (!SimpleSide.class.isInstance(other)) {
@@ -74,6 +101,11 @@ public final class SimpleSide implements Side {
     return 0;
   }
 
+  /**
+   * Get the array of points representing this side.
+   *
+   * @return the array of points representing this side.
+   */
   public Point[] getPoints() {
     Point[] copy = new Point[points.length];
     for (int i = 0; i < points.length; i++) {
@@ -93,6 +125,6 @@ public final class SimpleSide implements Side {
 
   @Override
   public SideType getSideType() {
-    return sideType;
+    return (sideType == null) ? findSideType() : sideType;
   }
 }
