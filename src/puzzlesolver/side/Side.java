@@ -7,8 +7,8 @@ package puzzlesolver.side;
  * override {@link Object#equals} and {@link Object#hashCode}
  *
  * Note: sub-classes may have a natural ordering that is inconsistent with {@link Object#equals}.
- * {@link Object#equals} MUST be no less specific about equality than {@link Comparable#compareTo}, and
- * will typically be more specific.
+ * {@link Object#equals} MUST be no less specific about equality than {@link Comparable#compareTo},
+ * and will typically be more specific.
  */
 public interface Side extends Comparable<Side> {
 
@@ -28,6 +28,5 @@ public interface Side extends Comparable<Side> {
    *
    * @return the {@link SideType}
    */
-  SideType getSideType();
-
+  SideType getSideType()j
 }
