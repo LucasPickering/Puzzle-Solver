@@ -53,23 +53,17 @@ public final class SimpleGenerator implements Generator {
 
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
-        final Piece piece = new Piece();
+        final Piece.Builder builder = new Piece.Builder();
 
-        if (x == 0) { // If this is the top-most row, generate edge sides for the top side
-          piece.addSide(generateSide(true), Piece.Direction.WEST);
-        } else { // Otherwise, take the bottom side of the piece above as this top side
-          piece.addSide(pieces[x - 1][y].getSide(Piece.Direction.EAST), Piece.Direction.WEST);
-        }
-        piece.addSide(generateSide(x == width - 1), Piece.Direction.EAST); // Gen. the bottom side
+        builder.setSide(x == 0 ? generateSide(true) :
+            pieces[x - 1][y].getSide(Piece.Direction.EAST), Piece.Direction.WEST);
+        builder.setSide(generateSide(x == width - 1), Piece.Direction.EAST);
 
-        if (y == 0) { // If this is the left-most row, generate edge sides for the left side
-          piece.addSide(generateSide(true), Piece.Direction.NORTH);
-        } else { // Otherwise, take the right side of the piece above as this left side
-          piece.addSide(pieces[x][y - 1].getSide(Piece.Direction.SOUTH), Piece.Direction.NORTH);
-        }
-        piece.addSide(generateSide(y == height - 1), Piece.Direction.SOUTH); // Gen. the right side
+        builder.setSide(y == 0 ? generateSide(true) :
+            pieces[x][y - 1].getSide(Piece.Direction.SOUTH), Piece.Direction.NORTH);
+        builder.setSide(generateSide(y == height - 1), Piece.Direction.SOUTH);
 
-        pieces[x][y] = piece;
+        pieces[x][y] = builder.build();
       }
     }
 
