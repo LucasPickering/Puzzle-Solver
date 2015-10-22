@@ -29,4 +29,10 @@ public interface Side extends Comparable<Side> {
    * @return the {@link SideType}
    */
   SideType getSideType();
+
+  /**
+   * Creates a deep copy of this side and returns it.
+   * @return a deep copy of this side, with no shared variables
+   */
+  Side copy();
 }
