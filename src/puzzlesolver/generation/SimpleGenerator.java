@@ -42,17 +42,31 @@ public final class SimpleGenerator implements Generator {
     // Horizontal sides are listed first, then vertical sides, top-to-bottom, left-to-right.
     SimpleSide[] sides = new SimpleSide[numHorizontals + numVerticals];
     for (int i = 0; i < sides.length; i++) {
-      if(i < numHorizontals) {
+      if (i < numHorizontals) {
         final int y = i / width; // [0, height]
         sides[i] = generateSide(y == 0 || y == height);
-      }
-      else{
+      } else {
         final int x = i - numHorizontals % width; // [0, width]
         sides[i] = generateSide(x == 0 || x == width);
       }
     }
 
-
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        final Piece piece = new Piece();
+        if (x == 0) {
+          piece.addSide(generateSide(true), Piece.Direction.WEST);
+        } else if (x == width - 1) {
+          piece.addSide(generateSide(true), Piece.Direction.EAST);
+        }
+        if (y == 0) {
+          piece.addSide(generateSide(true), Piece.Direction.NORTH);
+        } else if (y == height - 1) {
+          piece.addSide(generateSide(true), Piece.Direction.SOUTH);
+        }
+        pieces[x][y] = piece;
+      }
+    }
 
     final ArrayList<Piece> toReturn = new ArrayList<>(width * height);
     for (int i = 0; i < width; i++) {
