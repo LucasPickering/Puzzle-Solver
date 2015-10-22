@@ -5,7 +5,7 @@ package puzzlesolver;
  *
  * Origin is at the top-left.
  */
-public class Point implements Comparable<Point> {
+public class Point implements Comparable<Point>, Cloneable {
 
   /**
    * X-coordinate of the point (distance from left).
@@ -28,8 +28,13 @@ public class Point implements Comparable<Point> {
   }
 
   @Override
-  public Point clone() throws CloneNotSupportedException {
-    super.clone();
+  public Point clone() {
+    try {
+      super.clone();
+    } catch (CloneNotSupportedException e) {
+      e.printStackTrace();
+    }
+
     return new Point(x, y);
   }
 

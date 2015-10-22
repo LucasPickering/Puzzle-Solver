@@ -1,8 +1,10 @@
-package puzzlesolver.side;
+package puzzlesolver.test.side;
 
 import org.junit.Test;
 
 import puzzlesolver.Point;
+import puzzlesolver.side.Side;
+import puzzlesolver.side.SimpleSide;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;

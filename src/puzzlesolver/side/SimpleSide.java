@@ -122,18 +122,14 @@ public final class SimpleSide implements Side {
   }
 
   /**
-   * Get the array of points representing this side.
+   * Get a copy of the {@link Point}s, not the original {@link Point}s.
    *
-   * @return the array of points representing this side.
+   * @return a copy of the array of {@link Point}s representing this side
    */
   public Point[] getPoints() {
     Point[] copy = new Point[points.length];
     for (int i = 0; i < points.length; i++) {
-      try {
         copy[i] = points[i].clone();
-      } catch (CloneNotSupportedException e) {
-        return null;
-      }
     }
     return copy;
   }
@@ -146,5 +142,10 @@ public final class SimpleSide implements Side {
   @Override
   public SideType getSideType() {
     return (sideType == null) ? findSideType() : sideType;
+  }
+
+  @Override
+  public Side copy() {
+    return new SimpleSide(getPoints());
   }
 }
