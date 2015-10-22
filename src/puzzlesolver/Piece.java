@@ -3,9 +3,7 @@ package puzzlesolver;
 import puzzlesolver.side.Side;
 
 /**
- * A class to represent a 4-sided puzzle piece. No instance of this class should be used for
- * anything other than {@link #addSide} until all 4 sizes have been added, so that no side iss
- * {@code null}.
+ * A class to represent a 4-sided puzzle piece.
  */
 public class Piece {
 
@@ -13,26 +11,43 @@ public class Piece {
     NORTH, EAST, SOUTH, WEST
   }
 
+  public static class Builder {
+
+    private final Side[] sides = new Side[4];
+
+    /**
+     * Sets this piece's side in the given direction to the given side.
+     *
+     * @param side the side to be added
+     * @param dir  the direction of the side in this piece
+     */
+    public Builder setSide(Side side, Direction dir) {
+      sides[dir.ordinal()] = side;
+      return this;
+    }
+
+    public Piece build() {
+      for (Side side : sides) {
+        if (side == null) {
+          throw new IllegalStateException("Not all sides are initialized yet");
+        }
+      }
+      return new Piece(sides);
+    }
+  }
+
   /**
    * All sides must be non-null. Sides are ordered in the same way as {@link Direction}: NORTH,
    * EAST, SOUTH, WEST.
    */
-  private final Side[] sides = new Side[4];
+  private final Side[] sides;
 
   /**
-   * Adds the given side to this piece in the given direction. If this piece already has a side in
-   * that direction, does nothing.
-   *
-   * @param side the side to be added
-   * @param dir  the direction of the side in this piece
-   * @return whether or not the piece was added
+   * Constructs a new Piece with the given 4 sides.
+   * @param sides array of sides, length MUST be 4
    */
-  public boolean addSide(Side side, Direction dir) {
-    if (sides[dir.ordinal()] == null) {
-      sides[dir.ordinal()] = side;
-      return true;
-    }
-    return false;
+  private Piece(Side[] sides) {
+    this.sides = sides;
   }
 
   /**
