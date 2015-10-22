@@ -46,7 +46,7 @@ public final class SimpleSide implements Side {
    * Should only be called by {@link #getSideType()}. All other functions should call
    * {@link this.getSideType()}.
    *
-   * Assuming {@link #sideType} is currently {@link null}.
+   * Assuming {@link #sideType} is currently {@code null}.
    *
    * @return the type of the side.
    */
@@ -77,7 +77,7 @@ public final class SimpleSide implements Side {
    *
    * @param other the {@link Side} to compare this side to.
    * @return 0 if they are equivalent.
-   * @throws NullPointerException if the {@code other} {@link Side} is {@link null}.
+   * @throws NullPointerException if the {@code other} {@link Side} is {@code null}.
    * @throws ClassCastException if the {@link Side} given is not a {@link SimpleSide}.
    */
   @Override
