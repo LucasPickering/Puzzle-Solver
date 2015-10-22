@@ -28,5 +28,5 @@ public interface Side extends Comparable<Side> {
    *
    * @return the {@link SideType}
    */
-  SideType getSideType()j
+  SideType getSideType();
 }
