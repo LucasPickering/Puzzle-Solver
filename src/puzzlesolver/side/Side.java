@@ -3,8 +3,9 @@ package puzzlesolver.side;
 /**
  * An interface to represent one side of a puzzle piece.
  *
- * Sides have a type which MUST be calculated and NOT provided to a constructor. Sub-classes MUST
- * override {@link Object#equals} and {@link Object#hashCode}
+ * Sides have a type which MUST be calculated during solution and CANNOT provided to a constructor
+ * or determined during generation. Sub-classes MUST override {@link Object#equals} and {@link
+ * Object#hashCode}.
  *
  * Note: sub-classes may have a natural ordering that is inconsistent with {@link Object#equals}.
  * {@link Object#equals} MUST be no less specific about equality than {@link Comparable#compareTo},
