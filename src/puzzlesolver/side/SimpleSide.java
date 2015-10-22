@@ -147,4 +147,9 @@ public final class SimpleSide implements Side {
   public SideType getSideType() {
     return (sideType == null) ? findSideType() : sideType;
   }
+
+  @Override
+  public Side copy() {
+    return new SimpleSide(getPoints());
+  }
 }
