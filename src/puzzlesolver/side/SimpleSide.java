@@ -13,6 +13,11 @@ import puzzlesolver.Point;
  * The coordinates of the {@code Point}s are on an axis relative to the side. The x-axis is the
  * line between the two endpoints of the side, and the y-axis is perpendicular to that, going away
  * from the center of the piece.
+ *
+ * <h4>Assertions:</h4>
+ * <ul>
+ *   <li><code>points.length > 1</code></li>
+ * </ul>
  */
 public final class SimpleSide implements Side {
 
@@ -35,7 +40,12 @@ public final class SimpleSide implements Side {
    *
    *               These must be in the desired order along the side.
    */
-  public SimpleSide(Point... points) {
+  public SimpleSide(@NotNull Point... points) throws IllegalArgumentException {
+    if (points.length < 2) {
+      throw new IllegalArgumentException(String.format("Must have at least 2 points: %d found.",
+                                                       points.length));
+    }
+
     this.points = points.clone();
     Arrays.sort(this.points, 0, this.points.length, Comparator.<Point>naturalOrder());
   }
@@ -51,9 +61,6 @@ public final class SimpleSide implements Side {
    * @return the type of the side.
    */
   private SideType findSideType() {
-    if (points == null || points.length == 0) {
-      return null;
-    }
 
     if (points.length == 2) {
       return sideType = SideType.FLAT;
@@ -82,20 +89,12 @@ public final class SimpleSide implements Side {
    */
   @Override
   public int compareTo(@NotNull Side other) {
-    if (other == null) {
-      throw new NullPointerException("Other side cannot be null");
-    }
-
     if (!SimpleSide.class.isInstance(other)) {
       throw new ClassCastException(String.format("Cannot compare %s to %s.", getClass().toString(),
                                                  other.getClass().toString()));
     }
 
     SimpleSide simpleOther = (SimpleSide) other;
-
-    if (getSideType() == null || other.getSideType() == null) {
-      return (getSideType() == null && other.getSideType() == null) ? 0 : -1;
-    }
 
     if (!getSideType().equals(other.getSideType())) {
       return getSideType().compareTo(other.getSideType());
