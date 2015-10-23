@@ -1,6 +1,9 @@
 package puzzlesolver.solver;
 
+import java.util.ArrayList;
+
 import puzzlesolver.Piece;
+import puzzlesolver.side.Side;
 
 public final class SimpleSolver implements Solver {
 
@@ -8,7 +11,37 @@ public final class SimpleSolver implements Solver {
   public Piece[][] solve(Piece[] pieces) {
     final int width = getWidth(0, pieces.length);
     final int height = getHeight(width, pieces.length);
-    Piece[][] solution = new Piece[width][height];
+    final Piece[][] solution = new Piece[width][height];
+    @SuppressWarnings("unchecked")
+    ArrayList<Piece>[] groupedPieces = new ArrayList[Piece.PieceType.values().length];
+
+    for (Piece piece : pieces) {
+      final int type = piece.getPieceType().ordinal();
+      if (groupedPieces[type] == null) {
+        groupedPieces[type] = new ArrayList<>();
+      }
+      groupedPieces[type].add(piece);
+    }
+    for (ArrayList<Piece> pieceList : groupedPieces) {
+      pieceList.sort(null);
+    }
+
+    // Place the corners first
+    for (Piece corner : groupedPieces[Piece.PieceType.CORNER.ordinal()]) {
+      if (corner.getSide(Piece.Direction.NORTH).getSideType() == Side.SideType.FLAT) {
+        if (corner.getSide(Piece.Direction.WEST).getSideType() == Side.SideType.FLAT) {
+          solution[0][0] = corner;
+        } else {
+          solution[width - 1][0] = corner;
+        }
+      } else {
+        if (corner.getSide(Piece.Direction.WEST).getSideType() == Side.SideType.FLAT) {
+          solution[0][height - 1] = corner;
+        } else {
+          solution[width - 1][height - 1] = corner;
+        }
+      }
+    }
 
     return solution;
   }
