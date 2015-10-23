@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 
 import puzzlesolver.Point;
 
@@ -89,6 +90,7 @@ public final class SimpleSide implements Side {
    */
   @Override
   public int compareTo(@NotNull Side other) {
+    Objects.requireNonNull(other);
     if (!SimpleSide.class.isInstance(other)) {
       throw new ClassCastException(String.format("Cannot compare %s to %s.", getClass().toString(),
                                                  other.getClass().toString()));
