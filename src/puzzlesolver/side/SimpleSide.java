@@ -2,8 +2,6 @@ package puzzlesolver.side;
 
 import com.sun.istack.internal.NotNull;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Objects;
 
 import puzzlesolver.Point;
@@ -15,10 +13,7 @@ import puzzlesolver.Point;
  * line between the two endpoints of the side, and the y-axis is perpendicular to that, going away
  * from the center of the piece.
  *
- * <h4>Assertions:</h4>
- * <ul>
- *   <li><code>points.length > 1</code></li>
- * </ul>
+ * <h4>Assertions:</h4> <ul> <li><code>points.length > 1</code></li> </ul>
  */
 public final class SimpleSide implements Side {
 
@@ -35,6 +30,11 @@ public final class SimpleSide implements Side {
   private SideType sideType;
 
   /**
+   * Cached distance between the corners.
+   */
+  private Double cornerDistance;
+
+  /**
    * Constructs a new {@code SimpleSide} from the given points.
    *
    * @param points the series of points making up the side, relative to the piece.
@@ -48,14 +48,13 @@ public final class SimpleSide implements Side {
     }
 
     this.points = points.clone();
-    Arrays.sort(this.points, 0, this.points.length, Comparator.<Point>naturalOrder());
   }
 
   /**
    * Calculate the {@link SideType} based on the points making up this {@link SimpleSide}.
    *
-   * Should only be called by {@link #getSideType()}. All other functions should call
-   * {@link this.getSideType()}.
+   * Should only be called by {@link #getSideType()}. All other functions should call {@link
+   * this.getSideType()}.
    *
    * Assuming {@link #sideType} is currently {@code null}.
    *
@@ -86,7 +85,7 @@ public final class SimpleSide implements Side {
    * @param other the {@link Side} to compare this side to.
    * @return 0 if they are equivalent.
    * @throws NullPointerException if the {@code other} {@link Side} is {@code null}.
-   * @throws ClassCastException if the {@link Side} given is not a {@link SimpleSide}.
+   * @throws ClassCastException   if the {@link Side} given is not a {@link SimpleSide}.
    */
   @Override
   public int compareTo(@NotNull Side other) {
@@ -130,14 +129,15 @@ public final class SimpleSide implements Side {
   public Point[] getPoints() {
     Point[] copy = new Point[points.length];
     for (int i = 0; i < points.length; i++) {
-        copy[i] = points[i].clone();
+      copy[i] = points[i].clone();
     }
     return copy;
   }
 
   @Override
   public double getCornerDistance() {
-    return points[points.length - 1].x;
+    return (cornerDistance == null) ? cornerDistance = points[points.length - 1].x - points[0].x
+                                    : cornerDistance;
   }
 
   @Override

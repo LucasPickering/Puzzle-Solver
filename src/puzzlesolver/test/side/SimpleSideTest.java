@@ -1,7 +1,5 @@
 package puzzlesolver.test.side;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import org.junit.Test;
 
 import puzzlesolver.Point;
@@ -21,7 +19,7 @@ public class SimpleSideTest {
                            new Point(5, 1),
                            new Point(10, 0));
 
-  @Test(expected = InvalidArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testConstructor() throws Exception {
     Side s1 = new SimpleSide();
   }
