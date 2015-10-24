@@ -29,15 +29,19 @@ public final class SimpleSolver implements Solver {
     final int height = getHeight(width, pieces.length);
     final Piece[][] solution = new Piece[width][height];
 
-    // Place the corners first
-    for (int i = 0; i < pieceList.size(); i++) {
-      final Piece piece = pieceList.get(i);
-      if (i < 4) {
-        final int x =
-            piece.getSide(Direction.WEST).getSideType() == SideType.FLAT ? 0 : width - 1;
-        final int y = piece.getSide(Direction.NORTH).getSideType() == SideType.FLAT ? 0 :
-            height - 1;
-        solution[x][y] = piece;
+    // Place the corners and edges
+    while (pieceList.size() > 0) {
+      final Piece piece = pieceList.get(0);
+      switch(piece.getPieceType()){
+        case CORNER:
+          final int x = piece.getSide(Direction.WEST).getSideType().isFlat() ? 0 : width - 1;
+          final int y = piece.getSide(Direction.NORTH).getSideType().isFlat() ? 0 : height - 1;
+          solution[x][y] = piece;
+          pieceList.remove(0);
+          break;
+        case EDGE:
+
+          break;
       }
     }
 
