@@ -1,5 +1,7 @@
 package puzzlesolver.side;
 
+import puzzlesolver.enums.SideType;
+
 /**
  * An interface to represent one side of a puzzle piece.
  *
@@ -12,10 +14,6 @@ package puzzlesolver.side;
  * and will typically be more specific.
  */
 public interface Side extends Comparable<Side>, Cloneable {
-
-  enum SideType {
-    FLAT, IN, OUT
-  }
 
   /**
    * Gets the straight-line distance from one corner of this side to another.

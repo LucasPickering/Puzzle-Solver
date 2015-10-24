@@ -3,6 +3,7 @@ package puzzlesolver.test.side;
 import org.junit.Test;
 
 import puzzlesolver.Point;
+import puzzlesolver.enums.SideType;
 import puzzlesolver.side.Side;
 import puzzlesolver.side.SimpleSide;
 
@@ -42,7 +43,7 @@ public class SimpleSideTest {
 
   @Test
   public void testGetSideType() throws Exception {
-    assertEquals(Side.SideType.OUT, s2.getSideType());
-    assertEquals(Side.SideType.FLAT, s3.getSideType());
+    assertEquals(SideType.OUT, s2.getSideType());
+    assertEquals(SideType.FLAT, s3.getSideType());
   }
 }

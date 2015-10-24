@@ -5,6 +5,7 @@ import com.sun.istack.internal.NotNull;
 import java.util.Objects;
 
 import puzzlesolver.Point;
+import puzzlesolver.enums.SideType;
 
 /**
  * An implementation of {@code Side}, where each side is represented by a list of {@code Point}s.

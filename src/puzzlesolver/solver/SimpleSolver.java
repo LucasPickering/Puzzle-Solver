@@ -1,45 +1,43 @@
 package puzzlesolver.solver;
 
+import org.junit.Test;
+
 import java.util.ArrayList;
 
 import puzzlesolver.Piece;
-import puzzlesolver.side.Side;
+import puzzlesolver.enums.Direction;
+import puzzlesolver.enums.PieceType;
+import puzzlesolver.enums.SideType;
+
+import static org.junit.Assert.assertEquals;
 
 public final class SimpleSolver implements Solver {
 
   @Override
   public Piece[][] solve(Piece[] pieces) {
-    final int width = getWidth(0, pieces.length);
+    final ArrayList<Piece> pieceList = new ArrayList<>();
+    int edges = 0;
+    for (Piece piece : pieces) {
+      if (piece.getPieceType() == PieceType.EDGE) {
+        edges++;
+      }
+      pieceList.add(piece);
+    }
+    pieceList.sort(null); // Sort the list by its natural ordering
+
+    final int width = getWidth(edges + 4, pieces.length);
     final int height = getHeight(width, pieces.length);
     final Piece[][] solution = new Piece[width][height];
-    @SuppressWarnings("unchecked")
-    ArrayList<Piece>[] groupedPieces = new ArrayList[Piece.PieceType.values().length];
-
-    for (Piece piece : pieces) {
-      final int type = piece.getPieceType().ordinal();
-      if (groupedPieces[type] == null) {
-        groupedPieces[type] = new ArrayList<>();
-      }
-      groupedPieces[type].add(piece);
-    }
-    for (ArrayList<Piece> pieceList : groupedPieces) {
-      pieceList.sort(null);
-    }
 
     // Place the corners first
-    for (Piece corner : groupedPieces[Piece.PieceType.CORNER.ordinal()]) {
-      if (corner.getSide(Piece.Direction.NORTH).getSideType() == Side.SideType.FLAT) {
-        if (corner.getSide(Piece.Direction.WEST).getSideType() == Side.SideType.FLAT) {
-          solution[0][0] = corner;
-        } else {
-          solution[width - 1][0] = corner;
-        }
-      } else {
-        if (corner.getSide(Piece.Direction.WEST).getSideType() == Side.SideType.FLAT) {
-          solution[0][height - 1] = corner;
-        } else {
-          solution[width - 1][height - 1] = corner;
-        }
+    for (int i = 0; i < pieceList.size(); i++) {
+      final Piece piece = pieceList.get(i);
+      if (i < 4) {
+        final int x =
+            piece.getSide(Direction.WEST).getSideType() == SideType.FLAT ? 0 : width - 1;
+        final int y = piece.getSide(Direction.NORTH).getSideType() == SideType.FLAT ? 0 :
+            height - 1;
+        solution[x][y] = piece;
       }
     }
 
@@ -81,5 +79,18 @@ public final class SimpleSolver implements Solver {
           area, width));
     }
     return area / width;
+  }
+
+  public class SimpleSolverInternalTests {
+
+    @Test
+    public void testGetWidth() {
+      assertEquals(50, getWidth(116, 500));
+    }
+
+    @Test
+    public void testGetHeight() {
+      assertEquals(10, getHeight(50, 500));
+    }
   }
 }

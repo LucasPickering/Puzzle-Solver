@@ -1,5 +1,7 @@
 package puzzlesolver;
 
+import puzzlesolver.enums.Direction;
+import puzzlesolver.enums.PieceType;
 import puzzlesolver.side.Side;
 
 /**
@@ -9,14 +11,6 @@ import puzzlesolver.side.Side;
  * determined during generation.
  */
 public class Piece {
-
-  public enum Direction {
-    NORTH, EAST, SOUTH, WEST
-  }
-
-  public enum PieceType {
-    CORNER, EDGE, ALL_IN, ALL_OUT, THREE_IN, THREE_OUT, OPPOSITES, ADJACENTS
-  }
 
   public static class Builder {
 
@@ -105,7 +99,8 @@ public class Piece {
       case 1:
         return PieceType.THREE_OUT;
       case 2:
-        return (sides[0].getSideType() == sides[2].getSideType()) ? PieceType.OPPOSITES : PieceType.ADJACENTS;
+        return (sides[0].getSideType() ==
+            sides[2].getSideType()) ? PieceType.OPPOSITES : PieceType.ADJACENTS;
       case 3:
         return PieceType.THREE_IN;
       case 4:

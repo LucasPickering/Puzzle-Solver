@@ -6,6 +6,7 @@ import java.util.Random;
 
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
+import puzzlesolver.enums.Direction;
 import puzzlesolver.side.SimpleSide;
 
 /**
@@ -56,12 +57,12 @@ public final class SimpleGenerator implements Generator {
         final Piece.Builder builder = new Piece.Builder();
 
         builder.setSide(x == 0 ? generateSide(true) :
-            pieces[x - 1][y].getSide(Piece.Direction.EAST), Piece.Direction.WEST);
-        builder.setSide(generateSide(x == width - 1), Piece.Direction.EAST);
+            pieces[x - 1][y].getSide(Direction.EAST), Direction.WEST);
+        builder.setSide(generateSide(x == width - 1), Direction.EAST);
 
         builder.setSide(y == 0 ? generateSide(true) :
-            pieces[x][y - 1].getSide(Piece.Direction.SOUTH), Piece.Direction.NORTH);
-        builder.setSide(generateSide(y == height - 1), Piece.Direction.SOUTH);
+            pieces[x][y - 1].getSide(Direction.SOUTH), Direction.NORTH);
+        builder.setSide(generateSide(y == height - 1), Direction.SOUTH);
 
         pieces[x][y] = builder.build();
       }
