@@ -43,6 +43,7 @@ public final class SimpleSide implements Side {
    *               These must be in the desired order along the side.
    */
   public SimpleSide(@NotNull Point... points) throws IllegalArgumentException {
+    Objects.requireNonNull(points);
     if (points.length < 2) {
       throw new IllegalArgumentException(String.format("Must have at least 2 points: %d found.",
                                                        points.length));
@@ -62,7 +63,6 @@ public final class SimpleSide implements Side {
    * @return the type of the side.
    */
   private SideType findSideType() {
-
     if (points.length == 2) {
       return sideType = SideType.FLAT;
     }
