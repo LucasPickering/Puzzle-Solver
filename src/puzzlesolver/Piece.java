@@ -70,7 +70,10 @@ public class Piece {
    * @return the type of this piece
    */
   public PieceType getPieceType() {
-    return (pieceType == null) ? findPieceType() : pieceType;
+    if(pieceType == null){
+      pieceType = findPieceType();
+    }
+    return pieceType;
   }
 
   private PieceType findPieceType() {
