@@ -58,7 +58,8 @@ public final class SimpleSide implements Side {
    * Should only be called by {@link #getSideType()}. All other functions should call {@link
    * this.getSideType()}.
    *
-   * Assuming {@link #sideType} is currently {@code null}.
+   * Assuming {@link #sideType} is currently {@code null}, although nothing bad will happen if it's
+   * not.
    *
    * @return the type of the side.
    */
@@ -67,17 +68,22 @@ public final class SimpleSide implements Side {
       return sideType = SideType.FLAT;
     }
 
-    final double maxHeight = points[0].y;
+    double averageHeight = points[0].y;
 
     for (int i = 1; i < points.length; i++) {
-      if (points[i].y < maxHeight) {
-        return sideType = SideType.IN;
-      } else if (points[i].y > maxHeight) {
-        return sideType = SideType.OUT;
-      }
+      averageHeight += points[i].y;
     }
 
-    return sideType = SideType.FLAT;
+    averageHeight /= points.length;
+    double baseline = (points[0].y + points[points.length - 1].y) / 2;
+
+    if (averageHeight > baseline) {
+      return SideType.OUT;
+    } else if (averageHeight == baseline) {
+      return SideType.FLAT;
+    } else {
+      return SideType.IN;
+    }
   }
 
   /**
