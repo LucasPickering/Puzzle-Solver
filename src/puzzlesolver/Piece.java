@@ -1,5 +1,7 @@
 package puzzlesolver;
 
+import java.util.Comparator;
+
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
 import puzzlesolver.side.Side;
@@ -37,6 +39,23 @@ public class Piece {
     }
   }
 
+  public static class PieceComparator implements Comparator<Piece> {
+
+    private final Direction dir;
+
+    public PieceComparator(Direction dir) {
+      this.dir = dir;
+    }
+
+    @Override
+    public int compare(Piece o1, Piece o2) {
+      if (o1 == null || o2 == null) {
+        throw new NullPointerException("This comparator does not accept null parameters");
+      }
+      return o1.getSide(dir).compareTo(o2.getSide(dir));
+    }
+  }
+
   /**
    * All sides must be non-null. Sides are ordered in the same way as {@link Direction}: NORTH,
    * EAST, SOUTH, WEST.
@@ -70,7 +89,7 @@ public class Piece {
    * @return the type of this piece
    */
   public PieceType getPieceType() {
-    if(pieceType == null){
+    if (pieceType == null) {
       pieceType = findPieceType();
     }
     return pieceType;
