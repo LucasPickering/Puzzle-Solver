@@ -29,6 +29,13 @@ public final class PieceList {
   private final PieceComparator[] comparators = new PieceComparator[4];
 
   /**
+   * Constructs a new {@code PieceList} with an initial capacity of ten.
+   */
+  public PieceList() {
+    this(10);
+  }
+
+  /**
    * Constructs a new {@code PieceList} with the given initial capacity.
    *
    * @param capacity the initial capacity of the list (non-negative)
@@ -42,6 +49,16 @@ public final class PieceList {
   }
 
   /**
+   * Constructs a new {@code PieceList} and adds all pieces in the given array.
+   *
+   * @param pieces the pieces to be added (non-null, does not contain null)
+   */
+  public PieceList(@NotNull Piece[] pieces) {
+    this(pieces.length);
+    addAll(pieces);
+  }
+
+  /**
    * Adds a piece to this list, while keeping all internal lists sorted.
    *
    * @param p the piece to be added
@@ -49,6 +66,17 @@ public final class PieceList {
   public void add(Piece p) {
     for (int i = 0; i < pieceLists.length; i++) {
       pieceLists[i].add(-(Collections.binarySearch(pieceLists[i], p, comparators[i]) + 1), p);
+    }
+  }
+
+  /**
+   * Adds all pieces in the given array
+   *
+   * @param pieces the pieces to be added (non-null, does not contain null)
+   */
+  public void addAll(@NotNull Piece[] pieces) {
+    for (Piece p : pieces) {
+      add(p);
     }
   }
 
