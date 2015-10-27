@@ -1,7 +1,5 @@
 package puzzlesolver;
 
-import java.util.Comparator;
-
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
 import puzzlesolver.side.Side;
