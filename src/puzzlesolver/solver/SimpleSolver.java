@@ -1,7 +1,7 @@
 package puzzlesolver.solver;
 
 import puzzlesolver.Piece;
-import puzzlesolver.PieceList;
+import puzzlesolver.SimplePieceList;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
 
@@ -13,7 +13,7 @@ public final class SimpleSolver implements Solver {
 
   @Override
   public Piece[][] solve(Piece[] pieces) {
-    final PieceList pieceList = new PieceList(pieces.length);
+    final SimplePieceList pieceList = new SimplePieceList(pieces.length);
     int edges = 0;
     for (Piece piece : pieces) {
       if (piece.getPieceType() == PieceType.EDGE) {
@@ -27,11 +27,12 @@ public final class SimpleSolver implements Solver {
     solution = new Piece[width][height];
 
     placeCorners(pieceList);
+    placeEdges(pieceList);
 
     return solution;
   }
 
-  private void placeCorners(PieceList pieceList) {
+  private void placeCorners(SimplePieceList pieceList) {
     Piece piece;
     while ((piece = pieceList.first(Direction.NORTH)).getPieceType() == PieceType.CORNER) {
       final int x = piece.getSide(Direction.WEST).getSideType().isFlat() ? 0 : width - 1;
@@ -41,5 +42,14 @@ public final class SimpleSolver implements Solver {
     }
   }
 
+  private void placeEdges(SimplePieceList pieceList) {
+    Piece piece;
+    for (Direction dir : Direction.values()) {
+      while ((piece = pieceList.first(dir)).getPieceType() == PieceType.EDGE) {
 
+        solution[x][y] = piece;
+        pieceList.remove(piece);
+      }
+    }
+  }
 }
