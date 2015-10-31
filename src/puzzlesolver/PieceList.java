@@ -76,21 +76,35 @@ public interface PieceList {
   boolean containsSide(Side s);
 
   /**
-   * Searches all sides of the given direction of each piece for the given side.
+   * Searches all sides of the given direction of each piece of the given type(s) for the given
+   * side.
    *
-   * @param dir the direction to sort this list by (non-null)
-   * @param s   the side to be found
+   * @param dir        the direction to sort this list by (non-null)
+   * @param s          the side to be found
+   * @param pieceTypes the piece type(s) to filter by; if {@code null}, no filtering is done
    * @return the index of the search key, if it is contained in the list; otherwise, (-(insertion
    * point) - 1). The insertion point is defined as the point at which the key would be inserted
    * into the list: the index of the first element greater than the key, or list.size() if all
    * elements in the list are less than the specified key. Note that this guarantees that the return
    * value will be >= 0 if and only if the key is found.
    */
-  int binarySearch(@NotNull Direction dir, Side s);
+  int binarySearch(@NotNull Direction dir, Side s, PieceType... pieceTypes);
+
+  /**
+   * Searches all sides of the given direction of each piece of the given type(s) for the given
+   * side.
+   *
+   * @param dir        the direction to sort this list by (non-null)
+   * @param s          the side to be found
+   * @param pieceTypes the piece type(s) to filter by; if {@code null}, no filtering is done
+   * @return the piece containing s, or {@code null} if it isn't in the list
+   */
+  Piece search(@NotNull Direction dir, Side s, PieceType... pieceTypes);
 
   /**
    * Gets a sublist of this list containing every piece in this list whose piece type is one of the
-   * given piece types.
+   * given piece types. This is a shallow copy: this list and its internal lists will be copied, but
+   * the internal {@link Piece} objects will not be copied.
    *
    * @param pieceTypes the piece types to include (non-null)
    * @return a sublist of this list of all the pieces of the given type(s)

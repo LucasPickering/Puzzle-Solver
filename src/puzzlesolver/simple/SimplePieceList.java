@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import puzzlesolver.Piece;
 import puzzlesolver.PieceComparator;
@@ -131,7 +132,7 @@ public final class SimplePieceList implements PieceList {
   @Override
   public boolean containsSide(Side s) {
     for (Direction dir : Direction.values()) {
-      if (binarySearch(dir, s) > 0) {
+      if (binarySearch(dir, s, PieceType.values()) > 0) {
         return true;
       }
     }
@@ -139,9 +140,20 @@ public final class SimplePieceList implements PieceList {
   }
 
   @Override
-  public int binarySearch(@NotNull Direction dir, Side s) {
-    return Collections.binarySearch(pieceLists[dir.ordinal()].stream().map(p -> p.getSide(dir))
-        .collect(Collectors.toList()), s);
+  public int binarySearch(@NotNull Direction dir, Side s, PieceType... pieceTypes) {
+    final Stream<Piece> stream = pieceLists[dir.ordinal()].stream();
+    if (pieceTypes != null) {
+      final List<PieceType> pieceTypesList = Arrays.asList(pieceTypes);
+      stream.filter(pieceTypesList::contains);
+    }
+    return Collections
+        .binarySearch(stream.map(p -> p.getSide(dir)).collect(Collectors.toList()), s);
+  }
+
+  @Override
+  public Piece search(@NotNull Direction dir, Side s, PieceType... pieceTypes) {
+    final int index = binarySearch(dir, s, pieceTypes);
+    return index < 0 ? null : get(dir, index);
   }
 
   @Override
