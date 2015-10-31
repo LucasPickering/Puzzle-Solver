@@ -132,7 +132,12 @@ public final class SimplePieceList implements PieceList {
 
   @Override
   public boolean containsSide(Side s) {
-    return binarySearch(Direction.NORTH, s) > 0;
+    for (Direction dir : Direction.values()) {
+      if (binarySearch(dir, s) > 0) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
