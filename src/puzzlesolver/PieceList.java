@@ -92,7 +92,8 @@ public interface PieceList {
 
   /**
    * Searches all sides of the given direction of each piece of the given type(s) for the given
-   * side.
+   * side. This should just be a wrapper for binarySearch to find an index and return the piece at
+   * that index.
    *
    * @param dir        the direction to sort this list by (non-null)
    * @param s          the side to be found
