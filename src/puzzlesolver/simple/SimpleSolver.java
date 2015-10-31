@@ -1,6 +1,7 @@
 package puzzlesolver.simple;
 
 import puzzlesolver.Piece;
+import puzzlesolver.PieceList;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
 import puzzlesolver.Solver;
@@ -13,7 +14,7 @@ public final class SimpleSolver implements Solver {
 
   @Override
   public Piece[][] solve(Piece[] pieces) {
-    final SimplePieceList pieceList = new SimplePieceList(pieces.length);
+    final PieceList pieceList = new SimplePieceList(pieces.length);
     int edges = 0;
     for (Piece piece : pieces) {
       if (piece.getPieceType() == PieceType.EDGE) {
@@ -32,23 +33,31 @@ public final class SimpleSolver implements Solver {
     return solution;
   }
 
-  private void placeCorners(SimplePieceList pieceList) {
+  private void placeCorners(PieceList pieces) {
     Piece piece;
-    while ((piece = pieceList.first(Direction.NORTH)).getPieceType() == PieceType.CORNER) {
+    while ((piece = pieces.first(Direction.NORTH)).getPieceType() == PieceType.CORNER) {
       final int x = piece.getSide(Direction.WEST).getSideType().isFlat() ? 0 : width - 1;
       final int y = piece.getSide(Direction.NORTH).getSideType().isFlat() ? 0 : height - 1;
       solution[x][y] = piece;
-      pieceList.remove(piece);
+      pieces.remove(piece);
     }
   }
 
-  private void placeEdges(SimplePieceList pieceList) {
-    Piece piece;
-    for (Direction dir : Direction.values()) {
-      while ((piece = pieceList.first(dir)).getPieceType() == PieceType.EDGE) {
-
+  private void placeEdges(PieceList pieces) {
+    for (int x = 1; x < width - 1; x++) {
+      for (int y = 0; y < height; y += height - 1) {
+        final Piece piece = pieces
+            .search(Direction.WEST, solution[x - 1][y].getSide(Direction.EAST), PieceType.EDGE);
         solution[x][y] = piece;
-        pieceList.remove(piece);
+        pieces.remove(piece);
+      }
+    }
+    for (int x = 0; x < height; x += height - 1) {
+      for (int y = 1; y < width - 1; y++) {
+        final Piece piece = pieces
+            .search(Direction.NORTH, solution[x][y - 1].getSide(Direction.SOUTH), PieceType.EDGE);
+        solution[x][y] = piece;
+        pieces.remove(piece);
       }
     }
   }
