@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -75,6 +76,7 @@ public final class SimplePieceList implements PieceList {
    *                   invariants for {@code this.pieceLists}
    */
   private SimplePieceList(@NotNull ArrayList<Piece>[] pieceLists) {
+    Objects.requireNonNull(pieceLists);
     this.pieceLists = pieceLists;
   }
 
@@ -87,6 +89,7 @@ public final class SimplePieceList implements PieceList {
 
   @Override
   public void addAll(@NotNull Piece[] pieces) {
+    Objects.requireNonNull(pieces);
     for (Piece p : pieces) {
       add(p);
     }
@@ -108,6 +111,7 @@ public final class SimplePieceList implements PieceList {
 
   @Override
   public Piece get(@NotNull Direction dir, int i) {
+    Objects.requireNonNull(dir);
     if (i < 0 || i >= pieceLists[0].size()) {
       throw new IndexOutOfBoundsException("i is out of bounds");
     }
@@ -116,6 +120,7 @@ public final class SimplePieceList implements PieceList {
 
   @Override
   public Piece first(@NotNull Direction dir) {
+    Objects.requireNonNull(dir);
     return get(dir, 0);
   }
 
@@ -141,6 +146,7 @@ public final class SimplePieceList implements PieceList {
 
   @Override
   public int binarySearch(@NotNull Direction dir, Side s, PieceType... pieceTypes) {
+    Objects.requireNonNull(dir);
     final Stream<Piece> stream = pieceLists[dir.ordinal()].stream();
     if (pieceTypes != null) {
       final List<PieceType> pieceTypesList = Arrays.asList(pieceTypes);
@@ -152,12 +158,14 @@ public final class SimplePieceList implements PieceList {
 
   @Override
   public Piece search(@NotNull Direction dir, Side s, PieceType... pieceTypes) {
+    Objects.requireNonNull(dir);
     final int index = binarySearch(dir, s, pieceTypes);
     return index < 0 ? null : get(dir, index);
   }
 
   @Override
   public PieceList sublist(@NotNull PieceType... pieceTypes) {
+    Objects.requireNonNull(pieceTypes);
     final List<PieceType> pieceTypesList = Arrays.asList(pieceTypes);
     @SuppressWarnings("unchecked")
     ArrayList<Piece>[] filteredPieceLists = new ArrayList[4];
