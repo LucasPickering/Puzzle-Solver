@@ -3,14 +3,19 @@ package puzzlesolver.simple;
 import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import puzzlesolver.Piece;
 import puzzlesolver.PieceComparator;
 import puzzlesolver.PieceList;
-import puzzlesolver.enums.Direction;
 import puzzlesolver.Side;
+import puzzlesolver.enums.Direction;
+import puzzlesolver.enums.PieceType;
 
 public final class SimplePieceList implements PieceList {
 
@@ -29,8 +34,7 @@ public final class SimplePieceList implements PieceList {
    * - Contents are non-null
    */
 
-  @SuppressWarnings("unchecked")
-  private final ArrayList<Piece>[] pieceLists = new ArrayList[4];
+  private final ArrayList<Piece>[] pieceLists;
   private final PieceComparator[] comparators = new PieceComparator[4];
 
   /**
@@ -46,7 +50,9 @@ public final class SimplePieceList implements PieceList {
    * @param capacity the initial capacity of the list (non-negative)
    * @throws IllegalArgumentException if capacity is negative
    */
+  @SuppressWarnings("unchecked")
   public SimplePieceList(int capacity) {
+    pieceLists = new ArrayList[4];
     for (int i = 0; i < pieceLists.length; i++) {
       pieceLists[i] = new ArrayList<>(capacity);
       comparators[i] = new PieceComparator(Direction.values()[i]);
@@ -61,6 +67,16 @@ public final class SimplePieceList implements PieceList {
   public SimplePieceList(@NotNull Piece[] pieces) {
     this(pieces.length);
     addAll(pieces);
+  }
+
+  /**
+   * Constructs a new {@code SimplePieceList} from the given array of 4 lists of pieces.
+   *
+   * @param pieceLists the lists to construct this list from; this array should satisfy all
+   *                   invariants for {@code this.pieceLists}
+   */
+  private SimplePieceList(@NotNull ArrayList<Piece>[] pieceLists) {
+    this.pieceLists = pieceLists;
   }
 
   @Override
@@ -115,13 +131,25 @@ public final class SimplePieceList implements PieceList {
   }
 
   @Override
+  public boolean containsSide(Side s) {
+    return binarySearch(Direction.NORTH, s) > 0;
+  }
+
+  @Override
   public int binarySearch(@NotNull Direction dir, Side s) {
     return Collections.binarySearch(pieceLists[dir.ordinal()].stream().map(p -> p.getSide(dir))
         .collect(Collectors.toList()), s);
   }
 
   @Override
-  public boolean containsSide(Side s) {
-    return binarySearch(Direction.NORTH, s) > 0;
+  public PieceList sublist(@NotNull PieceType... pieceTypes) {
+    final List<PieceType> pieceTypesList = Arrays.asList(pieceTypes);
+    @SuppressWarnings("unchecked")
+    ArrayList<Piece>[] filteredPieceLists = new ArrayList[4];
+    for (Direction dir : Direction.values()) {
+      filteredPieceLists[dir.ordinal()] = pieceLists[dir.ordinal()].stream()
+          .filter(pieceTypesList::contains).collect(Collectors.toCollection(ArrayList::new));
+    }
+    return new SimplePieceList(filteredPieceLists);
   }
 }

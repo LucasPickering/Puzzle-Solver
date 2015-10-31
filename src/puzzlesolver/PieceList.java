@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 
 
 import puzzlesolver.enums.Direction;
+import puzzlesolver.enums.PieceType;
 
 public interface PieceList {
 
@@ -54,6 +55,7 @@ public interface PieceList {
 
   /**
    * Is this list empty?
+   *
    * @return true if this list has no elements, i.e. size() == 0, false otherwise
    */
   boolean isEmpty();
@@ -64,6 +66,14 @@ public interface PieceList {
    * @return the amount of elements of this list
    */
   int size();
+
+  /**
+   * Does any piece in this list contain the given side?
+   *
+   * @param s the side to be found
+   * @return true if any piece in this list contains s, false otherwise
+   */
+  boolean containsSide(Side s);
 
   /**
    * Searches all sides of the given direction of each piece for the given side.
@@ -79,10 +89,11 @@ public interface PieceList {
   int binarySearch(@NotNull Direction dir, Side s);
 
   /**
-   * Does any piece in this list contain the given side?
+   * Gets a sublist of this list containing every piece in this list whose piece type is one of the
+   * given piece types.
    *
-   * @param s the side to be found
-   * @return true if any piece in this list contains s, false otherwise
+   * @param pieceTypes the piece types to include (non-null)
+   * @return a sublist of this list of all the pieces of the given type(s)
    */
-  boolean containsSide(Side s);
+  PieceList sublist(@NotNull PieceType... pieceTypes);
 }
