@@ -1,4 +1,4 @@
-package puzzlesolver.generation;
+package puzzlesolver.simple;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +7,7 @@ import java.util.Random;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
 import puzzlesolver.enums.Direction;
-import puzzlesolver.side.SimpleSide;
+import puzzlesolver.Generator;
 
 /**
  * A class to generate a puzzle with pieces composed of {@link SimpleSide}s.

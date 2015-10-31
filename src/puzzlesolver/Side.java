@@ -1,4 +1,4 @@
-package puzzlesolver.side;
+package puzzlesolver;
 
 import puzzlesolver.enums.SideType;
 

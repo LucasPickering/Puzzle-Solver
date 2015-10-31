@@ -1,15 +1,16 @@
-package puzzlesolver;
+package puzzlesolver.simple;
 
 import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import puzzlesolver.Piece;
+import puzzlesolver.PieceComparator;
+import puzzlesolver.PieceList;
 import puzzlesolver.enums.Direction;
-import puzzlesolver.side.Side;
+import puzzlesolver.Side;
 
 public final class SimplePieceList implements PieceList {
 

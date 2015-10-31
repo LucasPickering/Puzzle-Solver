@@ -4,7 +4,6 @@ import com.sun.istack.internal.NotNull;
 
 
 import puzzlesolver.enums.Direction;
-import puzzlesolver.side.Side;
 
 public interface PieceList {
 

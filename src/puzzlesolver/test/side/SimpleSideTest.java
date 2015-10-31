@@ -4,8 +4,8 @@ import org.junit.Test;
 
 import puzzlesolver.Point;
 import puzzlesolver.enums.SideType;
-import puzzlesolver.side.Side;
-import puzzlesolver.side.SimpleSide;
+import puzzlesolver.Side;
+import puzzlesolver.simple.SimpleSide;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;

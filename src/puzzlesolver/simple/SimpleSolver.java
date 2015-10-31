@@ -1,9 +1,9 @@
-package puzzlesolver.solver;
+package puzzlesolver.simple;
 
 import puzzlesolver.Piece;
-import puzzlesolver.SimplePieceList;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
+import puzzlesolver.Solver;
 
 public final class SimpleSolver implements Solver {
 

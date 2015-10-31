@@ -1,4 +1,4 @@
-package puzzlesolver.generation;
+package puzzlesolver;
 
 import puzzlesolver.Piece;
 
