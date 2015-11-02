@@ -53,7 +53,7 @@ public class Piece {
   }
 
   /**
-   * Gets a clone of the side of this piece with the given direction.
+   * Gets a clone of the side of this piece in the given direction.
    *
    * @param dir the direction of the piece to be retrieved
    * @return a clone of the side in the given direction
