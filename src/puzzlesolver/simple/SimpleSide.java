@@ -5,8 +5,8 @@ import com.sun.istack.internal.NotNull;
 import java.util.Objects;
 
 import puzzlesolver.Point;
-import puzzlesolver.enums.SideType;
 import puzzlesolver.Side;
+import puzzlesolver.enums.SideType;
 
 /**
  * An implementation of {@code Side}, where each side is represented by a list of {@code Point}s.
@@ -144,8 +144,9 @@ public final class SimpleSide implements Side {
 
   @Override
   public double getCornerDistance() {
-    return (cornerDistance == null) ? cornerDistance = points[points.length - 1].x - points[0].x
-                                    : cornerDistance;
+    return (cornerDistance == null)
+           ? cornerDistance = Math.abs(points[points.length - 1].x - points[0].x)
+           : cornerDistance;
   }
 
   @Override

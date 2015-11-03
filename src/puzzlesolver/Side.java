@@ -18,6 +18,8 @@ public interface Side extends Comparable<Side>, Cloneable {
   /**
    * Gets the straight-line distance from one corner of this side to another.
    *
+   * Must return a positive (> 0) value.
+   *
    * @return the straight-line corner distance.
    */
   double getCornerDistance();
