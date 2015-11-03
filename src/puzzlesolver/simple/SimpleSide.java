@@ -2,11 +2,14 @@ package puzzlesolver.simple;
 
 import com.sun.istack.internal.NotNull;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import puzzlesolver.Point;
-import puzzlesolver.enums.SideType;
 import puzzlesolver.Side;
+import puzzlesolver.enums.SideType;
 
 /**
  * An implementation of {@code Side}, where each side is represented by a list of {@code Point}s.
@@ -51,6 +54,15 @@ public final class SimpleSide implements Side {
     }
 
     this.points = points.clone();
+  }
+
+  public SimpleSide(List<Point> points) {
+    Objects.requireNonNull(points);
+    if (points.size() < 2) {
+      throw new IllegalArgumentException(String.format("Must have at least 2 points: %d found.",
+                                                       points.size()));
+    }
+    this.points = (Point[]) points.toArray();
   }
 
   /**
@@ -144,8 +156,9 @@ public final class SimpleSide implements Side {
 
   @Override
   public double getCornerDistance() {
-    return (cornerDistance == null) ? cornerDistance = points[points.length - 1].x - points[0].x
-                                    : cornerDistance;
+    return (cornerDistance == null)
+           ? cornerDistance = Math.abs(points[points.length - 1].x - points[0].x)
+           : cornerDistance;
   }
 
   @Override
@@ -156,5 +169,12 @@ public final class SimpleSide implements Side {
   @Override
   public Side copy() {
     return new SimpleSide(getPoints());
+  }
+
+  @Override
+  public Side inverse() {
+    return new SimpleSide(Arrays.stream(points)
+                              .map(point -> new Point(point.x, -point.y))
+                              .collect(Collectors.toList()));
   }
 }
