@@ -65,7 +65,7 @@ public enum PieceType {
           // or has too few of the given side type and not enough spare sides to fill them
           return false;
         }
-        
+
         // Take the sides away from the remaining sides able to be filled
         remainingSides -= sideTypeAmounts[i];
       }
