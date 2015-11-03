@@ -2,7 +2,10 @@ package puzzlesolver.simple;
 
 import com.sun.istack.internal.NotNull;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import puzzlesolver.Point;
 import puzzlesolver.Side;
@@ -51,6 +54,15 @@ public final class SimpleSide implements Side {
     }
 
     this.points = points.clone();
+  }
+
+  public SimpleSide(List<Point> points) {
+    Objects.requireNonNull(points);
+    if (points.size() < 2) {
+      throw new IllegalArgumentException(String.format("Must have at least 2 points: %d found.",
+                                                       points.size()));
+    }
+    this.points = (Point[]) points.toArray();
   }
 
   /**
@@ -157,5 +169,12 @@ public final class SimpleSide implements Side {
   @Override
   public Side copy() {
     return new SimpleSide(getPoints());
+  }
+
+  @Override
+  public Side inverse() {
+    return new SimpleSide(Arrays.stream(points)
+                              .map(point -> new Point(point.x, -point.y))
+                              .collect(Collectors.toList()));
   }
 }

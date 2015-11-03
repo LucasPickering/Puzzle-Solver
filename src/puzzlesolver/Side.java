@@ -37,4 +37,11 @@ public interface Side extends Comparable<Side>, Cloneable {
    * @return a deep copy of this side, with no shared variables
    */
   Side copy();
+
+  /**
+   * Creates a deep copy of the inverse of this side.
+   *
+   * @return a deep copy of the inverse of this side, with no shared variables
+   */
+  Side inverse();
 }
