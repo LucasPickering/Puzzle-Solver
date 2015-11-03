@@ -22,7 +22,7 @@ public final class SimpleSolver implements Solver {
     final PieceList pieceList = new SimplePieceList(pieces.length);
     int edges = 0;
     for (Piece piece : pieces) {
-      if (piece.getPieceType() == PieceType.EDGE) {
+      if (piece.definitelyType(PieceType.EDGE)) {
         edges++;
       }
       pieceList.add(piece);
@@ -41,7 +41,7 @@ public final class SimpleSolver implements Solver {
 
   private void placeCorners(PieceList pieces) {
     Piece piece;
-    while ((piece = pieces.first(Direction.NORTH)).getPieceType() == PieceType.CORNER) {
+    while ((piece = pieces.first(Direction.NORTH)).definitelyType(PieceType.CORNER)) {
       final int x = piece.getSide(Direction.WEST).getSideType().isFlat() ? 0 : width - 1;
       final int y = piece.getSide(Direction.NORTH).getSideType().isFlat() ? 0 : height - 1;
       solution[x][y] = piece;
