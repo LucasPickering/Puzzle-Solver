@@ -47,5 +47,7 @@ public enum PieceType {
         return false;
       }
     }
+
+    return true;
   }
 }
