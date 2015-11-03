@@ -59,16 +59,15 @@ public enum PieceType {
 
     for (int i = 0; i < sideTypeAmounts.length; i++) {
       if (sideTypes[i] != null) {
-        if (sideTypes[i] < sideTypeAmounts[i]) {
+        if (sideTypes[i] < sideTypeAmounts[i]
+            || remainingSides < sideTypes[i] - sideTypeAmounts[i]) {
           // Has too many of the given side type
+          // or has too few of the given side type and not enough spare sides to fill them
           return false;
-        } else if (remainingSides < sideTypes[i] - sideTypeAmounts[i]) {
-          // Has too few of the given side type and not enough spare sides to fill them
-          return false;
-        } else {
-          // Take the sides away from the remaining sides able to be filled
-          remainingSides -= sideTypeAmounts[i];
         }
+        
+        // Take the sides away from the remaining sides able to be filled
+        remainingSides -= sideTypeAmounts[i];
       }
     }
 
