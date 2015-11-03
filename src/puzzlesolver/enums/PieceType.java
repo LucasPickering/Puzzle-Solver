@@ -11,19 +11,30 @@ public enum PieceType {
   private final Integer[] sideTypes;
   private int definedSides;
 
+  private static final int MAX_SIDES = 4;
+
   /**
    * Constructs a new PieceType with the given amount of each side type, in the order defined in
    * {@link SideType}
    *
-   * @param sideTypes the amount of each side type, with the order and size of {@link SideType}; can
-   *                  have null if the amount of a specific side type is undefined, e.g. in corners
+   * @param sideTypes the amount of each side type, with the order and size of {@link SideType};
+   *                  can have null if the amount of a specific side type is undefined, e.g. in
+   *                  corners
    */
   PieceType(Integer... sideTypes) {
+    if (sideTypes.length != 3) {
+      throw new IllegalArgumentException("sideTypes must be length > 3");
+    }
+
     this.sideTypes = sideTypes;
     for (Integer i : sideTypes) {
       if (i != null) {
         definedSides += i;
       }
+    }
+
+    if (definedSides > 4) {
+      throw new IllegalArgumentException("definedSides must be <= 4");
     }
   }
 
@@ -35,16 +46,29 @@ public enum PieceType {
    */
   public boolean canBeType(Piece p) {
     int[] sideTypeAmounts = new int[SideType.values().length];
+    int pieceDefinedSides = 0;
     for (Direction dir : Direction.values()) {
       final Side side = p.getSide(dir);
       if (side != null) {
         sideTypeAmounts[side.getSideType().ordinal()]++;
+        ++pieceDefinedSides;
       }
     }
 
+    int remainingSides = MAX_SIDES - pieceDefinedSides;
+
     for (int i = 0; i < sideTypeAmounts.length; i++) {
-      if (sideTypes[i] != null && sideTypes[i] < sideTypeAmounts[i]) {
-        return false;
+      if (sideTypes[i] != null) {
+        if (sideTypes[i] < sideTypeAmounts[i]) {
+          // Has too many of the given side type
+          return false;
+        } else if (remainingSides < sideTypes[i] - sideTypeAmounts[i]) {
+          // Has too few of the given side type and not enough spare sides to fill them
+          return false;
+        } else {
+          // Take the sides away from the remaining sides able to be filled
+          remainingSides -= sideTypeAmounts[i];
+        }
       }
     }
 
