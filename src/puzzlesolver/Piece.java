@@ -3,6 +3,7 @@ package puzzlesolver;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
@@ -78,43 +79,22 @@ public class Piece {
   }
 
   private PieceType[] findPieceTypes() {
-    List<PieceType> types = Arrays.asList(PieceType.values());
-    int flatSides = 0;
-    int inSides = 0;
-    for (Side side : sides) {
-      switch (side.getSideType()) {
-        case FLAT:
-          flatSides++;
-          break;
-        case IN:
-          inSides++;
-          break;
+    List<PieceType> types = new ArrayList<>(PieceType.values().length);
+    for (PieceType pieceType : PieceType.values()) {
+      if (pieceType.canBeType(this)) {
+        types.add(pieceType);
       }
     }
-    if (flatSides > 1) {
-      types.remove(types.)
-      return PieceType.CORNER;
-    } else if (flatSides == 1) {
-      return PieceType.EDGE;
-    }
-
-    // Known: flatSides == 0; inSides + outSides == 4
-    switch (inSides) {
-      case 0:
-        return PieceType.ALL_OUT;
-      case 1:
-        return PieceType.THREE_OUT;
-      case 2:
-        return (sides[0].getSideType() ==
-            sides[2].getSideType()) ? PieceType.OPPOSITES : PieceType.ADJACENTS;
-      case 3:
-        return PieceType.THREE_IN;
-      case 4:
-        return PieceType.ALL_IN;
-      default:
-        throw new IllegalStateException("inSides > 4, that's impossible!");
-    }
-
     return types.toArray(new PieceType[types.size()]);
+  }
+
+  /**
+   * Is this piece <i>definitely</i> of the given type?
+   *
+   * @param pieceType the type to check for
+   * @return true is the given type is the <i>only</i> type that this one can be, false otherwise
+   */
+  public boolean definitelyType(PieceType pieceType) {
+    return pieceTypes.length == 1 && pieceTypes[0] == pieceType;
   }
 }
