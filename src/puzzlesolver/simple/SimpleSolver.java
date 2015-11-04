@@ -1,15 +1,10 @@
 package puzzlesolver.simple;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import puzzlesolver.Piece;
 import puzzlesolver.PieceList;
+import puzzlesolver.Solver;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
-import puzzlesolver.Solver;
-import puzzlesolver.enums.SideType;
 
 public final class SimpleSolver implements Solver {
 
@@ -33,10 +28,34 @@ public final class SimpleSolver implements Solver {
     solution = new Piece[width][height];
 
     placeCorners(pieceList);
-    placeEdges(pieceList);
-    placeInternals(pieceList);
+    placeRest(pieceList);
 
     return solution;
+  }
+
+  /**
+   * Makes a piece as accurately as possible to fit at the given x and y, using the pieces adjacent
+   * to that spot.
+   *
+   * @param x the x-coord of the piece [0, width)
+   * @param y the y-coord of the piece [0, height)
+   * @return the constructed piece
+   */
+  private Piece makePiece(int x, int y) {
+    Piece.Builder builder = new Piece.Builder();
+    for (Direction dir : Direction.values()) { // For each side
+      final int dirX = x + dir.x;
+      final int dirY = y + dir.y;
+
+      if (dirX < 0 || dirX >= width || dirY < 0 || dirY >= height) {
+        // If x or y is out of bounds, make a flat side
+        builder.setSide(null, dir); // TODO: Figure out a way to generate a flat side
+      } else if (solution[dirX][dirY] != null) {
+        // If there is an adjacent piece, get its neighboring side
+        builder.setSide(solution[dirX][dirY].getSide(dir.opposite()), dir);
+      }
+    }
+    return builder.build();
   }
 
   private void placeCorners(PieceList pieces) {
@@ -49,39 +68,12 @@ public final class SimpleSolver implements Solver {
     }
   }
 
-  private void placeEdges(PieceList pieces) {
-    for (int x = 1; x < width - 1; x++) {
-      for (int y = 0; y < height; y += height - 1) {
-        final Piece piece = pieces
-            .search(Direction.WEST, solution[x - 1][y].getSide(Direction.EAST), PieceType.EDGE);
+  private void placeRest(PieceList pieces) {
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        final Piece piece = pieces.find(makePiece(x, y));
         solution[x][y] = piece;
         pieces.remove(piece);
-      }
-    }
-    for (int x = 0; x < height; x += height - 1) {
-      for (int y = 1; y < width - 1; y++) {
-        final Piece piece = pieces
-            .search(Direction.NORTH, solution[x][y - 1].getSide(Direction.SOUTH), PieceType.EDGE);
-        solution[x][y] = piece;
-        pieces.remove(piece);
-      }
-    }
-  }
-
-  private void placeInternals(PieceList pieces) {
-    for (int x = 1; x < width - 1; x++) {
-      for (int y = 1; y < height - 1; y++) {
-        final List<PieceType> pieceTypes = new ArrayList<>(6); // 6 possible types (efficiency!)
-        for (int i = 2; i < PieceType.values().length; i++) {
-          pieceTypes.add(PieceType.values()[i]);
-        }
-
-        final SideType[] adjacentTypes = new SideType[4];
-        for (Direction dir : Direction.values()) {
-          adjacentTypes[dir.ordinal()] = solution[x + dir.x][y + dir.y].getSide(dir).getSideType();
-        }
-
-
       }
     }
   }
