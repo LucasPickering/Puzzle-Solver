@@ -70,8 +70,9 @@ public interface PieceList {
    * Finds a piece that matches the given piece. There should be at most one piece that matches the
    * given one, since pieces have at least one defined side and all sides are unique.
    *
-   * @param p the piece to be found
+   * @param p the piece to be found (non-null)
    * @return the matching piece, or {@code null} if it isn't found
+   * @throws NullPointerException if p is {@code null}
    */
-  Piece find(Piece p);
+  Piece find(@NotNull Piece p);
 }
