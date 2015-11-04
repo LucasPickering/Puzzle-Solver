@@ -1,4 +1,4 @@
-package puzzlesolver.rendering;
+package puzzlesolver.ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
