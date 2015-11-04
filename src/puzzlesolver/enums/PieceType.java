@@ -9,7 +9,6 @@ public enum PieceType {
   THREE_IN(3, 1, 0), THREE_OUT(1, 3, 0), OPPOSITES(2, 2, 0), ADJACENTS(2, 2, 0);
 
   private final Integer[] sideTypes;
-  private int definedSides;
 
   private static final int MAX_SIDES = 4;
 
@@ -17,20 +16,18 @@ public enum PieceType {
    * Constructs a new PieceType with the given amount of each side type, in the order defined in
    * {@link SideType}
    *
-   * @param sideTypes the amount of each side type, with the order and size of {@link SideType};
-   *                  can have null if the amount of a specific side type is undefined, e.g. in
-   *                  corners
+   * @param sideTypes the amount of each side type, with the order and size of {@link SideType}; can
+   *                  have null if the amount of a specific side type is undefined, e.g. in corners
    */
   PieceType(Integer... sideTypes) {
     if (sideTypes.length != 3) {
-      throw new IllegalArgumentException("sideTypes must be length > 3");
+      throw new IllegalArgumentException("sideTypes must be length == 3");
     }
 
     this.sideTypes = sideTypes;
+    int definedSides = 0;
     for (Integer i : sideTypes) {
-      if (i != null) {
-        definedSides += i;
-      }
+      definedSides += i == null ? 0 : i;
     }
 
     if (definedSides > 4) {
