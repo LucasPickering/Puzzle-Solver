@@ -67,47 +67,11 @@ public interface PieceList {
   int size();
 
   /**
-   * Does any piece in this list contain the given side?
+   * Finds a piece that matches the given piece. There should be at most one piece that matches the
+   * given one, since pieces have at least one defined side and all sides are unique.
    *
-   * @param s the side to be found
-   * @return true if any piece in this list contains s, false otherwise
+   * @param p the piece to be found
+   * @return the matching piece, or {@code null} if it isn't found
    */
-  boolean containsSide(Side s);
-
-  /**
-   * Searches all sides of the given direction of each piece of the given type(s) for the given
-   * side.
-   *
-   * @param dir        the direction to sort this list by (non-null)
-   * @param s          the side to be found
-   * @param pieceTypes the piece type(s) to filter by; if {@code null}, no filtering is done
-   * @return the index of the search key, if it is contained in the list; otherwise, (-(insertion
-   * point) - 1). The insertion point is defined as the point at which the key would be inserted
-   * into the list: the index of the first element greater than the key, or list.size() if all
-   * elements in the list are less than the specified key. Note that this guarantees that the return
-   * value will be >= 0 if and only if the key is found.
-   */
-  int binarySearch(@NotNull Direction dir, Side s, PieceType... pieceTypes);
-
-  /**
-   * Searches all sides of the given direction of each piece of the given type(s) for the given
-   * side. This should just be a wrapper for binarySearch to find an index and return the piece at
-   * that index.
-   *
-   * @param dir        the direction to sort this list by (non-null)
-   * @param s          the side to be found
-   * @param pieceTypes the piece type(s) to filter by; if {@code null}, no filtering is done
-   * @return the piece containing s, or {@code null} if it isn't in the list
-   */
-  Piece search(@NotNull Direction dir, Side s, PieceType... pieceTypes);
-
-  /**
-   * Gets a sublist of this list containing every piece in this list whose piece type is one of the
-   * given piece types. This is a shallow copy: this list and its internal lists will be copied, but
-   * the internal {@link Piece} objects will not be copied.
-   *
-   * @param pieceTypes the piece types to include (non-null)
-   * @return a sublist of this list of all the pieces of the given type(s)
-   */
-  PieceList sublist(@NotNull PieceType... pieceTypes);
+  Piece find(Piece p);
 }
