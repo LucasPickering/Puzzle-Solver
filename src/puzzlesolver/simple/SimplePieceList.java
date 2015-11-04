@@ -134,45 +134,32 @@ public final class SimplePieceList implements PieceList {
     return pieceLists[0].size();
   }
 
+  private Piece binarySearch(@NotNull Direction dir, Side s, @NotNull PieceType... pieceTypes) {
+    Objects.requireNonNull(dir);
+    Objects.requireNonNull(pieceTypes);
+    if (s == null) {
+      return null;
+    }
+    final List<Piece> fittedPieces = new ArrayList<>();
+    final List<Piece> pieceList = pieceLists[dir.ordinal()];
+    int i = pieceList.size() / 2;
+    return null;
+  }
+
   @Override
-  public boolean containsSide(Side s) {
+  public Piece find(@NotNull Piece p) {
+    Objects.requireNonNull(p);
+    Piece foundPiece;
     for (Direction dir : Direction.values()) {
-      if (binarySearch(dir, s, PieceType.values()) > 0) {
-        return true;
+      foundPiece = binarySearch(dir, p.getSide(dir), p.getPieceTypes());
+      if (foundPiece != null) {
+        if (p.equals(foundPiece)) {
+          return foundPiece;
+        } else {
+          throw new IllegalStateException("Found a non-unique side, that's not possible!");
+        }
       }
     }
-    return false;
-  }
-
-  @Override
-  public int binarySearch(@NotNull Direction dir, Side s, PieceType... pieceTypes) {
-    Objects.requireNonNull(dir);
-    final Stream<Piece> stream = pieceLists[dir.ordinal()].stream();
-    if (pieceTypes != null) {
-      final List<PieceType> pieceTypesList = Arrays.asList(pieceTypes);
-      stream.filter(pieceTypesList::contains);
-    }
-    return Collections
-        .binarySearch(stream.map(p -> p.getSide(dir)).collect(Collectors.toList()), s);
-  }
-
-  @Override
-  public Piece search(@NotNull Direction dir, Side s, PieceType... pieceTypes) {
-    Objects.requireNonNull(dir);
-    final int index = binarySearch(dir, s, pieceTypes);
-    return index < 0 ? null : get(dir, index);
-  }
-
-  @Override
-  public PieceList sublist(@NotNull PieceType... pieceTypes) {
-    Objects.requireNonNull(pieceTypes);
-    final List<PieceType> pieceTypesList = Arrays.asList(pieceTypes);
-    @SuppressWarnings("unchecked")
-    ArrayList<Piece>[] filteredPieceLists = new ArrayList[4];
-    for (Direction dir : Direction.values()) {
-      filteredPieceLists[dir.ordinal()] = pieceLists[dir.ordinal()].stream()
-          .filter(pieceTypesList::contains).collect(Collectors.toCollection(ArrayList::new));
-    }
-    return new SimplePieceList(filteredPieceLists);
+    return null;
   }
 }
