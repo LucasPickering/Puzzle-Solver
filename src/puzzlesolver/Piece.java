@@ -84,6 +84,20 @@ public class Piece {
     return pieceTypes.clone();
   }
 
+  /**
+   * Gets the type of this piece, if a has a single definite type. DO NOT call this in any situation
+   * where this piece may have more than one possible type.
+   *
+   * @return the single, definite type of this piece
+   * @throws IllegalStateException if there is no definite type for this piece
+   */
+  public PieceType getPieceType() {
+    if (pieceTypes.length == 1) {
+      return pieceTypes[0];
+    }
+    throw new IllegalStateException("No single type for this piece!");
+  }
+
   private PieceType[] findPieceTypes() {
     List<PieceType> types = new ArrayList<>(PieceType.values().length);
     for (PieceType pieceType : PieceType.values()) {
