@@ -44,4 +44,12 @@ public interface Side extends Comparable<Side>, Cloneable {
    * @return a deep copy of the inverse of this side, with no shared variables
    */
   Side inverse();
+
+  /**
+   * Is this side flat or not?
+   * @return true if {@link #getSideType} == {@link SideType#FLAT}, false otherwise
+   */
+  default boolean isFlat() {
+    return getSideType() == SideType.FLAT;
+  }
 }
