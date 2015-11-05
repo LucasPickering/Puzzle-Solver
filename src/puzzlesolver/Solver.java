@@ -1,7 +1,5 @@
 package puzzlesolver;
 
-import java.util.List;
-
 public interface Solver {
 
   /**
