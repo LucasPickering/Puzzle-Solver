@@ -3,12 +3,15 @@ package puzzlesolver.ui;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class Controller {
 
   public Label helloWorldLabel;
   public Button generateButton;
   public Button solveButton;
+  public TextField rowsField;
+  public TextField columnsField;
 
   public void sayHelloWorld(ActionEvent actionEvent) {
     helloWorldLabel.setText("Hello, world!");
