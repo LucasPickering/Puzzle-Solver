@@ -1,9 +1,14 @@
 package puzzlesolver.ui;
 
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import puzzlesolver.Constants;
 
 public class Controller {
 
@@ -12,6 +17,18 @@ public class Controller {
   public Button solveButton;
   public TextField rowsField;
   public TextField columnsField;
+  public ObservableList<String> renderTypes =
+      FXCollections.observableArrayList(Constants.UI.TEXT,
+                                        Constants.UI.VISUAL,
+                                        Constants.UI.VISUAL_FANCY);
+  public ChoiceBox<String> renderTypeChoiceBox = new ChoiceBox<>(renderTypes);
+
+  Controller() {
+    renderTypeChoiceBox.getItems().addAll();
+    renderTypeChoiceBox.getSelectionModel()
+        .selectedIndexProperty()
+        .addListener(this::changeRenderMode);
+  }
 
   public void sayHelloWorld(ActionEvent actionEvent) {
     helloWorldLabel.setText("Hello, world!");
@@ -31,5 +48,18 @@ public class Controller {
     solveButton.setDisable(true);
     solveButton.setText("Solving...");
     // TODO
+  }
+
+  public void changeRenderMode(ObservableValue ov, Number oldValue, Number newValue) {
+    if (!newValue.equals(oldValue)) {
+      switch ((String)ov.getValue()) {
+        case Constants.UI.TEXT:
+          break;
+        case Constants.UI.VISUAL:
+          break;
+        case Constants.UI.VISUAL_FANCY:
+          break;
+      }
+    }
   }
 }
