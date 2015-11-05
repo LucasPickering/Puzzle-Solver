@@ -1,5 +1,7 @@
 package puzzlesolver.enums;
 
+import puzzlesolver.Constants;
+
 public enum Direction {
 
   NORTH(0, -1), EAST(1, 0), SOUTH(0, 1), WEST(-1, 0);
@@ -25,6 +27,6 @@ public enum Direction {
    * @return the opposite direction
    */
   public Direction opposite() {
-    return values()[(ordinal() + 2) % 4];
+    return values()[(ordinal() + Constants.NUM_SIDES / 2) % Constants.NUM_SIDES];
   }
 }

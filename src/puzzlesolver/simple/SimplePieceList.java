@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import puzzlesolver.Constants;
 import puzzlesolver.Piece;
 import puzzlesolver.PieceComparator;
 import puzzlesolver.PieceList;
@@ -35,7 +36,7 @@ public final class SimplePieceList implements PieceList {
    */
 
   private final ArrayList<Piece>[] pieceLists;
-  private final PieceComparator[] comparators = new PieceComparator[4];
+  private final PieceComparator[] comparators = new PieceComparator[Constants.NUM_SIDES];
 
   /**
    * Constructs a new {@code SimplePieceList} with an initial capacity of ten.
