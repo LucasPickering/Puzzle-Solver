@@ -1,50 +1,35 @@
 package puzzlesolver;
 
-import puzzlesolver.Piece;
+import java.util.List;
 
 public interface Solver {
 
   /**
-   * Solves the given array of pieces, creating a 2-D array of Pieces in their proper places.
-   * @param pieces the pieces that make up the puzzle, in random order
-   * @return a 2-D array of the pieces, in their proper places and orientations.
+   * Initializes this solver to use the given array of pieces.
+   *
+   * @param pieces the pieces that make up the puzzle, in any order
    */
-  Piece[][] solve(Piece[] pieces);
+  void init(Piece[] pieces);
 
   /**
-   * Gets the width of a puzzle with the given perimeter and area.
-   *
-   * @param perimeter the amount of edge/corner pieces in the puzzle (positive)
-   * @param area      the amount of total pieces in the puzzle (positive)
-   * @return the width of the puzzle, in pieces
-   * @throws IllegalArgumentException if no width can be found for the given perimeter and area
+   * Executes the next step in the solver, placing exactly one piece.
    */
-  default int getWidth(int perimeter, int area) {
-    final int helper = (perimeter + 4) / 2;
-    final double width = (helper + Math.sqrt(helper * helper - 4 * area)) / 2;
-    final int roundedWidth = (int) (width + 0.5D);
-    final double error = Math.abs(width - roundedWidth);
-    if (error > 0.1D) {
-      throw new IllegalArgumentException(String.format("Error is %f for perimeter %d and area %d",
-          error, perimeter, area));
-    }
-    return roundedWidth;
-  }
+  void nextStep();
 
   /**
-   * Gets the height of a puzzle with the given width and area.
+   * Gets the list of pieces that have not yet been placed into the solution. No copying is done, so
+   * <i>please</i> don't screw with this object! Read only!
    *
-   * @param width the width of the puzzle, in pieces (positive)
-   * @param area  the amount of total pieces in the puzzle (positive)
-   * @return the height of the puzzle, in pieces
-   * @throws IllegalArgumentException if no puzzle with the given area and width exists, i.e. {@code
-   *                                  area} is not divisible by {@code width}
+   * @return all unplaced pieces, in some arbitrary order
    */
-  default int getHeight(int width, int area) {
-    if (area % width != 0) {
-      throw new IllegalArgumentException(String.format("Area (%d) is not divisible by width (%d)",
-          area, width));
-    }
-    return area / width;
-  }
+  PieceList getUnplacedPieces();
+
+  /**
+   * Gets this solver's solution in its current place. All pieces in the solution will be in their
+   * correct spot, with null spots for unplaced pieces. No copying is done, so <i>please</i> don't
+   * screw with this object! Read only!
+   *
+   * @return a 2-D array representing all pieces that have been placed, in their final spots
+   */
+  Piece[][] getSolution();
 }
