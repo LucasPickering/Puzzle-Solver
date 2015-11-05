@@ -52,7 +52,7 @@ public final class SimpleSolver implements Solver {
         builder.setSide(null, dir); // TODO: Figure out a way to generate a flat side
       } else if (solution[dirX][dirY] != null) {
         // If there is an adjacent piece, get its neighboring side
-        builder.setSide(solution[dirX][dirY].getSide(dir.opposite()), dir);
+        builder.setSide(solution[dirX][dirY].getSide(dir.opposite()).inverse(), dir);
       }
     }
     return builder.build();

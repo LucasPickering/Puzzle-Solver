@@ -90,6 +90,6 @@ public final class SimpleGenerator implements Generator {
   }
 
   private double randomInRange(double min, double max) {
-    return (random.nextDouble() * (max - min) + min) * random.nextInt(2) * 2 - 1;
+    return (random.nextDouble() * (max - min) + min) * (random.nextInt(2) == 0 ? -1 : 1);
   }
 }
