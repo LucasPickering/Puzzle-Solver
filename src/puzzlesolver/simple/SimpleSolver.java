@@ -1,7 +1,10 @@
 package puzzlesolver.simple;
 
+import puzzlesolver.Constants;
 import puzzlesolver.Piece;
 import puzzlesolver.PieceList;
+import puzzlesolver.Point;
+import puzzlesolver.Side;
 import puzzlesolver.Solver;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
@@ -49,7 +52,8 @@ public final class SimpleSolver implements Solver {
 
       if (dirX < 0 || dirX >= width || dirY < 0 || dirY >= height) {
         // If x or y is out of bounds, make a flat side
-        builder.setSide(null, dir); // TODO: Figure out a way to generate a flat side
+        builder.setSide(new SimpleSide(new Point(0d, 0d),
+                                       new Point(Constants.SIDE_LENGTH, 0d)), dir);
       } else if (solution[dirX][dirY] != null) {
         // If there is an adjacent piece, get its neighboring side
         builder.setSide(solution[dirX][dirY].getSide(dir.opposite()).inverse(), dir);

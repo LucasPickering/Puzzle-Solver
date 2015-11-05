@@ -22,7 +22,7 @@ public class Piece {
 
   public static class Builder {
 
-    private final Side[] sides = new Side[4];
+    private final Side[] sides = new Side[Constants.NUM_SIDES];
 
     /**
      * Sets this piece's side in the given direction to the given side.

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import puzzlesolver.Constants;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
 import puzzlesolver.enums.Direction;
@@ -14,7 +15,6 @@ import puzzlesolver.Generator;
  */
 public final class SimpleGenerator implements Generator {
 
-  private static final double SIDE_LENGTH = 10.0d;
   private static final double MIN_X_DEVIATION = 1.0f;
   private static final double MAX_X_DEVIATION = 3.0f;
   private static final double MIN_Y_DEVIATION = 0.1f;
@@ -80,7 +80,7 @@ public final class SimpleGenerator implements Generator {
 
   private SimpleSide generateSide(boolean flat) {
     final Point corner1 = new Point(0d, 0d);
-    final Point corner2 = new Point(SIDE_LENGTH, 0d);
+    final Point corner2 = new Point(Constants.SIDE_LENGTH, 0d);
     if (flat) {
       return new SimpleSide(corner1, corner2);
     }

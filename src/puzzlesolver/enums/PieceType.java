@@ -1,5 +1,6 @@
 package puzzlesolver.enums;
 
+import puzzlesolver.Constants;
 import puzzlesolver.Piece;
 import puzzlesolver.Side;
 
@@ -9,8 +10,6 @@ public enum PieceType {
   THREE_IN(3, 1, 0), THREE_OUT(1, 3, 0), OPPOSITES(2, 2, 0), ADJACENTS(2, 2, 0);
 
   private final Integer[] sideTypes;
-
-  private static final int MAX_SIDES = 4;
 
   /**
    * Constructs a new PieceType with the given amount of each side type, in the order defined in
@@ -52,7 +51,7 @@ public enum PieceType {
       }
     }
 
-    int remainingSides = MAX_SIDES - pieceDefinedSides;
+    int remainingSides = Constants.NUM_SIDES - pieceDefinedSides;
 
     for (int i = 0; i < sideTypeAmounts.length; i++) {
       if (sideTypes[i] != null) {
