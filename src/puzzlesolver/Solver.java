@@ -18,7 +18,7 @@ public interface Solver {
    * Gets the list of pieces that have not yet been placed into the solution. No copying is done, so
    * <i>please</i> don't screw with this object! Read only!
    *
-   * @return all unplaced pieces, in some arbitrary order
+   * @return all unplaced pieces
    */
   PieceList getUnplacedPieces();
 

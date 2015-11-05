@@ -1,39 +1,37 @@
 package puzzlesolver.simple;
 
+import puzzlesolver.AbstractSolver;
 import puzzlesolver.Constants;
 import puzzlesolver.Piece;
-import puzzlesolver.PieceList;
 import puzzlesolver.Point;
-import puzzlesolver.Side;
-import puzzlesolver.Solver;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
 
-public final class SimpleSolver implements Solver {
+public final class SimpleSolver extends AbstractSolver {
 
-  private int width;
-  private int height;
-  private Piece[][] solution;
+  private int currentX;
+  private int currentY;
 
   @Override
-  public Piece[][] solve(Piece[] pieces) {
-    final PieceList pieceList = new SimplePieceList(pieces.length);
-    int edges = 0;
-    for (Piece piece : pieces) {
-      if (piece.definitelyType(PieceType.EDGE)) {
-        edges++;
+  public void nextStep() {
+    if (currentX == 0 && currentY == 0) {
+      for (int i = 0; i < unplacedPieces.size(); i++) {
+        Piece piece = unplacedPieces.get(Direction.NORTH, i);
+        if (piece.definitelyType(PieceType.CORNER)) {
+          solution[currentX][currentY] = piece;
+          unplacedPieces.remove(piece);
+          break;
+        }
       }
-      pieceList.add(piece);
+    } else if (currentX < width && currentY < height) {
+      final Piece piece = unplacedPieces.find(makePiece(currentX, currentY));
+      solution[currentX][currentY] = piece;
+      unplacedPieces.remove(piece);
     }
-
-    width = getWidth(edges + 4, pieces.length);
-    height = getHeight(width, pieces.length);
-    solution = new Piece[width][height];
-
-    placeCorners(pieceList);
-    placeRest(pieceList);
-
-    return solution;
+    if (++currentX >= width) {
+      currentX %= width;
+      currentY++;
+    }
   }
 
   /**
@@ -53,32 +51,12 @@ public final class SimpleSolver implements Solver {
       if (dirX < 0 || dirX >= width || dirY < 0 || dirY >= height) {
         // If x or y is out of bounds, make a flat side
         builder.setSide(new SimpleSide(new Point(0d, 0d),
-                                       new Point(Constants.SIDE_LENGTH, 0d)), dir);
+            new Point(Constants.SIDE_LENGTH, 0d)), dir);
       } else if (solution[dirX][dirY] != null) {
         // If there is an adjacent piece, get its neighboring side
         builder.setSide(solution[dirX][dirY].getSide(dir.opposite()).inverse(), dir);
       }
     }
     return builder.build();
-  }
-
-  private void placeCorners(PieceList pieces) {
-    Piece piece;
-    while ((piece = pieces.first(Direction.NORTH)).definitelyType(PieceType.CORNER)) {
-      final int x = piece.getSide(Direction.WEST).getSideType().isFlat() ? 0 : width - 1;
-      final int y = piece.getSide(Direction.NORTH).getSideType().isFlat() ? 0 : height - 1;
-      solution[x][y] = piece;
-      pieces.remove(piece);
-    }
-  }
-
-  private void placeRest(PieceList pieces) {
-    for (int x = 0; x < width; x++) {
-      for (int y = 0; y < height; y++) {
-        final Piece piece = pieces.find(makePiece(x, y));
-        solution[x][y] = piece;
-        pieces.remove(piece);
-      }
-    }
   }
 }
