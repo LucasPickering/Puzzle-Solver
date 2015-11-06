@@ -30,10 +30,6 @@ public class Controller {
         .addListener(this::changeRenderMode);
   }
 
-  public void sayHelloWorld(ActionEvent actionEvent) {
-    helloWorldLabel.setText("Hello, world!");
-  }
-
   public void generate(ActionEvent actionEvent) {
     generateButton.setDisable(true);
     generateButton.setText("Generating...");
@@ -54,10 +50,13 @@ public class Controller {
     if (!newValue.equals(oldValue)) {
       switch ((String)ov.getValue()) {
         case Constants.UI.TEXT:
+          // TODO
           break;
         case Constants.UI.VISUAL:
+          // TODO
           break;
         case Constants.UI.VISUAL_FANCY:
+          // TODO
           break;
       }
     }
