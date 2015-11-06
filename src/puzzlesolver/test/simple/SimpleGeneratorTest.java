@@ -1,4 +1,4 @@
-package puzzlesolver.test.generation;
+package puzzlesolver.test.simple;
 
 import org.junit.Test;
 
