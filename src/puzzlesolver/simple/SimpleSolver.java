@@ -9,31 +9,31 @@ import puzzlesolver.enums.PieceType;
 
 public final class SimpleSolver extends AbstractSolver {
 
-  private int currentX;
-  private int currentY;
+  private int x;
+  private int y;
 
   @Override
   public boolean nextStep() {
     // If this is the first piece, find the first corner in the list and place it
-    if (currentX == 0 && currentY == 0) {
+    if (x == 0 && y == 0) {
       for (int i = 0; i < unplacedPieces.size(); i++) {
         Piece piece = unplacedPieces.get(Direction.NORTH, i);
         if (piece.definitelyType(PieceType.CORNER)) {
-          solution[currentX][currentY] = piece;
+          solution[x][y] = piece;
           unplacedPieces.remove(piece);
           break;
         }
       }
-    } else if (currentX < width && currentY < height) {
-      final Piece piece = unplacedPieces.find(makePiece(currentX, currentY));
-      solution[currentX][currentY] = piece;
+    } else if (x < width && y < height) {
+      final Piece piece = unplacedPieces.find(makePiece(x, y));
+      solution[x][y] = piece;
       unplacedPieces.remove(piece);
     }
-    if (++currentX >= width) { // Increment x, if the row is done, go to the next row
-      currentX = 0;
-      currentY++;
+    if (++x >= width) { // Increment x, if the row is done, go to the next row
+      x = 0;
+      y++;
     }
-    return currentY >= height; // If we're past the last row, we're done
+    return y >= height; // If we're past the last row, we're done
   }
 
   /**
