@@ -1,7 +1,5 @@
 package puzzlesolver;
 
-import puzzlesolver.Piece;
-
 /**
  * An interface to represent puzzle generators. These puzzles have the following properties: <ul>
  * <li>Square grid structure</li> <li>Each piece is unique from each other piece</li> </ul>
