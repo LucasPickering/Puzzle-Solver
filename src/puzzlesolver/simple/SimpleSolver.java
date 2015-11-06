@@ -13,7 +13,8 @@ public final class SimpleSolver extends AbstractSolver {
   private int currentY;
 
   @Override
-  public void nextStep() {
+  public boolean nextStep() {
+    // If this is the first piece, find the first corner in the list and place it
     if (currentX == 0 && currentY == 0) {
       for (int i = 0; i < unplacedPieces.size(); i++) {
         Piece piece = unplacedPieces.get(Direction.NORTH, i);
@@ -28,10 +29,11 @@ public final class SimpleSolver extends AbstractSolver {
       solution[currentX][currentY] = piece;
       unplacedPieces.remove(piece);
     }
-    if (++currentX >= width) {
-      currentX %= width;
+    if (++currentX >= width) { // Increment x, if the row is done, go to the next row
+      currentX = 0;
       currentY++;
     }
+    return currentY >= height; // If we're past the last row, we're done
   }
 
   /**
