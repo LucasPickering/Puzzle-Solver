@@ -135,16 +135,32 @@ public final class SimplePieceList implements PieceList {
     return pieceLists[0].size();
   }
 
-  private Piece binarySearch(@NotNull Direction dir, Side s, @NotNull PieceType... pieceTypes) {
+  private Piece binarySearch(@NotNull Direction dir, Piece p, @NotNull PieceType... pieceTypes) {
     Objects.requireNonNull(dir);
     Objects.requireNonNull(pieceTypes);
-    if (s == null) {
+    if (p == null) {
       return null;
     }
     final List<Piece> fittedPieces = new ArrayList<>();
     final List<Piece> pieceList = pieceLists[dir.ordinal()];
-    int i = pieceList.size() / 2;
+    final int middle = Collections.binarySearch(pieceList, p, comparators[dir.ordinal()]);
+
     return null;
+  }
+
+  private int findFirst(Direction dir, Piece p, int middle) {
+    int index = middle;
+    for (int i = 0; true; i++) {
+      if (index < 0) {
+        return 0;
+      }
+      if (index >= size()) {
+        return size() - 1;
+      }
+      if(comparators[dir.ordinal()].compare(pieceLists[dir.ordinal()].get(index), p) != 0){
+
+      }
+    }
   }
 
   @Override
@@ -152,7 +168,7 @@ public final class SimplePieceList implements PieceList {
     Objects.requireNonNull(p);
     Piece foundPiece;
     for (Direction dir : Direction.values()) {
-      foundPiece = binarySearch(dir, p.getSide(dir), p.getPieceTypes());
+      foundPiece = binarySearch(dir, p, p.getPieceTypes());
       if (foundPiece != null) {
         if (p.equals(foundPiece)) {
           return foundPiece;
