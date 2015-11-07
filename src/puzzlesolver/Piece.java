@@ -76,7 +76,7 @@ public class Piece {
 
   /**
    * Gets the {@link PieceType} type of this piece. This was calculated upon construction of the
-   * object.
+   * object. The order of this array is GUARANTEED to match the order of {@link PieceType}.
    *
    * @return the type of this piece
    */
