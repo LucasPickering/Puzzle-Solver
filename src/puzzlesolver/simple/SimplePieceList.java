@@ -193,9 +193,9 @@ public final class SimplePieceList implements PieceList {
         final int leftIndex = expSearch(dir, p, middleIndex, true);
         final int rightIndex = expSearch(dir, p, middleIndex, false);
         for (int i = leftIndex; i <= rightIndex; i++) {
-          final Piece iPiece = pieceLists[dir.ordinal()].get(i);
-          if (p.equals(iPiece)) {
-            return iPiece;
+          final Piece p2 = pieceLists[dir.ordinal()].get(i);
+          if (Arrays.binarySearch(p.getPieceTypes(), p2.getPieceType()) >= 0 && p.equals(p2)) {
+            return p2;
           }
         }
       }
