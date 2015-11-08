@@ -3,16 +3,13 @@ package puzzlesolver.ui;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import puzzlesolver.Constants;
 
 public class Controller {
 
-  public Label helloWorldLabel;
   public Button generateButton;
   public Button solveButton;
   public TextField rowsField;
@@ -23,14 +20,15 @@ public class Controller {
                                         Constants.UI.VISUAL_FANCY);
   public ChoiceBox<String> renderTypeChoiceBox = new ChoiceBox<>(renderTypes);
 
-  Controller() {
-    renderTypeChoiceBox.getItems().addAll();
+  {
     renderTypeChoiceBox.getSelectionModel()
-        .selectedIndexProperty()
+        .selectedItemProperty()
         .addListener(this::changeRenderMode);
+    System.out.print(renderTypeChoiceBox.getItems());
+    renderTypeChoiceBox.getSelectionModel().select(Constants.UI.TEXT);
   }
 
-  public void generate(ActionEvent actionEvent) {
+  public void generate() {
     generateButton.setDisable(true);
     generateButton.setText("Generating...");
 
@@ -40,15 +38,15 @@ public class Controller {
     solveButton.setDisable(false);
   }
 
-  public void solve(ActionEvent actionEvent) {
+  public void solve() {
     solveButton.setDisable(true);
     solveButton.setText("Solving...");
     // TODO
   }
 
-  public void changeRenderMode(ObservableValue ov, Number oldValue, Number newValue) {
+  public void changeRenderMode(ObservableValue ov, String oldValue, String newValue) {
     if (!newValue.equals(oldValue)) {
-      switch ((String)ov.getValue()) {
+      switch (newValue) {
         case Constants.UI.TEXT:
           // TODO
           break;
