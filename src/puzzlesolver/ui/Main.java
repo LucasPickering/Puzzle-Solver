@@ -1,5 +1,7 @@
 package puzzlesolver.ui;
 
+import java.util.Arrays;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,8 +19,19 @@ public class Main extends Application {
     primaryStage.show();
   }
 
-
   public static void main(String[] args) {
-    launch(args);
+    boolean console = true;
+    
+    if (Arrays.asList(args).contains("-c") || console)
+    {
+      ConsoleController consoleController = new ConsoleController();
+      try {
+        consoleController.start(System.out);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    } else {
+      launch(args);
+    }
   }
 }

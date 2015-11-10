@@ -29,10 +29,10 @@
         <Label alignment="CENTER" styleClass="title" text="Puzzle-O-Matic"
                textAlignment="CENTER" GridPane.columnSpan="2"
                GridPane.halignment="CENTER"/>
-        <TextField id="text-label" fx:id="columnsField" promptText="Columns"
+        <TextField id="text-label" fx:id="widthField" promptText="Width"
                    GridPane.columnIndex="1" GridPane.halignment="CENTER"
                    GridPane.rowIndex="2" GridPane.valignment="CENTER"/>
-        <TextField id="text-label" fx:id="rowsField" promptText="Rows"
+        <TextField id="text-label" fx:id="heightField" promptText="Height"
                    GridPane.halignment="CENTER" GridPane.rowIndex="2"
                    GridPane.valignment="CENTER"/>
         <Button fx:id="generateButton" mnemonicParsing="false" onAction="#generate"
