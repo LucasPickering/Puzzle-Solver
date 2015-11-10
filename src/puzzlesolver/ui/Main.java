@@ -21,7 +21,7 @@ public class Main extends Application {
 
   public static void main(String[] args) {
     boolean console = true;
-    
+
     if (Arrays.asList(args).contains("-c") || console)
     {
       ConsoleController consoleController = new ConsoleController();
