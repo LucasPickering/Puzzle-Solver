@@ -1,19 +1,20 @@
 package puzzlesolver.ui.views;
 
-import org.jetbrains.annotations.NotNull;
+import com.sun.istack.internal.NotNull;
+import puzzlesolver.Constants;
+import puzzlesolver.Piece;
+import puzzlesolver.Solver;
+import puzzlesolver.enums.PieceType;
 
 import java.util.Objects;
 
-import puzzlesolver.Constants;
-import puzzlesolver.Piece;
-
 public class TextView {
 
-  private final Piece[] pieces;
+  private final Solver solver;
 
-  public TextView(@NotNull Piece[] pieces) {
-    Objects.requireNonNull(pieces);
-    this.pieces = pieces;
+  public TextView(@NotNull Solver solver) {
+    Objects.requireNonNull(solver);
+    this.solver = solver;
   }
 
   /**
@@ -30,6 +31,46 @@ public class TextView {
    * @return a text representation of the current puzzle view.
    */
   public String[] draw() {
-    return null;
+    Piece[][] pieces = solver.getSolution();
+    String[] finalBoard = new String[pieces.length];
+    char[][] board = new char[pieces.length][pieces[0].length];
+    for (int i = 0; i < pieces.length; i ++){
+      for(int j = 0; j < pieces[i].length; j++) {
+        Piece piece = pieces[i][j];
+        if (piece == null) board[i][j] = (char) 177;
+        else {
+          switch (piece.getPieceType()) {
+            case CORNER:
+              board[i][j] = (char) 192;
+              break;
+            case EDGE:
+              board[i][j] = (char) 179;
+              break;
+            case ALL_IN:
+              board[i][j] = 'X';
+              break;
+            case ALL_OUT:
+              board[i][j] = 'O';
+              break;
+            case THREE_IN:
+              board[i][j] = 'K';
+              break;
+            case THREE_OUT:
+              board[i][j] = '3';
+              break;
+            case OPPOSITES:
+              board[i][j] = 'O';
+              break;
+            case ADJACENTS:
+            board[i][j] = 'A';
+          }
+        }
+      }
+    }
+    for (int i = 0; i < board.length; i++) {
+     finalBoard[i] = new String(board[i]);
+    }
+
+    return finalBoard;
   }
 }
