@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import puzzlesolver.Constants;
 
 public class Main extends Application {
 
@@ -20,9 +21,7 @@ public class Main extends Application {
   }
 
   public static void main(String[] args) {
-    boolean console = true;
-
-    if (Arrays.asList(args).contains("-c") || console)
+    if (Arrays.asList(args).contains("-c") || Constants.USE_CONSOLE)
     {
       ConsoleController consoleController = new ConsoleController();
       try {
