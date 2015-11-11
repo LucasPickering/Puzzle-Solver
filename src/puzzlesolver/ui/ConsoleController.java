@@ -41,17 +41,24 @@ public class ConsoleController {
     width = in.nextInt();
     out.print("Puzzle Height: ");
     height = in.nextInt();
-    in.close();
     solver.init(generator.generate(width, height));
 
     do {
-      textView.draw();
+      String[] render = textView.draw();
+      for (String line : render) {
+        out.println(line);
+      }
+      out.println();
 
       if (requireInputPerStep) {
         in.nextLine();
       } else {
         Thread.sleep(timeInterval);
       }
+      out.println("Solvin' away!");
     } while (!solver.nextStep());
+
+    out.println("Done!");
+    in.close();
   }
 }

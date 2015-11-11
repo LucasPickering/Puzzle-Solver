@@ -62,7 +62,8 @@ public final class SimpleSide implements Side {
       throw new IllegalArgumentException(String.format("Must have at least 2 points: %d found.",
                                                        points.size()));
     }
-    this.points = (Point[]) points.toArray();
+    this.points = new Point[points.size()];
+    points.toArray(this.points);
   }
 
   /**
