@@ -84,7 +84,8 @@ public final class SimplePieceList implements PieceList {
   @Override
   public void add(Piece p) {
     for (int i = 0; i < pieceLists.length; i++) {
-      pieceLists[i].add(-(Collections.binarySearch(pieceLists[i], p, comparators[i]) + 1), p);
+      final int destination = Collections.binarySearch(pieceLists[i], p, comparators[i]);
+      pieceLists[i].add(destination < 0 ? -(destination + 1) : destination, p);
     }
   }
 
