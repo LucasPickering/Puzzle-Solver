@@ -1,7 +1,5 @@
 package puzzlesolver;
 
-import puzzlesolver.ui.views.TextView;
-
 public class Constants {
 
   /**
@@ -14,9 +12,8 @@ public class Constants {
    */
   public static double SIDE_LENGTH = 10d;
 
-  // Text view
-  /**
-   * Width of {@link Piece} in {@link TextView}
-   */
-  public static int PIECE_SIZE_CHARS = 3;
+  // UI
+  public class UI {
+    public static final String TEXT = "Text", VISUAL = "Visual", VISUAL_FANCY = "Visual Fancy";
+  }
 }

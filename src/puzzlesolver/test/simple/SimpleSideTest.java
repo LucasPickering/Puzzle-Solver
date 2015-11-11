@@ -1,4 +1,4 @@
-package puzzlesolver.test.side;
+package puzzlesolver.test.simple;
 
 import org.junit.Test;
 

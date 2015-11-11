@@ -135,29 +135,68 @@ public final class SimplePieceList implements PieceList {
     return pieceLists[0].size();
   }
 
-  private Piece binarySearch(@NotNull Direction dir, Side s, @NotNull PieceType... pieceTypes) {
-    Objects.requireNonNull(dir);
-    Objects.requireNonNull(pieceTypes);
-    if (s == null) {
-      return null;
+  private int binarySearch(Direction dir, Piece p, PieceType... pieceTypes) {
+    return Collections.binarySearch(pieceLists[dir.ordinal()], p, comparators[dir.ordinal()]);
+  }
+
+  /**
+   * Searches the list sorted by the given direciton for the last piece that matches p, in the given
+   * direction. Starts at index, and moves down/up the list exponentially until it finds the first
+   * piece that doesn't match p.
+   *
+   * @param dir   the direction to sort and compare by
+   * @param p     the piece to be searched for
+   * @param index the starting index
+   * @param left  true to search left (lesser indices), false to search right (greater indices)
+   * @return the index of the last piece in the list that matches p
+   */
+  private int expSearch(Direction dir, Piece p, int index, boolean left) {
+    for (int i = 0; true; i++) {
+      // The index of the next element to check; grows exponentially
+      int nextIndex = index + (int) (Math.pow(2, i) + 0.5d) * (left ? -1 : 1);
+      final boolean oob = left ? nextIndex < 0 : nextIndex >= size();
+
+      // If the nextIndex is out of bounds or the element at that index doesn't match p
+      if (oob || compare(dir, nextIndex, p) != 0) {
+        // If this is the first iteration in the loop (nextIndex == index - 1), stop
+        if (i == 0) {
+          return index; // Return this index
+        }
+        i = 0; // Reset i to reset the exponentiation
+      } else { // If we should keep exponentially looking
+        index = nextIndex; // Set current index to next and let it loop again
+      }
     }
-    final List<Piece> fittedPieces = new ArrayList<>();
-    final List<Piece> pieceList = pieceLists[dir.ordinal()];
-    int i = pieceList.size() / 2;
-    return null;
+  }
+
+  /**
+   * Compares the given piece to the piece at the given index in the list sorted by the given
+   * direction. This comparison is done by comparing the side in the given direction each piece.
+   *
+   * @param dir   the direction to sort and compare by
+   * @param index the index of the piece in the list being compared
+   * @param p     the other piece being compared
+   * @return negative if the piece at index is less than p, 0 if equal, and positive if greater
+   */
+  private int compare(Direction dir, int index, Piece p) {
+    return comparators[dir.ordinal()].compare(pieceLists[dir.ordinal()].get(index), p);
   }
 
   @Override
   public Piece find(@NotNull Piece p) {
     Objects.requireNonNull(p);
-    Piece foundPiece;
+    int middleIndex;
     for (Direction dir : Direction.values()) {
-      foundPiece = binarySearch(dir, p.getSide(dir), p.getPieceTypes());
-      if (foundPiece != null) {
-        if (p.equals(foundPiece)) {
-          return foundPiece;
-        } else {
-          throw new IllegalStateException("Found a non-unique side, that's not possible!");
+      // Find any piece where two sides compare to 0 (somewhat equal)
+      middleIndex = binarySearch(dir, p, p.getPieceTypes());
+      if (middleIndex >= 0) { // If that piece was found
+        final int leftIndex = expSearch(dir, p, middleIndex, true);
+        final int rightIndex = expSearch(dir, p, middleIndex, false);
+        for (int i = leftIndex; i <= rightIndex; i++) {
+          final Piece p2 = pieceLists[dir.ordinal()].get(i);
+          if (Arrays.binarySearch(p.getPieceTypes(), p2.getPieceType()) >= 0 && p.equals(p2)) {
+            return p2;
+          }
         }
       }
     }

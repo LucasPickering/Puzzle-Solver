@@ -11,8 +11,10 @@ public interface Solver {
 
   /**
    * Executes the next step in the solver, placing exactly one piece.
+   *
+   * @return false if more steps are needed to solve the puzzle, true if the solution is complete
    */
-  void nextStep();
+  boolean nextStep();
 
   /**
    * Gets the list of pieces that have not yet been placed into the solution. No copying is done, so

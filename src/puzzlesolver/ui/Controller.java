@@ -1,35 +1,76 @@
 package puzzlesolver.ui;
 
-import javafx.event.ActionEvent;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import puzzlesolver.Constants;
+import puzzlesolver.Generator;
+import puzzlesolver.Piece;
+import puzzlesolver.simple.SimpleGenerator;
 
 public class Controller {
 
-  public Label helloWorldLabel;
   public Button generateButton;
   public Button solveButton;
-  public TextField rowsField;
-  public TextField columnsField;
+  public TextField heightField;
+  public TextField widthField;
+  public ObservableList<String> renderTypes =
+      FXCollections.observableArrayList(Constants.UI.TEXT,
+                                        Constants.UI.VISUAL,
+                                        Constants.UI.VISUAL_FANCY);
+  public ChoiceBox<String> renderTypeChoiceBox = new ChoiceBox<>(renderTypes);
 
-  public void sayHelloWorld(ActionEvent actionEvent) {
-    helloWorldLabel.setText("Hello, world!");
+  public void setupChoiceBox() {
+    renderTypeChoiceBox.getSelectionModel()
+        .selectedItemProperty()
+        .addListener(this::changeRenderMode);
+    System.out.print(renderTypeChoiceBox.getItems());
+    renderTypeChoiceBox.getSelectionModel().select(Constants.UI.TEXT);
+    System.out.println(renderTypeChoiceBox.getSelectionModel().selectedItemProperty().getValue());
   }
 
-  public void generate(ActionEvent actionEvent) {
+  private Piece[][] puzzle;
+
+  public void generate() {
     generateButton.setDisable(true);
     generateButton.setText("Generating...");
 
-    // TODO
+    Generator generator = new SimpleGenerator();
+
+    try {
+      generator.generate(Integer.parseInt(widthField.getText()),
+      Integer.parseInt(heightField.getText()));
+    } catch (NumberFormatException e) {
+      return;
+    }
+
     generateButton.setDisable(false);
     generateButton.setText("Regenerate");
     solveButton.setDisable(false);
   }
 
-  public void solve(ActionEvent actionEvent) {
+  public void solve() {
     solveButton.setDisable(true);
     solveButton.setText("Solving...");
     // TODO
+  }
+
+  public void changeRenderMode(ObservableValue ov, String oldValue, String newValue) {
+    if (!newValue.equals(oldValue)) {
+      switch (newValue) {
+        case Constants.UI.TEXT:
+          // TODO
+          break;
+        case Constants.UI.VISUAL:
+          // TODO
+          break;
+        case Constants.UI.VISUAL_FANCY:
+          // TODO
+          break;
+      }
+    }
   }
 }
