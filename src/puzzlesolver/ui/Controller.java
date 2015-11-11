@@ -44,6 +44,7 @@ public class Controller {
       generator.generate(Integer.parseInt(widthField.getText()),
       Integer.parseInt(heightField.getText()));
     } catch (NumberFormatException e) {
+      // TODO some kind of pop-up box or notifier for bad data
       return;
     }
 
