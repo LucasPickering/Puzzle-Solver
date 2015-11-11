@@ -7,6 +7,7 @@ import puzzlesolver.Generator;
 import puzzlesolver.Solver;
 import puzzlesolver.simple.SimpleGenerator;
 import puzzlesolver.simple.SimpleSolver;
+import puzzlesolver.ui.views.TextView;
 
 public class ConsoleController {
 
@@ -32,6 +33,7 @@ public class ConsoleController {
   public void start(PrintStream out) throws Exception {
     Generator generator = new SimpleGenerator();
     Solver solver = new SimpleSolver();
+    TextView textView = new TextView(solver);
     Scanner in = new Scanner(System.in);
     int width, height;
 
@@ -43,7 +45,7 @@ public class ConsoleController {
     solver.init(generator.generate(width, height));
 
     do {
-      // TODO render code
+      textView.draw();
 
       if (requireInputPerStep) {
         in.nextLine();

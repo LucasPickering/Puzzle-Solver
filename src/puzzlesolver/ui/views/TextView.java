@@ -1,12 +1,11 @@
 package puzzlesolver.ui.views;
 
 import com.sun.istack.internal.NotNull;
-import puzzlesolver.Constants;
-import puzzlesolver.Piece;
-import puzzlesolver.Solver;
-import puzzlesolver.enums.PieceType;
 
 import java.util.Objects;
+
+import puzzlesolver.Piece;
+import puzzlesolver.Solver;
 
 public class TextView {
 
@@ -22,11 +21,6 @@ public class TextView {
    *
    * Each line of the console should go in its own array index. (draw()[0] should be the first
    * line, and so on). Do not append newline characters or breaks to the output.
-   *
-   * Each piece should be {@link Constants#PIECE_SIZE_CHARS} characters wide & tall.
-   *
-   * Overall view should be as big as you need it to be given the
-   * {@link Constants#PIECE_SIZE_CHARS} and the number of {@link #pieces}.
    *
    * @return a text representation of the current puzzle view.
    */
