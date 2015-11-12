@@ -28,11 +28,12 @@ public class TextView {
     Piece[][] pieces = solver.getSolution();
     String[] finalBoard = new String[pieces.length];
     char[][] board = new char[pieces.length][pieces[0].length];
-    for (int i = 0; i < pieces.length; i ++){
-      for(int j = 0; j < pieces[i].length; j++) {
+    for (int i = 0; i < pieces.length; i++) {
+      for (int j = 0; j < pieces[i].length; j++) {
         Piece piece = pieces[i][j];
-        if (piece == null) board[i][j] = (char) 177;
-        else {
+        if (piece == null) {
+          board[i][j] = (char) 177;
+        } else {
           switch (piece.getPieceType()) {
             case CORNER:
               board[i][j] = (char) 192;
@@ -56,13 +57,13 @@ public class TextView {
               board[i][j] = 'O';
               break;
             case ADJACENTS:
-            board[i][j] = 'A';
+              board[i][j] = 'A';
           }
         }
       }
     }
     for (int i = 0; i < board.length; i++) {
-     finalBoard[i] = new String(board[i]);
+      finalBoard[i] = new String(board[i]);
     }
 
     return finalBoard;
