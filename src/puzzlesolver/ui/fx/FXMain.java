@@ -1,15 +1,12 @@
-package puzzlesolver.ui;
-
-import java.util.Arrays;
+package puzzlesolver.ui.fx;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import puzzlesolver.Constants;
 
-public class Main extends Application {
+public class FXMain extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -21,16 +18,6 @@ public class Main extends Application {
   }
 
   public static void main(String[] args) {
-    if (Arrays.asList(args).contains("-c") || Constants.USE_CONSOLE)
-    {
-      ConsoleController consoleController = new ConsoleController();
-      try {
-        consoleController.start(System.out);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    } else {
-      launch(args);
-    }
+    launch(args);
   }
 }

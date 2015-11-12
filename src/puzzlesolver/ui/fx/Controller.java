@@ -1,4 +1,4 @@
-package puzzlesolver.ui;
+package puzzlesolver.ui.fx;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;

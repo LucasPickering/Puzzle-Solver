@@ -12,7 +12,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="312.0" prefWidth="231.0" stylesheets="@main_menu.css"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="puzzlesolver.ui.Controller">
+            fx:controller="puzzlesolver.ui.fx.Controller">
     <GridPane hgap="10.0" layoutY="2.0" prefHeight="312.0" prefWidth="231.0"
               AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0"
               AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">

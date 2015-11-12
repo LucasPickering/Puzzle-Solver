@@ -1,4 +1,4 @@
-package puzzlesolver.ui;
+package puzzlesolver.ui.console;
 
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -7,9 +7,17 @@ import puzzlesolver.Generator;
 import puzzlesolver.Solver;
 import puzzlesolver.simple.SimpleGenerator;
 import puzzlesolver.simple.SimpleSolver;
-import puzzlesolver.ui.views.TextView;
 
-public class ConsoleController {
+public class ConsoleMain {
+
+  public static void main(String[] args) {
+    ConsoleMain consoleMain = new ConsoleMain();
+      try {
+        consoleMain.start(System.out);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+  }
 
   /**
    * Time to wait between steps, in milliseconds.
@@ -21,12 +29,12 @@ public class ConsoleController {
    */
   private boolean requireInputPerStep;
 
-  public ConsoleController(long timeInterval, boolean requireInputPerStep) {
+  public ConsoleMain(long timeInterval, boolean requireInputPerStep) {
     this.timeInterval = timeInterval;
     this.requireInputPerStep = requireInputPerStep;
   }
 
-  public ConsoleController() {
+  public ConsoleMain() {
     requireInputPerStep = true;
   }
 

@@ -1,4 +1,4 @@
-package puzzlesolver.ui.views;
+package puzzlesolver.ui.console;
 
 import com.sun.istack.internal.NotNull;
 
