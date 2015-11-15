@@ -1,5 +1,7 @@
 package puzzlesolver;
 
+import java.util.Objects;
+
 /**
  * A class to represent immutable points, with x and y values.
  *
@@ -19,10 +21,11 @@ public class Point implements Comparable<Point>, Cloneable {
 
   /**
    * Constructs a new {@code Point} with the given x and y values.
+   *
    * @param x the x value of the point
    * @param y the y value of the point
    */
-  public Point(double x, double y){
+  public Point(double x, double y) {
     this.x = x;
     this.y = y;
   }
@@ -41,6 +44,24 @@ public class Point implements Comparable<Point>, Cloneable {
   @Override
   public String toString() {
     return "(" + x + ", " + y + ")";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Point point = (Point) o;
+    return Double.compare(point.x, x) == 0 &&
+           Double.compare(point.y, y) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(x, y);
   }
 
   @Override
