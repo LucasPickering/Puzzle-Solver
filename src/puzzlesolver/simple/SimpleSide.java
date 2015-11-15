@@ -14,9 +14,9 @@ import puzzlesolver.enums.SideType;
 /**
  * An implementation of {@code Side}, where each side is represented by a list of {@code Point}s.
  *
- * The coordinates of the {@code Point}s are on an axis relative to the side. The x-axis is the
- * line between the two endpoints of the side, and the y-axis is perpendicular to that, going away
- * from the center of the piece.
+ * The coordinates of the {@code Point}s are on an axis relative to the side. The x-axis is the line
+ * between the two endpoints of the side, and the y-axis is perpendicular to that, going away from
+ * the center of the piece.
  *
  * <h4>Assertions:</h4> <ul> <li><code>points.length > 1</code></li> </ul>
  */
@@ -50,7 +50,7 @@ public final class SimpleSide implements Side {
     Objects.requireNonNull(points);
     if (points.length < 2) {
       throw new IllegalArgumentException(String.format("Must have at least 2 points: %d found.",
-                                                       points.length));
+          points.length));
     }
 
     this.points = points.clone();
@@ -60,7 +60,7 @@ public final class SimpleSide implements Side {
     Objects.requireNonNull(points);
     if (points.size() < 2) {
       throw new IllegalArgumentException(String.format("Must have at least 2 points: %d found.",
-                                                       points.size()));
+          points.size()));
     }
     this.points = new Point[points.size()];
     points.toArray(this.points);
@@ -103,8 +103,8 @@ public final class SimpleSide implements Side {
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder("SimpleSide{");
-    if (getSideType() != SideType.FLAT) {
-      sb.append("centerPoint=").append(points[1]).append(", ");
+    for (int i = 0; i < points.length; i++) {
+      sb.append("point").append(i).append("=").append(points[i]).append(", ");
     }
     sb.append("sideType=").append(getSideType());
     sb.append('}');
@@ -124,7 +124,7 @@ public final class SimpleSide implements Side {
     Objects.requireNonNull(other);
     if (!SimpleSide.class.isInstance(other)) {
       throw new ClassCastException(String.format("Cannot compare %s to %s.", getClass().toString(),
-                                                 other.getClass().toString()));
+          other.getClass().toString()));
     }
 
     SimpleSide simpleOther = (SimpleSide) other;
@@ -171,8 +171,8 @@ public final class SimpleSide implements Side {
   @Override
   public double getCornerDistance() {
     return (cornerDistance == null)
-           ? cornerDistance = Math.abs(points[points.length - 1].x - points[0].x)
-           : cornerDistance;
+        ? cornerDistance = Math.abs(points[points.length - 1].x - points[0].x)
+        : cornerDistance;
   }
 
   @Override
@@ -188,7 +188,7 @@ public final class SimpleSide implements Side {
   @Override
   public Side inverse() {
     return new SimpleSide(Arrays.stream(points)
-                              .map(point -> new Point(point.x, -point.y))
-                              .collect(Collectors.toList()));
+        .map(point -> new Point(point.x, -point.y))
+        .collect(Collectors.toList()));
   }
 }
