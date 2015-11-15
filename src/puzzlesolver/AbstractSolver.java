@@ -21,8 +21,13 @@ public abstract class AbstractSolver implements Solver {
       }
       unplacedPieces.add(piece);
     }
+    PieceComparator northComp = new PieceComparator(Direction.NORTH);
     for (int i = 0; i < unplacedPieces.size(); i++) {
       System.out.println(unplacedPieces.get(Direction.NORTH, i).getSide(Direction.NORTH));
+      if (i < unplacedPieces.size() - 1) {
+        System.out.println(northComp.compare(unplacedPieces.get(Direction.NORTH, i),
+                                             unplacedPieces.get(Direction.NORTH, i + 1)));
+      }
     }
 
     width = getWidth(edges + 4, pieces.length);
@@ -55,7 +60,7 @@ public abstract class AbstractSolver implements Solver {
     final double error = Math.abs(width - roundedWidth);
     if (error > 0.1D) {
       throw new IllegalArgumentException(String.format("Error is %f for perimeter %d and area %d",
-          error, perimeter, area));
+                                                       error, perimeter, area));
     }
     return roundedWidth;
   }
@@ -72,7 +77,7 @@ public abstract class AbstractSolver implements Solver {
   private int getHeight(int width, int area) {
     if (area % width != 0) {
       throw new IllegalArgumentException(String.format("Area (%d) is not divisible by width (%d)",
-          area, width));
+                                                       area, width));
     }
     return area / width;
   }
