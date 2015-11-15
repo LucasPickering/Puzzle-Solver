@@ -5,16 +5,12 @@ import com.sun.istack.internal.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import puzzlesolver.Constants;
 import puzzlesolver.Piece;
 import puzzlesolver.PieceComparator;
 import puzzlesolver.PieceList;
-import puzzlesolver.Side;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
 
@@ -73,8 +69,8 @@ public final class SimplePieceList implements PieceList {
   /**
    * Constructs a new {@code SimplePieceList} from the given array of 4 lists of pieces.
    *
-   * @param pieceLists the lists to construct this list from; this array should satisfy all
-   *                   invariants for {@code this.pieceLists}
+   * @param pieceLists the lists to construct this list from; this array should satisfy all invariants
+   *                   for {@code this.pieceLists}
    */
   private SimplePieceList(@NotNull ArrayList<Piece>[] pieceLists) {
     Objects.requireNonNull(pieceLists);
@@ -84,7 +80,7 @@ public final class SimplePieceList implements PieceList {
   @Override
   public void add(Piece p) {
     for (int i = 0; i < pieceLists.length; i++) {
-      final int destination = Collections.binarySearch(pieceLists[i], p, comparators[i]);
+      final int destination = binarySearch(Direction.values()[i], p);
       pieceLists[i].add(destination < 0 ? -(destination + 1) : destination, p);
     }
   }
@@ -154,16 +150,18 @@ public final class SimplePieceList implements PieceList {
   private int expSearch(Direction dir, Piece p, int index, boolean left) {
     for (int i = 0; true; i++) {
       // The index of the next element to check; grows exponentially
-      int nextIndex = index + (int) (Math.pow(2, i) + 0.5d) * (left ? -1 : 1);
+      int nextIndex = index + (1 << i) * (left ? -1 : 1);
       final boolean oob = left ? nextIndex < 0 : nextIndex >= size();
 
+      int cmp = compare(dir, nextIndex, p);
+
       // If the nextIndex is out of bounds or the element at that index doesn't match p
-      if (oob || compare(dir, nextIndex, p) != 0) {
+      if (oob || cmp != 0) {
         // If this is the first iteration in the loop (nextIndex == index - 1), stop
         if (i == 0) {
           return index; // Return this index
         }
-        i = 0; // Reset i to reset the exponentiation
+        i = -1; // Reset i to reset the exponentiation (it gets incremented to after this iteration)
       } else { // If we should keep exponentially looking
         index = nextIndex; // Set current index to next and let it loop again
       }
