@@ -112,11 +112,12 @@ public final class SimpleSide implements Side {
   }
 
   /**
-   * Compares this {@code SimpleSide} to the given {@code other} {@code SimpleSide}
+   * Checks fit compatibility between this {@link SimpleSide} to the given {@param other} {@link
+   * SimpleSide}.
    *
    * @param other the {@link Side} to compare this side to.
    * @return 0 if they are equivalent.
-   * @throws NullPointerException if the {@code other} {@link Side} is {@code null}.
+   * @throws NullPointerException if the {@param other} {@link Side} is {@code null}.
    * @throws ClassCastException   if the {@link Side} given is not a {@link SimpleSide}.
    */
   @Override
@@ -129,8 +130,9 @@ public final class SimpleSide implements Side {
 
     SimpleSide simpleOther = (SimpleSide) other;
 
-    if (!getSideType().equals(other.getSideType())) {
-      return getSideType().compareTo(other.getSideType());
+    int compatibility = getSideType().compareTo(simpleOther.getSideType());
+    if (compatibility != 0) {
+      return compatibility;
     }
 
     int compareResult = Double.compare(getCornerDistance(), other.getCornerDistance());
@@ -138,7 +140,7 @@ public final class SimpleSide implements Side {
       return compareResult;
     }
 
-    Point[] otherPoints = simpleOther.getPoints();
+    Point[] otherPoints = simpleOther.inverse().getPoints();
 
     Objects.requireNonNull(points);
     Objects.requireNonNull(otherPoints);
@@ -187,7 +189,7 @@ public final class SimpleSide implements Side {
   }
 
   @Override
-  public Side inverse() {
+  public SimpleSide inverse() {
     return new SimpleSide(Arrays.stream(points)
                               .map(point -> new Point(point.x, -point.y))
                               .collect(Collectors.toList()));
