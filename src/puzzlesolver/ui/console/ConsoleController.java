@@ -8,12 +8,12 @@ import puzzlesolver.Solver;
 import puzzlesolver.simple.SimpleGenerator;
 import puzzlesolver.simple.SimpleSolver;
 
-public class ConsoleMain {
+public class ConsoleController {
 
   public static void main(String[] args) {
-    ConsoleMain consoleMain = new ConsoleMain();
+    ConsoleController consoleController = new ConsoleController();
       try {
-        consoleMain.start(System.out);
+        consoleController.start(System.out);
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -29,12 +29,12 @@ public class ConsoleMain {
    */
   private boolean requireInputPerStep;
 
-  public ConsoleMain(long timeInterval, boolean requireInputPerStep) {
+  public ConsoleController(long timeInterval, boolean requireInputPerStep) {
     this.timeInterval = timeInterval;
     this.requireInputPerStep = requireInputPerStep;
   }
 
-  public ConsoleMain() {
+  public ConsoleController() {
     requireInputPerStep = true;
   }
 
