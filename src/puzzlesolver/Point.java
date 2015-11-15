@@ -39,6 +39,11 @@ public class Point implements Comparable<Point>, Cloneable {
   }
 
   @Override
+  public String toString() {
+    return "(" + x + ", " + y + ")";
+  }
+
+  @Override
   public int compareTo(Point p) {
     return Double.compare(y, p.y);
   }

@@ -20,6 +20,11 @@ public class SimpleSideTest {
                            new Point(5, 1),
                            new Point(10, 0));
 
+  @Test
+  public void testToString() throws Exception {
+    System.out.println(s2);
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void testConstructor() throws Exception {
     Side s1 = new SimpleSide();

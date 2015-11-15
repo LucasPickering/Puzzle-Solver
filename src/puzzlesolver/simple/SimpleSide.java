@@ -100,6 +100,17 @@ public final class SimpleSide implements Side {
     }
   }
 
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder("SimpleSide{");
+    if (sideType != SideType.FLAT) {
+      sb.append("centerPoint=").append(points[1]).append(", ");
+    }
+    sb.append("sideType=").append(getSideType());
+    sb.append('}');
+    return sb.toString();
+  }
+
   /**
    * Compares this {@code SimpleSide} to the given {@code other} {@code SimpleSide}
    *
