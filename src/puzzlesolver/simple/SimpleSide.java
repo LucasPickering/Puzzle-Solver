@@ -122,13 +122,15 @@ public final class SimpleSide implements Side {
       return getSideType().compareTo(other.getSideType());
     }
 
-    if (getCornerDistance() == other.getCornerDistance()) {
+    if (getCornerDistance() != other.getCornerDistance()) {
       return Double.compare(getCornerDistance(), other.getCornerDistance());
     }
 
     Point[] otherPoints = simpleOther.getPoints();
 
-    assert points != null && otherPoints != null;
+    Objects.requireNonNull(points);
+    Objects.requireNonNull(otherPoints);
+
     if (points.length != otherPoints.length) {
       return Integer.compare(points.length, otherPoints.length);
     }
