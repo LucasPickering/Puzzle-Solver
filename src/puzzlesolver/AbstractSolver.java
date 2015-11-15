@@ -1,5 +1,6 @@
 package puzzlesolver;
 
+import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
 import puzzlesolver.simple.SimplePieceList;
 
@@ -19,6 +20,9 @@ public abstract class AbstractSolver implements Solver {
         edges++;
       }
       unplacedPieces.add(piece);
+    }
+    for (int i = 0; i < unplacedPieces.size(); i++) {
+      System.out.println(unplacedPieces.get(Direction.NORTH, i));
     }
 
     width = getWidth(edges + 4, pieces.length);
