@@ -22,7 +22,7 @@ public abstract class AbstractSolver implements Solver {
       unplacedPieces.add(piece);
     }
     for (int i = 0; i < unplacedPieces.size(); i++) {
-      System.out.println(unplacedPieces.get(Direction.NORTH, i));
+      System.out.println(unplacedPieces.get(Direction.NORTH, i).getSide(Direction.NORTH));
     }
 
     width = getWidth(edges + 4, pieces.length);
