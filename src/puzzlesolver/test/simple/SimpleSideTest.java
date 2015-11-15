@@ -23,6 +23,8 @@ public class SimpleSideTest {
   @Test
   public void testToString() throws Exception {
     System.out.println(s2);
+    System.out.println(s3);
+    System.out.println(s4);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -50,5 +52,6 @@ public class SimpleSideTest {
   public void testGetSideType() throws Exception {
     assertEquals(SideType.OUT, s2.getSideType());
     assertEquals(SideType.FLAT, s3.getSideType());
+    assertEquals(SideType.OUT, s4.getSideType());
   }
 }
