@@ -9,7 +9,9 @@ import javafx.scene.control.TextField;
 import puzzlesolver.Constants;
 import puzzlesolver.Generator;
 import puzzlesolver.Piece;
+import puzzlesolver.Solver;
 import puzzlesolver.simple.SimpleGenerator;
+import puzzlesolver.simple.SimpleSolver;
 
 public class Controller {
 
@@ -17,22 +19,27 @@ public class Controller {
   public Button solveButton;
   public TextField heightField;
   public TextField widthField;
-  public ObservableList<String> renderTypes =
-      FXCollections.observableArrayList(Constants.UI.TEXT,
+  public final ObservableList<String> renderTypes =
+      FXCollections.observableArrayList(Constants.UI.TEXT_SIMPLE,
+                                        Constants.UI.TEXT_FANCY,
                                         Constants.UI.VISUAL,
                                         Constants.UI.VISUAL_FANCY);
-  public ChoiceBox<String> renderTypeChoiceBox = new ChoiceBox<>(renderTypes);
+  public final ChoiceBox<String> renderTypeChoiceBox = new ChoiceBox<>(renderTypes);
 
   public void setupChoiceBox() {
+    System.out.println(renderTypeChoiceBox.getItems());
+    System.out.println(renderTypeChoiceBox.getSelectionModel().selectedItemProperty().getValue());
     renderTypeChoiceBox.getSelectionModel()
         .selectedItemProperty()
         .addListener(this::changeRenderMode);
-    System.out.print(renderTypeChoiceBox.getItems());
-    renderTypeChoiceBox.getSelectionModel().select(Constants.UI.TEXT);
+    System.out.println(renderTypeChoiceBox.getItems());
+    System.out.println(renderTypeChoiceBox.getSelectionModel().selectedItemProperty().getValue());
+    renderTypeChoiceBox.show();
+    System.out.println(renderTypeChoiceBox.getItems());
     System.out.println(renderTypeChoiceBox.getSelectionModel().selectedItemProperty().getValue());
   }
 
-  private Piece[][] puzzle;
+  private Piece[] puzzle;
 
   public void generate() {
     generateButton.setDisable(true);
@@ -41,28 +48,33 @@ public class Controller {
     Generator generator = new SimpleGenerator();
 
     try {
-      generator.generate(Integer.parseInt(widthField.getText()),
-      Integer.parseInt(heightField.getText()));
+      puzzle = generator.generate(Integer.parseInt(widthField.getText()),
+                                  Integer.parseInt(heightField.getText()));
     } catch (NumberFormatException e) {
       // TODO some kind of pop-up box or notifier for bad data
-      return;
+    } finally {
+      generateButton.setDisable(false);
+      generateButton.setText("Regenerate");
+      solveButton.setDisable(false);
     }
-
-    generateButton.setDisable(false);
-    generateButton.setText("Regenerate");
-    solveButton.setDisable(false);
   }
 
   public void solve() {
     solveButton.setDisable(true);
     solveButton.setText("Solving...");
+    Solver solver = new SimpleSolver();
+    solver.init(puzzle);
+
     // TODO
   }
 
   public void changeRenderMode(ObservableValue ov, String oldValue, String newValue) {
     if (!newValue.equals(oldValue)) {
       switch (newValue) {
-        case Constants.UI.TEXT:
+        case Constants.UI.TEXT_SIMPLE:
+          // TODO
+          break;
+        case Constants.UI.TEXT_FANCY:
           // TODO
           break;
         case Constants.UI.VISUAL:

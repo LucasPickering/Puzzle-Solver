@@ -14,7 +14,9 @@ public final class Constants {
 
   // UI
   public static final class UI {
-    public static final String TEXT = "Text", VISUAL = "Visual", VISUAL_FANCY = "Visual Fancy";
+
+    public static final String TEXT_SIMPLE = "Text", TEXT_FANCY = "Text (Fancy)",
+        VISUAL = "Visual", VISUAL_FANCY = "Visual Fancy";
   }
 
   public static final boolean USE_CONSOLE = true;

@@ -41,7 +41,7 @@ public class ConsoleMain {
   public void start(PrintStream out) throws Exception {
     Generator generator = new SimpleGenerator();
     Solver solver = new SimpleSolver();
-    TextView textView = new TextView(solver);
+    TextView textView = new SimpleTextView(solver);
     Scanner in = new Scanner(System.in);
     int width, height;
 
