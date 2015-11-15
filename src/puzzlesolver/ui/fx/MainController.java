@@ -35,6 +35,7 @@ public class MainController extends Application {
     primaryStage.show();
 
     // Set up renderTypeChoiceBox
+    renderTypeChoiceBox = new ChoiceBox<>(renderTypes);
     renderTypeChoiceBox.getSelectionModel()
         .selectedItemProperty()
         .addListener(this::changeRenderMode);
@@ -48,12 +49,12 @@ public class MainController extends Application {
   public Button solveButton;
   public TextField heightField;
   public TextField widthField;
-  public final ObservableList<String> renderTypes =
+  public ObservableList<String> renderTypes =
       FXCollections.observableArrayList(Constants.UI.TEXT_SIMPLE,
                                         Constants.UI.TEXT_FANCY,
                                         Constants.UI.VISUAL,
                                         Constants.UI.VISUAL_FANCY);
-  public final ChoiceBox<String> renderTypeChoiceBox = new ChoiceBox<>(renderTypes);
+  public ChoiceBox<String> renderTypeChoiceBox;
 
   private Piece[] puzzle;
 
