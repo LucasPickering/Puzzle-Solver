@@ -177,7 +177,7 @@ public final class SimpleSide implements Side {
 
   @Override
   public SideType getSideType() {
-    return (sideType == null) ? findSideType() : sideType;
+    return (sideType == null) ? sideType = findSideType() : sideType;
   }
 
   @Override
