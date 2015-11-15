@@ -18,7 +18,8 @@ public final class SimpleSolver extends AbstractSolver {
     if (x == 0 && y == 0) {
       for (int i = 0; i < unplacedPieces.size(); i++) {
         Piece piece = unplacedPieces.get(Direction.NORTH, i);
-        if (piece.definitelyType(PieceType.CORNER)) {
+        if (piece.definitelyType(PieceType.CORNER) && piece.getSide(Direction.NORTH).isFlat() &&
+            piece.getSide(Direction.WEST).isFlat()) {
           solution[x][y] = piece;
           unplacedPieces.remove(piece);
           break;
