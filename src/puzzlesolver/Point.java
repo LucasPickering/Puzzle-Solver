@@ -45,6 +45,9 @@ public class Point implements Comparable<Point>, Cloneable {
 
   @Override
   public int compareTo(Point p) {
-    return Double.compare(y, p.y);
+    if (y != p.y) {
+      return Double.compare(y, p.y);
+    }
+    return Double.compare(x, p.x);
   }
 }

@@ -1,11 +1,16 @@
 package puzzlesolver.ui.fx;
 
+import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import puzzlesolver.Constants;
 import puzzlesolver.Generator;
 import puzzlesolver.Piece;
@@ -13,31 +18,43 @@ import puzzlesolver.Solver;
 import puzzlesolver.simple.SimpleGenerator;
 import puzzlesolver.simple.SimpleSolver;
 
-public class Controller {
+public class MainController extends Application {
+
+  public static void main(String[] args) {
+    launch(args);
+  }
+
+  @Override
+  public void start(Stage primaryStage) throws Exception {
+    Parent root = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
+    this.primaryStage = primaryStage;
+    primaryStage.setTitle("Puzzle-O-Matic!");
+    primaryStage.setResizable(false);
+    scene = new Scene(root, root.prefWidth(400), root.prefHeight(300));
+    primaryStage.setScene(scene);
+    primaryStage.show();
+
+    // Set up renderTypeChoiceBox
+    renderTypeChoiceBox = new ChoiceBox<>(renderTypes);
+    renderTypeChoiceBox.getSelectionModel()
+        .selectedItemProperty()
+        .addListener(this::changeRenderMode);
+    renderTypeChoiceBox.show();
+  }
+
+  private Stage primaryStage;
+  private Scene scene;
 
   public Button generateButton;
   public Button solveButton;
   public TextField heightField;
   public TextField widthField;
-  public final ObservableList<String> renderTypes =
+  public ObservableList<String> renderTypes =
       FXCollections.observableArrayList(Constants.UI.TEXT_SIMPLE,
                                         Constants.UI.TEXT_FANCY,
                                         Constants.UI.VISUAL,
                                         Constants.UI.VISUAL_FANCY);
-  public final ChoiceBox<String> renderTypeChoiceBox = new ChoiceBox<>(renderTypes);
-
-  public void setupChoiceBox() {
-    System.out.println(renderTypeChoiceBox.getItems());
-    System.out.println(renderTypeChoiceBox.getSelectionModel().selectedItemProperty().getValue());
-    renderTypeChoiceBox.getSelectionModel()
-        .selectedItemProperty()
-        .addListener(this::changeRenderMode);
-    System.out.println(renderTypeChoiceBox.getItems());
-    System.out.println(renderTypeChoiceBox.getSelectionModel().selectedItemProperty().getValue());
-    renderTypeChoiceBox.show();
-    System.out.println(renderTypeChoiceBox.getItems());
-    System.out.println(renderTypeChoiceBox.getSelectionModel().selectedItemProperty().getValue());
-  }
+  public ChoiceBox<String> renderTypeChoiceBox;
 
   private Piece[] puzzle;
 
