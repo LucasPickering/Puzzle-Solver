@@ -130,7 +130,7 @@ public final class SimpleSide implements Side {
 
     SimpleSide simpleOther = (SimpleSide) other;
 
-    int compatibility = getSideType().compareTo(simpleOther.getSideType());
+    int compatibility = getSideType().compatible(simpleOther.getSideType());
     if (compatibility != 0) {
       return compatibility;
     }

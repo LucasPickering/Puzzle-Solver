@@ -19,12 +19,14 @@ public class SimpleSideTest {
   Side s4 = new SimpleSide(new Point(0, 0),
                            new Point(5, 1),
                            new Point(10, 0));
+  Side s4_o = s4.inverse();
 
   @Test
   public void testToString() throws Exception {
     System.out.println(s2);
     System.out.println(s3);
     System.out.println(s4);
+    System.out.println(s4_o);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -34,12 +36,16 @@ public class SimpleSideTest {
 
   @Test
   public void testCompareTo() throws Exception {
-    assertEquals(0, s2.compareTo(s2));
-    assertEquals(0, s3.compareTo(s3));
+    assertNotEquals(0, s2.compareTo(s2));
+    assertNotEquals(0, s3.compareTo(s3));
     assertNotEquals(0, s2.compareTo(s3));
     assertNotEquals(0, s3.compareTo(s2));
-    assertEquals(0, s2.compareTo(s4));
-    assertEquals(0, s4.compareTo(s2));
+    assertNotEquals(0, s2.compareTo(s4));
+    assertNotEquals(0, s4.compareTo(s2));
+    assertEquals(0, s4.compareTo(s4_o));
+    assertEquals(0, s4_o.compareTo(s4));
+    assertEquals(0, s2.compareTo(s4_o));
+    assertEquals(0, s4_o.compareTo(s2));
   }
 
   @Test
@@ -54,4 +60,5 @@ public class SimpleSideTest {
     assertEquals(SideType.FLAT, s3.getSideType());
     assertEquals(SideType.OUT, s4.getSideType());
   }
+
 }
