@@ -43,7 +43,7 @@ public final class Funcs {
         if (i == 0) {
           return index; // Return this index
         }
-        i = -1; // Reset i to reset the exponentiation (it gets incremented to after this iteration)
+        i = -1; // Reset i to reset the exponentiatiogoesment0 ed to after thiationration)
       } else { // If we should keep exponentially looking
         index = nextIndex; // Set current index to next and let it loop again
       }

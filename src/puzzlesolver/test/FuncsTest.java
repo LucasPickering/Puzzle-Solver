@@ -18,6 +18,7 @@ public class FuncsTest {
   private List<Integer> intList2;
   private List<Integer> intList3;
   private List<Integer> intList4;
+  private List<Integer> intList5;
 
   @Before
   public void setUp() {
@@ -25,6 +26,7 @@ public class FuncsTest {
     intList2 = Arrays.asList(1, 5);
     intList3 = Arrays.asList(0, 1, 2, 3);
     intList4 = Arrays.asList(0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3);
+    intList5 = Arrays.asList(0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 4, 5);
   }
 
   @Test
@@ -79,5 +81,13 @@ public class FuncsTest {
 
     assertEquals(9, Funcs.expSearch(intList4, Comparator.naturalOrder(), 10, true));
     assertEquals(11, Funcs.expSearch(intList4, Comparator.naturalOrder(), 10, false));
+  }
+
+  @Test
+  public void testExpSearch5() {
+    for (int i = 2; i <= 13; i++) {
+      assertEquals(2, Funcs.expSearch(intList5, Comparator.naturalOrder(), i, true));
+      assertEquals(13, Funcs.expSearch(intList5, Comparator.naturalOrder(), i, false));
+    }
   }
 }
