@@ -70,7 +70,7 @@ public final class SimpleSide implements Side {
    * Calculate the {@link SideType} based on the points making up this {@link SimpleSide}.
    *
    * Should only be called by {@link #getSideType()}. All other functions should call {@link
-   * this.getSideType()}.
+   * this#getSideType()}.
    *
    * Assuming {@link #sideType} is currently {@code null}, although nothing bad will happen if it's
    * not.
