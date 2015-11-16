@@ -21,6 +21,8 @@ public abstract class AbstractSolver implements Solver {
       }
       unplacedPieces.add(piece);
     }
+
+    // TODO: This is debug code. Remove it.
     PieceComparator northComp = new PieceComparator(Direction.NORTH);
     for (int i = 0; i < unplacedPieces.size(); i++) {
       System.out.println(unplacedPieces.get(Direction.NORTH, i).getSide(Direction.NORTH));
