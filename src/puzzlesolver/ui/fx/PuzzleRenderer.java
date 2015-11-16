@@ -76,7 +76,7 @@ public class PuzzleRenderer {
           yPoints = new double[points.length];
 
           for (int i = 0; i < points.length; i++) {
-            Point globalPoint = globalPointFromLocalPoint(points[i], arrayX, arrayY);
+            Point globalPoint = globalPointFromLocalPoint(points[i], d, arrayX, arrayY);
             xPoints[i] = globalPoint.x;
             yPoints[i] = globalPoint.y;
           }
@@ -94,8 +94,22 @@ public class PuzzleRenderer {
 
   }
 
-  public Point globalPointFromLocalPoint(Point localPoint, int pieceX, int pieceY) {
+  public Point globalPointFromLocalPoint(Point localPoint, Direction orientation,
+                                         int pieceX, int pieceY) {
+    int globalX = Constants.UI.VISUAL_PIECE_PADDING + pieceX * Constants.UI.VISUAL_PIECE_WIDTH;
+    int globalY = Constants.UI.VISUAL_PIECE_PADDING + pieceY * Constants.UI.VISUAL_PIECE_HEIGHT;
     // TODO
+
+    switch (orientation) {
+      case NORTH:
+        break;
+      case EAST:
+        break;
+      case SOUTH:
+        break;
+      case WEST:
+        break;
+    }
     return new Point(0d, 0d);
   }
 }
