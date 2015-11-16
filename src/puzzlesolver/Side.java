@@ -55,7 +55,7 @@ public interface Side extends Comparable<Side>, Cloneable {
   }
 
   /**
-   * Checks if the * {@link Side} is compatible with (can fit with) the given {@link Side} {@param
+   * Checks if the {@link Side} is compatible with (can fit with) the given {@link Side} {@param
    * other}.
    *
    * @param other {@link Side} to check compatibility with

@@ -23,10 +23,24 @@ public class PieceComparator implements Comparator<Piece> {
   }
 
   @Override
-  public int compare(Piece o1, Piece o2) {
-    if (o1 == null || o2 == null) {
+  public int compare(Piece p1, Piece p2) {
+    if (p1 == null || p2 == null) {
       throw new NullPointerException("This comparator does not accept null parameters");
     }
-    return o1.getSide(dir).compareTo(o2.getSide(dir));
+    return p1.getSide(dir).compareTo(p2.getSide(dir));
+  }
+
+  /**
+   * Checks if {@param p1} is compatible with (can fit with) the {@param p2}.
+   *
+   * @param p1 the first {@link Side}
+   * @param p2 the second {@link Side}
+   * @return {@link #compare}-esque number designating compatibility (0 = compatible).
+   */
+  public int compatibility(Piece p1, Piece p2) {
+    if (p1 == null || p2 == null) {
+      throw new NullPointerException("This comparator does not accept null parameters");
+    }
+    return p1.getSide(dir).compatibilityWith(p2.getSide(dir));
   }
 }
