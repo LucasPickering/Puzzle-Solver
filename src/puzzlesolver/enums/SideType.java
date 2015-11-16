@@ -20,4 +20,5 @@ public enum SideType {
     }
     return (this.equals(s)) ? 1 : 0;
   }
+
 }

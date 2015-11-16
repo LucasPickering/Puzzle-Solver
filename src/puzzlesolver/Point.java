@@ -43,7 +43,7 @@ public class Point implements Comparable<Point>, Cloneable {
 
   @Override
   public String toString() {
-    return "(" + x + ", " + y + ")";
+    return String.format("(%f, %f)", x, y);
   }
 
   @Override
@@ -66,6 +66,10 @@ public class Point implements Comparable<Point>, Cloneable {
 
   @Override
   public int compareTo(Point p) {
+    if (this == p) {
+      return 0;
+    }
+
     int compareResult = Double.compare(y, p.y);
     if (compareResult != 0) {
       return compareResult;

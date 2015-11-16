@@ -111,6 +111,12 @@ public final class SimpleSide implements Side {
     return sb.toString();
   }
 
+  public int compatibilityWith(@NotNull Side other) {
+    return (getSideType() == SideType.FLAT || other.getSideType() == SideType.FLAT)
+           ? getSideType().compareTo(other.getSideType())
+           : compareTo(other.inverse());
+  }
+
   /**
    * Checks fit compatibility between this {@link SimpleSide} to the given {@param other} {@link
    * SimpleSide}.
@@ -130,9 +136,9 @@ public final class SimpleSide implements Side {
 
     SimpleSide simpleOther = (SimpleSide) other;
 
-    int compatibility = getSideType().compatible(simpleOther.getSideType());
-    if (compatibility != 0) {
-      return compatibility;
+    int sideTypeComparison = getSideType().compareTo(simpleOther.getSideType());
+    if (sideTypeComparison != 0) {
+      return sideTypeComparison;
     }
 
     int compareResult = Double.compare(getCornerDistance(), other.getCornerDistance());
@@ -140,7 +146,7 @@ public final class SimpleSide implements Side {
       return compareResult;
     }
 
-    Point[] otherPoints = simpleOther.inverse().getPoints();
+    Point[] otherPoints = simpleOther.getPoints();
 
     Objects.requireNonNull(points);
     Objects.requireNonNull(otherPoints);
@@ -149,9 +155,10 @@ public final class SimpleSide implements Side {
       return Integer.compare(points.length, otherPoints.length);
     }
 
-    for (int point = 0; point < points.length; point++) {
-      if (!points[point].equals(otherPoints[point])) {
-        return points[point].compareTo(otherPoints[point]);
+    for (int i = 0; i < points.length; i++) {
+      int pointComparison = points[i].compareTo(otherPoints[i]);
+      if (pointComparison != 0) {
+        return pointComparison;
       }
     }
 
@@ -193,5 +200,14 @@ public final class SimpleSide implements Side {
     return new SimpleSide(Arrays.stream(points)
                               .map(point -> new Point(point.x, -point.y))
                               .collect(Collectors.toList()));
+  }
+
+  /**
+   * Get the number of points on the edge.
+   *
+   * @return number of points on the edge
+   */
+  public int getPointCount() {
+    return points.length;
   }
 }
