@@ -2,5 +2,5 @@
 
 
 <?import javafx.scene.canvas.Canvas?>
-<Canvas fx:id="canvas" height="200.0" width="200.0" xmlns="http://javafx.com/javafx/8"
-        xmlns:fx="http://javafx.com/fxml/1" fx:controller="puzzlesolver.ui.fx.PuzzleController"/>
+<Canvas fx:id="puzzleCanvas" height="200.0" width="200.0" xmlns="http://javafx.com/javafx/8"
+        xmlns:fx="http://javafx.com/fxml/1" fx:controller="puzzlesolver.ui.fx.MainController"/>

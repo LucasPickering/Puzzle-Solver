@@ -1,14 +1,22 @@
 package puzzlesolver.ui.fx;
 
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import puzzlesolver.Constants;
@@ -20,6 +28,24 @@ import puzzlesolver.simple.SimpleSolver;
 
 public class MainController extends Application {
 
+  public Canvas puzzleCanvas;
+  public Button generateButton;
+  public Button solveButton;
+  public Button showButton = new Button(Constants.UI.BUTTON_SOLVE);
+  public TextField heightField;
+  public TextField widthField;
+  public ObservableList<String> renderTypes =
+      FXCollections.observableArrayList(Constants.UI.TEXT_SIMPLE,
+                                        Constants.UI.TEXT_FANCY,
+                                        Constants.UI.VISUAL,
+                                        Constants.UI.VISUAL_FANCY);
+  public ChoiceBox<String> renderTypeChoiceBox;
+  public Slider rateSlider = new Slider();
+  Timer timer = null;
+  private Solver solver = new SimpleSolver();
+  private PuzzleRenderer puzzleRenderer = new PuzzleRenderer(solver, puzzleCanvas);
+  private Piece[] puzzle;
+
   public static void main(String[] args) {
     launch(args);
   }
@@ -27,10 +53,9 @@ public class MainController extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
-    this.primaryStage = primaryStage;
     primaryStage.setTitle("Puzzle-O-Matic!");
     primaryStage.setResizable(false);
-    scene = new Scene(root, root.prefWidth(400), root.prefHeight(300));
+    Scene scene = new Scene(root, root.prefWidth(400), root.prefHeight(300));
     primaryStage.setScene(scene);
     primaryStage.show();
 
@@ -40,25 +65,31 @@ public class MainController extends Application {
         .selectedItemProperty()
         .addListener(this::changeRenderMode);
     renderTypeChoiceBox.show();
+
+    showButton.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent event) {
+        Parent root;
+        try {
+          root = FXMLLoader.load(getClass().getResource("puzzle.fxml"));
+          Stage stage = new Stage();
+          stage.setTitle("Puzzle!");
+          stage.setScene(new Scene(root, puzzleRenderer.getRequiredWidth(),
+                                   puzzleRenderer.getRequiredHeight()));
+          stage.show();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    });
+
+    rateSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+      if (!newValue.equals(oldValue) && timer != null) {
+        solve();
+      }
+    });
   }
 
-  private Stage primaryStage;
-  private Scene scene;
-
-  public Button generateButton;
-  public Button solveButton;
-  public TextField heightField;
-  public TextField widthField;
-  public ObservableList<String> renderTypes =
-      FXCollections.observableArrayList(Constants.UI.TEXT_SIMPLE,
-                                        Constants.UI.TEXT_FANCY,
-                                        Constants.UI.VISUAL,
-                                        Constants.UI.VISUAL_FANCY);
-  public ChoiceBox<String> renderTypeChoiceBox;
-
-  private Piece[] puzzle;
-
-  public void generate() {
+  public void generate(ActionEvent actionEvent) {
     generateButton.setDisable(true);
     generateButton.setText("Generating...");
 
@@ -77,30 +108,31 @@ public class MainController extends Application {
   }
 
   public void solve() {
-    solveButton.setDisable(true);
-    solveButton.setText("Solving...");
-    Solver solver = new SimpleSolver();
-    solver.init(puzzle);
+    if (timer != null) {
+      timer.cancel();
+    }
+    switch (solveButton.getText()) {
+      case Constants.UI.BUTTON_SOLVE:
+        solveButton.setText(Constants.UI.BUTTON_CANCEL);
+        solver.init(puzzle);
 
-    // TODO
+        timer = new Timer("solver", true);
+        timer.scheduleAtFixedRate(new TimerTask() {
+          @Override
+          public void run() {
+            puzzleRenderer.draw();
+            solver.nextStep();
+          }
+        }, 0, (long) rateSlider.getValue());
+        break;
+      case Constants.UI.BUTTON_CANCEL:
+        solveButton.setText(Constants.UI.BUTTON_SOLVE);
+    }
   }
 
   public void changeRenderMode(ObservableValue ov, String oldValue, String newValue) {
     if (!newValue.equals(oldValue)) {
-      switch (newValue) {
-        case Constants.UI.TEXT_SIMPLE:
-          // TODO
-          break;
-        case Constants.UI.TEXT_FANCY:
-          // TODO
-          break;
-        case Constants.UI.VISUAL:
-          // TODO
-          break;
-        case Constants.UI.VISUAL_FANCY:
-          // TODO
-          break;
-      }
+      puzzleRenderer.setRenderMethod(newValue);
     }
   }
 }
