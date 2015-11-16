@@ -153,10 +153,8 @@ public final class SimplePieceList implements PieceList {
       int nextIndex = index + (1 << i) * (left ? -1 : 1);
       final boolean oob = left ? nextIndex < 0 : nextIndex >= size();
 
-      int cmp = compare(dir, nextIndex, p);
-
       // If the nextIndex is out of bounds or the element at that index doesn't match p
-      if (oob || cmp != 0) {
+      if (oob || compare(dir, nextIndex, p) != 0) {
         // If this is the first iteration in the loop (nextIndex == index - 1), stop
         if (i == 0) {
           return index; // Return this index
@@ -186,15 +184,17 @@ public final class SimplePieceList implements PieceList {
     Objects.requireNonNull(p);
     int middleIndex;
     for (Direction dir : Direction.values()) {
-      // Find any piece where two sides compare to 0 (somewhat equal)
-      middleIndex = binarySearch(dir, p, p.getPieceTypes());
-      if (middleIndex >= 0) { // If that piece was found
-        final int leftIndex = expSearch(dir, p, middleIndex, true);
-        final int rightIndex = expSearch(dir, p, middleIndex, false);
-        for (int i = leftIndex; i <= rightIndex; i++) {
-          final Piece p2 = pieceLists[dir.ordinal()].get(i);
-          if (Arrays.binarySearch(p.getPieceTypes(), p2.getPieceType()) >= 0 && p.equals(p2)) {
-            return p2;
+      if (!p.sideNull(dir)) {
+        // Find any piece where two sides compare to 0 (somewhat equal)
+        middleIndex = binarySearch(dir, p, p.getPieceTypes());
+        if (middleIndex >= 0) { // If that piece was found
+          final int leftIndex = expSearch(dir, p, middleIndex, true);
+          final int rightIndex = expSearch(dir, p, middleIndex, false);
+          for (int i = leftIndex; i <= rightIndex; i++) {
+            final Piece p2 = pieceLists[dir.ordinal()].get(i);
+            if (Arrays.binarySearch(p.getPieceTypes(), p2.getPieceType()) >= 0 && p.equals(p2)) {
+              return p2;
+            }
           }
         }
       }
