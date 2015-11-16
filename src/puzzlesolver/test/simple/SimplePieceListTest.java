@@ -49,6 +49,18 @@ public class SimplePieceListTest {
   }
 
   @Test
+  public void testClear(){
+    empty.clear();
+    oneByOne.clear();
+    fourByFour.clear();
+    bigList.clear();
+    assertTrue(empty.isEmpty());
+    assertTrue(oneByOne.isEmpty());
+    assertTrue(fourByFour.isEmpty());
+    assertTrue(bigList.isEmpty());
+  }
+
+  @Test
   public void testSorted() {
     for (Direction dir : Direction.values()) {
       for (int i = 0; i < bigList.size() - 1; i++) {
