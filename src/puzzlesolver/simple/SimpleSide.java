@@ -113,9 +113,11 @@ public final class SimpleSide implements Side {
 
   @Override
   public int compatibilityWith(@NotNull Side other) {
-    return (getSideType() == SideType.FLAT || other.getSideType() == SideType.FLAT)
-           ? getSideType().compareTo(other.getSideType())
-           : compareTo(other.inverse());
+    if (getSideType() == SideType.FLAT || other.getSideType() == SideType.FLAT) {
+      return (getSideType() == other.getSideType()) ? -1 :
+             getSideType().compareTo(other.getSideType());
+    }
+    return compareTo(other.inverse());
   }
 
   /**
