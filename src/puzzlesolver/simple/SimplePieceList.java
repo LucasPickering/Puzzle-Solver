@@ -11,7 +11,6 @@ import puzzlesolver.Constants;
 import puzzlesolver.Funcs;
 import puzzlesolver.Piece;
 import puzzlesolver.PieceComparator;
-import puzzlesolver.PieceCompatibilitor;
 import puzzlesolver.PieceList;
 import puzzlesolver.enums.Direction;
 
@@ -34,7 +33,6 @@ public final class SimplePieceList implements PieceList {
 
   private final ArrayList<Piece>[] pieceLists;
   private final PieceComparator[] comparators = new PieceComparator[Constants.NUM_SIDES];
-  private final PieceCompatibilitor[] compatibilitors = new PieceCompatibilitor[Constants.NUM_SIDES];
 
   /**
    * Constructs a new {@code SimplePieceList} with an initial capacity of ten.
@@ -55,7 +53,6 @@ public final class SimplePieceList implements PieceList {
     for (int i = 0; i < pieceLists.length; i++) {
       pieceLists[i] = new ArrayList<>(capacity);
       comparators[i] = new PieceComparator(Direction.values()[i]);
-      compatibilitors[i] = new PieceCompatibilitor(Direction.values()[i]);
     }
   }
 

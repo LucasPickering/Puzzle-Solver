@@ -81,20 +81,6 @@ public class SimpleSideTest {
   }
 
   @Test
-  public void testCompatibilityWith() throws Exception {
-    assertNotEquals(0, s2.compatibilityWith(s2));
-    assertNotEquals(0, s3.compatibilityWith(s3));
-    assertNotEquals(0, s2.compatibilityWith(s3));
-    assertNotEquals(0, s3.compatibilityWith(s2));
-    assertNotEquals(0, s2.compatibilityWith(s4));
-    assertNotEquals(0, s4.compatibilityWith(s2));
-    assertEquals(0, s4.compatibilityWith(s4_o));
-    assertEquals(0, s4_o.compatibilityWith(s4));
-    assertEquals(0, s2.compatibilityWith(s4_o));
-    assertEquals(0, s4_o.compatibilityWith(s2));
-  }
-
-  @Test
   public void testGetPointCount() throws Exception {
 
   }
