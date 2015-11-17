@@ -11,9 +11,9 @@ import puzzlesolver.Constants;
 import puzzlesolver.Funcs;
 import puzzlesolver.Piece;
 import puzzlesolver.PieceComparator;
+import puzzlesolver.PieceCompatibilitor;
 import puzzlesolver.PieceList;
 import puzzlesolver.enums.Direction;
-import puzzlesolver.enums.PieceType;
 
 public final class SimplePieceList implements PieceList {
 
@@ -34,6 +34,7 @@ public final class SimplePieceList implements PieceList {
 
   private final ArrayList<Piece>[] pieceLists;
   private final PieceComparator[] comparators = new PieceComparator[Constants.NUM_SIDES];
+  private final PieceCompatibilitor[] compatibilitors = new PieceCompatibilitor[Constants.NUM_SIDES];
 
   /**
    * Constructs a new {@code SimplePieceList} with an initial capacity of ten.
@@ -54,6 +55,7 @@ public final class SimplePieceList implements PieceList {
     for (int i = 0; i < pieceLists.length; i++) {
       pieceLists[i] = new ArrayList<>(capacity);
       comparators[i] = new PieceComparator(Direction.values()[i]);
+      compatibilitors[i] = new PieceCompatibilitor(Direction.values()[i]);
     }
   }
 
@@ -81,7 +83,7 @@ public final class SimplePieceList implements PieceList {
   @Override
   public void add(Piece p) {
     for (int i = 0; i < pieceLists.length; i++) {
-      final int destination = binarySearch(Direction.values()[i], p);
+      final int destination = Collections.binarySearch(pieceLists[i], p, comparators[i]);
       pieceLists[i].add(destination < 0 ? -(destination + 1) : destination, p);
     }
   }
@@ -133,25 +135,23 @@ public final class SimplePieceList implements PieceList {
     return pieceLists[0].size();
   }
 
-  private int binarySearch(Direction dir, Piece p, PieceType... pieceTypes) {
-    return Collections.binarySearch(pieceLists[dir.ordinal()], p, comparators[dir.ordinal()]);
-  }
-
   @Override
   public Piece find(@NotNull Piece p) {
     Objects.requireNonNull(p);
-    int mid;
+    int midIndex;
     for (Direction dir : Direction.values()) {
       if (!p.sideNull(dir)) {
         // Find any piece where two sides compare to 0 (somewhat equal)
-        mid = binarySearch(dir, p, p.getPieceTypes());
-        if (mid >= 0) { // If that piece was found
-          final int dirOrd = dir.ordinal();
-          final int leftIndex = Funcs.expSearch(pieceLists[dirOrd], comparators[dirOrd], mid, true);
-          final int rightIndex = Funcs.expSearch(pieceLists[dirOrd], comparators[dirOrd], mid, false);
+        final int dirOrd = dir.ordinal();
+        midIndex = Collections.binarySearch(pieceLists[dirOrd], p, comparators[dirOrd]);
+        if (midIndex >= 0) { // If that piece was found
+          final int leftIndex = Funcs.expSearch(pieceLists[dirOrd], comparators[dirOrd],
+                                                midIndex, true);
+          final int rightIndex = Funcs.expSearch(pieceLists[dirOrd], comparators[dirOrd],
+                                                 midIndex, false);
           for (int i = leftIndex; i <= rightIndex; i++) {
             final Piece p2 = pieceLists[dirOrd].get(i);
-            if (Arrays.binarySearch(p.getPieceTypes(), p2.getPieceType()) >= 0 && p.equals(p2)) {
+            if (Arrays.binarySearch(p.getPieceTypes(), p2.getPieceType()) >= 0 && p.maybeEquals(p2)) {
               return p2;
             }
           }
