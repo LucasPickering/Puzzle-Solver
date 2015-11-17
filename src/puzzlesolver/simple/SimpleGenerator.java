@@ -43,15 +43,23 @@ public final class SimpleGenerator implements Generator {
       for (int y = 0; y < height; y++) {
         final Piece.Builder builder = new Piece.Builder();
 
+        // Set the west side. If this is the first column, generate a flat side. Otherwise, use the
+        // INVERSE of the EAST side from the piece to the left of this one.
         builder.setSide(x == 0 ? generateSide(true) :
-                        pieces[x - 1][y].getSide(Direction.EAST), Direction.WEST);
+                        pieces[x - 1][y].getSide(Direction.EAST).inverse(), Direction.WEST);
+
+        // Set the east side to a newly-generated side.
         builder.setSide(generateSide(x == width - 1), Direction.EAST);
 
+        // Set the north side. If this is the first row, generate a flat side. Otherwise, use the
+        // INVERSE of the SOUTH side from the piece above this one.
         builder.setSide(y == 0 ? generateSide(true) :
-                        pieces[x][y - 1].getSide(Direction.SOUTH), Direction.NORTH);
+                        pieces[x][y - 1].getSide(Direction.SOUTH).inverse(), Direction.NORTH);
+
+        // Set the south side to a newly-generated side.
         builder.setSide(generateSide(y == height - 1), Direction.SOUTH);
 
-        pieces[x][y] = builder.build();
+        pieces[x][y] = builder.build(); // Build the piece and put it in the final array
       }
     }
 
