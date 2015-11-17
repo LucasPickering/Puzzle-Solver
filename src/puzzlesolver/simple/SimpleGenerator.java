@@ -2,13 +2,14 @@ package puzzlesolver.simple;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import puzzlesolver.Constants;
+import puzzlesolver.Generator;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
 import puzzlesolver.enums.Direction;
-import puzzlesolver.Generator;
 
 /**
  * A class to generate a puzzle with pieces composed of {@link SimpleSide}s.
@@ -38,43 +39,30 @@ public final class SimpleGenerator implements Generator {
      * 2wh + w + h total unique sides.
      */
 
-    final int numHorizontals = width * height + width;
-    final int numVerticals = width * height + height;
-    // Horizontal sides are listed first, then vertical sides, top-to-bottom, left-to-right.
-    SimpleSide[] sides = new SimpleSide[numHorizontals + numVerticals];
-    for (int i = 0; i < sides.length; i++) {
-      if (i < numHorizontals) {
-        final int y = i / width; // [0, height]
-        sides[i] = generateSide(y == 0 || y == height);
-      } else {
-        final int x = i - numHorizontals % width; // [0, width]
-        sides[i] = generateSide(x == 0 || x == width);
-      }
-    }
-
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
         final Piece.Builder builder = new Piece.Builder();
 
         builder.setSide(x == 0 ? generateSide(true) :
-            pieces[x - 1][y].getSide(Direction.EAST), Direction.WEST);
+                        pieces[x - 1][y].getSide(Direction.EAST), Direction.WEST);
         builder.setSide(generateSide(x == width - 1), Direction.EAST);
 
         builder.setSide(y == 0 ? generateSide(true) :
-            pieces[x][y - 1].getSide(Direction.SOUTH), Direction.NORTH);
+                        pieces[x][y - 1].getSide(Direction.SOUTH), Direction.NORTH);
         builder.setSide(generateSide(y == height - 1), Direction.SOUTH);
 
         pieces[x][y] = builder.build();
       }
     }
 
-    final ArrayList<Piece> toReturn = new ArrayList<>(width * height);
+    // Flatten the 2-D array into a list, shuffle it, and return it
+    final List<Piece> toReturn = new ArrayList<>(width * height);
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
         toReturn.add(pieces[i][j]);
       }
     }
-    Collections.shuffle(toReturn);
+    Collections.shuffle(toReturn); // Shuffle the list to "unsolve" it
     return toReturn.toArray(new Piece[width * height]);
   }
 
