@@ -200,8 +200,7 @@ public final class SimpleSide implements Side {
 
   @Override
   public SimpleSide inverse() {
-    return new SimpleSide(Arrays.stream(points)
-                              .map(point -> new Point(point.x, -point.y))
+    return new SimpleSide(Arrays.stream(points).map(point -> new Point(point.x, -point.y))
                               .collect(Collectors.toList()));
   }
 
