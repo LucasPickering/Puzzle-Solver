@@ -1,6 +1,7 @@
 package puzzlesolver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import puzzlesolver.enums.Direction;
@@ -125,5 +126,56 @@ public class Piece {
    */
   public boolean sideNull(Direction dir) {
     return sides[dir.ordinal()] == null;
+  }
+
+  /**
+   * Indicates whether some other object is "equal to" this one. An object can only be equal to this
+   * one if it is a piece and {@link Side#equals} returns true for all four {@link Direction}s.
+   *
+   * @param o the other object
+   * @return true if o is a Piece with identical sides, false otherwise
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || !(o instanceof Piece)) {
+      return false;
+    }
+
+    Piece p = (Piece) o;
+
+    for (int i = 0; i < Constants.NUM_SIDES; i++) {
+      final Side otherSide = p.getSide(Direction.values()[i]);
+      if (sides[i] != otherSide && sides[i] != null && !sides[i].equals(otherSide)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return Arrays.hashCode(sides);
+  }
+
+  /**
+   * Indicates whether the given piece <i>could</i> be equal to this one. Two pieces <i>could</i> be
+   * equal if for each dir in {@link Direction}, the sides on each piece in that direction match each
+   * other, <i>or</i>, one of those sides is {@code null}
+   *
+   * @param p the other piece
+   * @return true if all sides match, with null being considered a match with anything, false
+   * otherwise
+   */
+  public boolean maybeEquals(Piece p) {
+    for (int i = 0; i < Constants.NUM_SIDES; i++) {
+      final Side otherSide = p.getSide(Direction.values()[i]);
+      if (sides[i] != null && otherSide != null && !sides[i].equals(otherSide)) {
+        return false;
+      }
+    }
+    return true;
   }
 }
