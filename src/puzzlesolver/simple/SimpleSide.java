@@ -111,10 +111,15 @@ public final class SimpleSide implements Side {
     return sb.toString();
   }
 
-  public int compatibilityWith(@NotNull Side other) {
-    return (getSideType() == SideType.FLAT || other.getSideType() == SideType.FLAT)
-           ? getSideType().compareTo(other.getSideType())
-           : compareTo(other.inverse());
+  @Override
+  public boolean equals(Object o) {
+    return this == o || !(o == null || getClass() != o.getClass())
+                        && Arrays.equals(points, ((SimpleSide) o).points);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(points);
   }
 
   /**
@@ -155,13 +160,6 @@ public final class SimpleSide implements Side {
       return Integer.compare(points.length, otherPoints.length);
     }
 
-    for (int i = 0; i < points.length; i++) {
-      int pointComparison = points[i].compareTo(otherPoints[i]);
-      if (pointComparison != 0) {
-        return pointComparison;
-      }
-    }
-
     return 0;
   }
 
@@ -197,8 +195,7 @@ public final class SimpleSide implements Side {
 
   @Override
   public SimpleSide inverse() {
-    return new SimpleSide(Arrays.stream(points)
-                              .map(point -> new Point(point.x, -point.y))
+    return new SimpleSide(Arrays.stream(points).map(point -> new Point(point.x, -point.y))
                               .collect(Collectors.toList()));
   }
 

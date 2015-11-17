@@ -120,7 +120,11 @@ public class MainController extends Application {
         timer.scheduleAtFixedRate(new TimerTask() {
           @Override
           public void run() {
-            puzzleRenderer.draw();
+            try {
+              puzzleRenderer.draw();
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
             solver.nextStep();
           }
         }, 0, (long) rateSlider.getValue());

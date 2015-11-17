@@ -3,8 +3,8 @@ package puzzlesolver.test.simple;
 import org.junit.Test;
 
 import puzzlesolver.Point;
-import puzzlesolver.enums.SideType;
 import puzzlesolver.Side;
+import puzzlesolver.enums.SideType;
 import puzzlesolver.simple.SimpleSide;
 
 import static org.junit.Assert.assertEquals;
@@ -26,13 +26,13 @@ public class SimpleSideTest {
   @Test
   public void testCopy() throws Exception {
     assertFalse(s2 == s2.copy());
-    assertTrue(s2.compareTo(s2.copy().inverse()) == 0);
+    assertTrue(s2.compareTo(s2.copy()) == 0);
     assertFalse(s3 == s3.copy());
-    assertFalse(s3.compareTo(s3.copy().inverse()) == 0);
+    assertTrue(s3.compareTo(s3.copy()) == 0);
     assertFalse(s4 == s4.copy());
-    assertTrue(s4.compareTo(s4.copy().inverse()) == 0);
+    assertTrue(s4.compareTo(s4.copy()) == 0);
     assertFalse(s4_o == s4_o.copy());
-    assertTrue(s4_o.compareTo(s4_o.copy().inverse()) == 0);
+    assertTrue(s4_o.compareTo(s4_o.copy()) == 0);
   }
 
   @Test
@@ -50,16 +50,16 @@ public class SimpleSideTest {
 
   @Test
   public void testCompareTo() throws Exception {
-    assertNotEquals(0, s2.compareTo(s2));
-    assertNotEquals(0, s3.compareTo(s3));
+    assertEquals(0, s2.compareTo(s2));
+    assertEquals(0, s3.compareTo(s3));
     assertNotEquals(0, s2.compareTo(s3));
     assertNotEquals(0, s3.compareTo(s2));
-    assertNotEquals(0, s2.compareTo(s4));
-    assertNotEquals(0, s4.compareTo(s2));
-    assertEquals(0, s4.compareTo(s4_o));
-    assertEquals(0, s4_o.compareTo(s4));
-    assertEquals(0, s2.compareTo(s4_o));
-    assertEquals(0, s4_o.compareTo(s2));
+    assertEquals(0, s2.compareTo(s4));
+    assertEquals(0, s4.compareTo(s2));
+    assertNotEquals(0, s4.compareTo(s4_o));
+    assertNotEquals(0, s4_o.compareTo(s4));
+    assertNotEquals(0, s2.compareTo(s4_o));
+    assertNotEquals(0, s4_o.compareTo(s2));
   }
 
   @Test
@@ -80,4 +80,8 @@ public class SimpleSideTest {
     assertEquals(SideType.IN, s4_o.getSideType());
   }
 
+  @Test
+  public void testGetPointCount() throws Exception {
+
+  }
 }

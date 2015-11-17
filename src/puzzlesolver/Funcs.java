@@ -8,12 +8,12 @@ public final class Funcs {
 
   /**
    * Exponentially searches for the last element in the given sorted list that matches the element at
-   * {@code index}. The giv3en liStarts the search at {@code index}, and moves left or right according
-   * to {@code left}. Exponential searching means that the first step looks 1 element ahead, then 2
-   * elements ahead of that, then 4, 8, ..., until an element is found that does not match the element
-   * at {@code index}. The search then starts back at 0 and repeats until it finds a change from
-   * matching to non-matching on the first step (1-element step), meaning it finds the edge of the
-   * matching elements.
+   * {@param index}. The giv3en liStarts the search at {@param index}, and moves left or right
+   * according to {@param left}. Exponential searching means that the first step looks 1 element
+   * ahead, then 2 elements ahead of that, then 4, 8, ..., until an element is found that does not
+   * match the element at {@param index}. The search then starts back at 0 and repeats until it finds
+   * a change from matching to non-matching on the first step (1-element step), meaning it finds the
+   * edge of the matching elements.
    *
    * @param list       the sorted list to search (non-null, non-empty)
    * @param comparator a comparator to compare the elements in the list (non-null)

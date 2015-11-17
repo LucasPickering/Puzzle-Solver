@@ -5,8 +5,8 @@ import puzzlesolver.enums.SideType;
 /**
  * An interface to represent one side of a puzzle piece.
  *
- * Sides have a type which MUST be calculated during solution and CANNOT provided to a constructor
- * or determined during generation. Sub-classes MUST override {@link Object#equals} and {@link
+ * Sides have a type which MUST be calculated during solution and CANNOT provided to a constructor or
+ * determined during generation. Sub-classes MUST override {@link Object#equals} and {@link
  * Object#hashCode}.
  *
  * Note: sub-classes may have a natural ordering that is inconsistent with {@link Object#equals}.
@@ -47,6 +47,7 @@ public interface Side extends Comparable<Side>, Cloneable {
 
   /**
    * Is this side flat or not?
+   *
    * @return true if {@link #getSideType} == {@link SideType#FLAT}, false otherwise
    */
   default boolean isFlat() {

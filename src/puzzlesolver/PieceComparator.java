@@ -23,10 +23,10 @@ public class PieceComparator implements Comparator<Piece> {
   }
 
   @Override
-  public int compare(Piece o1, Piece o2) {
-    if (o1 == null || o2 == null) {
+  public int compare(Piece p1, Piece p2) {
+    if (p1 == null || p2 == null) {
       throw new NullPointerException("This comparator does not accept null parameters");
     }
-    return o1.getSide(dir).compareTo(o2.getSide(dir));
+    return p1.getSide(dir).compareTo(p2.getSide(dir));
   }
 }
