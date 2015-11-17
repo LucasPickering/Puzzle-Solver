@@ -53,13 +53,4 @@ public interface Side extends Comparable<Side>, Cloneable {
   default boolean isFlat() {
     return getSideType() == SideType.FLAT;
   }
-
-  /**
-   * Checks if the {@link Side} is compatible with (can fit with) the given {@link Side} {@param
-   * other}.
-   *
-   * @param other {@link Side} to check compatibility with
-   * @return {@link #compareTo(Object)}-esque number designating compatibility (0 = compatible).
-   */
-  int compatibilityWith(Side other);
 }

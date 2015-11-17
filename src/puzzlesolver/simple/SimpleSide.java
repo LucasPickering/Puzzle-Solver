@@ -112,12 +112,14 @@ public final class SimpleSide implements Side {
   }
 
   @Override
-  public int compatibilityWith(@NotNull Side other) {
-    if (getSideType() == SideType.FLAT || other.getSideType() == SideType.FLAT) {
-      return (getSideType() == other.getSideType()) ? -1 :
-             getSideType().compareTo(other.getSideType());
-    }
-    return compareTo(other.inverse());
+  public boolean equals(Object o) {
+    return this == o || !(o == null || getClass() != o.getClass())
+                        && Arrays.equals(points, ((SimpleSide) o).points);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(points);
   }
 
   /**
@@ -156,13 +158,6 @@ public final class SimpleSide implements Side {
 
     if (points.length != otherPoints.length) {
       return Integer.compare(points.length, otherPoints.length);
-    }
-
-    for (int i = 0; i < points.length; i++) {
-      int pointComparison = points[i].compareTo(otherPoints[i]);
-      if (pointComparison != 0) {
-        return pointComparison;
-      }
     }
 
     return 0;
