@@ -41,32 +41,48 @@ public enum PieceType {
    * @return true if the piece can be of this type, false if it cannot
    */
   public boolean canBeType(Piece p) {
+    SideType[] sides = new SideType[Constants.NUM_SIDES];
     int[] sideTypeAmounts = new int[SideType.values().length];
-    int pieceDefinedSides = 0;
+    int remainingSides = Constants.NUM_SIDES;
     for (Direction dir : Direction.values()) {
       final Side side = p.getSide(dir);
       if (side != null) {
-        sideTypeAmounts[side.getSideType().ordinal()]++;
-        ++pieceDefinedSides;
+        SideType st = side.getSideType();
+        sides[dir.ordinal()] = st;
+        ++sideTypeAmounts[side.getSideType().ordinal()];
+        --remainingSides;
       }
     }
-
-    int remainingSides = Constants.NUM_SIDES - pieceDefinedSides;
 
     for (int i = 0; i < sideTypeAmounts.length; i++) {
       if (sideTypes[i] != null) {
-        if (sideTypes[i] < sideTypeAmounts[i]
-            || remainingSides < sideTypes[i] - sideTypeAmounts[i]) {
-          // Has too many of the given side type
-          // or has too few of the given side type and not enough spare sides to fill them
+        int required = sideTypes[i] - sideTypeAmounts[i];
+        if (required >= 0) {
+          if (remainingSides < required) {
+            // Has too many of the given side type
+            // or has too few of the given side type and not enough spare sides to fill them
+            return false;
+          } else {
+            // Take the sides away from the remaining sides able to be filled
+            remainingSides -= required;
+          }
+        } else {
           return false;
         }
-
-        // Take the sides away from the remaining sides able to be filled
-        remainingSides -= sideTypeAmounts[i];
       }
     }
 
-    return true;
+    switch (this) {
+      case OPPOSITES:
+        return sides[0] == sides[2]
+               && sides[1] == sides[3];
+
+      case ADJACENTS:
+        return (sides[0] == sides[1] && sides[2] == sides[3])
+               || (sides[0] == sides[3] && sides[1] == sides[2]);
+
+      default:
+        return true;
+    }
   }
 }
