@@ -1,5 +1,7 @@
 package puzzlesolver.ui.fx;
 
+import java.util.Objects;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import puzzlesolver.Constants;
@@ -94,22 +96,22 @@ public class PuzzleRenderer {
 
   }
 
-  public Point globalPointFromLocalPoint(Point localPoint, Direction orientation,
-                                         int pieceX, int pieceY) {
-    int globalX = Constants.UI.VISUAL_PIECE_PADDING + pieceX * Constants.UI.VISUAL_PIECE_WIDTH;
-    int globalY = Constants.UI.VISUAL_PIECE_PADDING + pieceY * Constants.UI.VISUAL_PIECE_HEIGHT;
-    // TODO
-
-    switch (orientation) {
-      case NORTH:
-        break;
-      case EAST:
-        break;
-      case SOUTH:
-        break;
-      case WEST:
-        break;
+  public static Point globalPointFromLocalPoint(Point localPoint, Direction orientation,
+                                                int pieceX, int pieceY) {
+    Objects.requireNonNull(localPoint);
+    Objects.requireNonNull(orientation);
+    if (pieceX < 0 || pieceY < 0) {
+      throw new IllegalArgumentException("Piece coordinates must be natural numbers");
     }
-    return new Point(0d, 0d);
+
+    final int pieceGlobalX =
+        Constants.UI.VISUAL_PIECE_PADDING + pieceX * Constants.UI.VISUAL_PIECE_WIDTH;
+    final int pieceGlobalY =
+        Constants.UI.VISUAL_PIECE_PADDING + pieceY * Constants.UI.VISUAL_PIECE_HEIGHT;
+
+    return new Point(pieceGlobalX + (Constants.UI.VISUAL_PIECE_WIDTH * orientation.x)
+                     + (localPoint.x * orientation.y),
+                     pieceGlobalY + (Constants.UI.VISUAL_PIECE_HEIGHT * orientation.y)
+                     + (localPoint.y * orientation.x));
   }
 }
