@@ -7,11 +7,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
-import puzzlesolver.constants.Constants;
 import puzzlesolver.Funcs;
 import puzzlesolver.Piece;
 import puzzlesolver.PieceComparator;
 import puzzlesolver.PieceList;
+import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 
 public final class SimplePieceList implements PieceList {

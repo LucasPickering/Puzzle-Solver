@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import puzzlesolver.constants.Constants;
 import puzzlesolver.Generator;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
+import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 
 /**

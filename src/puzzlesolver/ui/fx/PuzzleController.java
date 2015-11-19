@@ -20,6 +20,11 @@ public class PuzzleController {
     puzzleRenderer.init(this.solver, this.puzzleCanvas);
   }
 
+  public static Point globalPointFromLocalPoint(Point point, Direction direction, int pieceX,
+                                                int pieceY) {
+    return SimplePuzzleRenderer.globalPointFromLocalPoint(point, direction, pieceX, pieceY);
+  }
+
   public void draw() {
     try {
       puzzleRenderer.update();
@@ -53,9 +58,5 @@ public class PuzzleController {
 
   public double getRequiredHeight() {
     return puzzleRenderer.getRequiredHeight();
-  }
-
-  public static Point globalPointFromLocalPoint(Point point, Direction direction, int pieceX, int pieceY) {
-    return SimplePuzzleRenderer.globalPointFromLocalPoint(point, direction, pieceX, pieceY);
   }
 }

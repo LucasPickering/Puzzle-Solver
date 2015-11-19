@@ -13,6 +13,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class SimpleSideTest {
+
   Side s2 = new SimpleSide(new Point(0, 0),
                            new Point(5, 1),
                            new Point(10, 0));

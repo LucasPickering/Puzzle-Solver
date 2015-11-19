@@ -10,20 +10,10 @@ import puzzlesolver.simple.SimpleSolver;
 
 public class ConsoleController {
 
-  public static void main(String[] args) {
-    ConsoleController consoleController = new ConsoleController();
-      try {
-        consoleController.start(System.out);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-  }
-
   /**
    * Time to wait between steps, in milliseconds.
    */
   private long timeInterval = 0;
-
   /**
    * Whether to require the user to hit <kbd>enter</kbd> on each step.
    */
@@ -36,6 +26,15 @@ public class ConsoleController {
 
   public ConsoleController() {
     requireInputPerStep = true;
+  }
+
+  public static void main(String[] args) {
+    ConsoleController consoleController = new ConsoleController();
+    try {
+      consoleController.start(System.out);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public void start(PrintStream out) throws Exception {

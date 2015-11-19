@@ -3,15 +3,16 @@ package puzzlesolver.test;
 import org.junit.Before;
 import org.junit.Test;
 
-import puzzlesolver.constants.Constants;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
 import puzzlesolver.Side;
+import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
 import puzzlesolver.simple.SimpleSide;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class PieceTypeTest {
 
@@ -90,7 +91,7 @@ public class PieceTypeTest {
   }
 
   @Test
-  public void testCanBeTypeCorner(){
+  public void testCanBeTypeCorner() {
     assertTrue(PieceType.CORNER.canBeType(cornerPiece));
     assertFalse(PieceType.EDGE.canBeType(cornerPiece));
     assertFalse(PieceType.ALL_IN.canBeType(cornerPiece));
@@ -102,7 +103,7 @@ public class PieceTypeTest {
   }
 
   @Test
-  public void testCanBeTypeEdge(){
+  public void testCanBeTypeEdge() {
     assertFalse(PieceType.CORNER.canBeType(edgePiece));
     assertTrue(PieceType.EDGE.canBeType(edgePiece));
     assertFalse(PieceType.ALL_IN.canBeType(edgePiece));
@@ -114,7 +115,7 @@ public class PieceTypeTest {
   }
 
   @Test
-  public void testCanBeTypeAllIn(){
+  public void testCanBeTypeAllIn() {
     assertFalse(PieceType.CORNER.canBeType(allInPiece));
     assertFalse(PieceType.EDGE.canBeType(allInPiece));
     assertTrue(PieceType.ALL_IN.canBeType(allInPiece));
@@ -126,7 +127,7 @@ public class PieceTypeTest {
   }
 
   @Test
-  public void testCanBeTypeAllOut(){
+  public void testCanBeTypeAllOut() {
     assertFalse(PieceType.CORNER.canBeType(allOutPiece));
     assertFalse(PieceType.EDGE.canBeType(allOutPiece));
     assertFalse(PieceType.ALL_IN.canBeType(allOutPiece));
@@ -138,7 +139,7 @@ public class PieceTypeTest {
   }
 
   @Test
-  public void testCanBeTypeThreeIn(){
+  public void testCanBeTypeThreeIn() {
     assertFalse(PieceType.CORNER.canBeType(threeInPiece));
     assertFalse(PieceType.EDGE.canBeType(threeInPiece));
     assertFalse(PieceType.ALL_IN.canBeType(threeInPiece));
@@ -150,7 +151,7 @@ public class PieceTypeTest {
   }
 
   @Test
-  public void testCanBeTypeThreeOut(){
+  public void testCanBeTypeThreeOut() {
     assertFalse(PieceType.CORNER.canBeType(threeOutPiece));
     assertFalse(PieceType.EDGE.canBeType(threeOutPiece));
     assertFalse(PieceType.ALL_IN.canBeType(threeOutPiece));
@@ -162,7 +163,7 @@ public class PieceTypeTest {
   }
 
   @Test
-  public void testCanBeTypeOpposites(){
+  public void testCanBeTypeOpposites() {
     assertFalse(PieceType.CORNER.canBeType(oppositesPiece));
     assertFalse(PieceType.EDGE.canBeType(oppositesPiece));
     assertFalse(PieceType.ALL_IN.canBeType(oppositesPiece));
@@ -174,7 +175,7 @@ public class PieceTypeTest {
   }
 
   @Test
-  public void testCanBeTypeAdjacents(){
+  public void testCanBeTypeAdjacents() {
     assertFalse(PieceType.CORNER.canBeType(adjacentsPiece));
     assertFalse(PieceType.EDGE.canBeType(adjacentsPiece));
     assertFalse(PieceType.ALL_IN.canBeType(adjacentsPiece));

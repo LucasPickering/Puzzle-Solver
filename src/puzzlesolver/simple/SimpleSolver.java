@@ -1,9 +1,9 @@
 package puzzlesolver.simple;
 
 import puzzlesolver.AbstractSolver;
-import puzzlesolver.constants.Constants;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
+import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
 
@@ -38,8 +38,8 @@ public final class SimpleSolver extends AbstractSolver {
   }
 
   /**
-   * Makes a piece as accurately as possible to fit at the given x and y, using the pieces adjacent
-   * to that spot.
+   * Makes a piece as accurately as possible to fit at the given x and y, using the pieces adjacent to
+   * that spot.
    *
    * @param x the x-coord of the piece [0, width)
    * @param y the y-coord of the piece [0, height)
@@ -54,7 +54,7 @@ public final class SimpleSolver extends AbstractSolver {
       if (dirX < 0 || dirX >= width || dirY < 0 || dirY >= height) {
         // If x or y is out of bounds, make a flat side
         builder.setSide(new SimpleSide(new Point(0d, 0d),
-            new Point(Constants.SIDE_LENGTH, 0d)), dir);
+                                       new Point(Constants.SIDE_LENGTH, 0d)), dir);
       } else if (solution[dirX][dirY] != null) {
         // If there is an adjacent piece, get its neighboring side
         builder.setSide(solution[dirX][dirY].getSide(dir.opposite()).inverse(), dir);

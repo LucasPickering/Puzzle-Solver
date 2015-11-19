@@ -1,8 +1,8 @@
 package puzzlesolver.enums;
 
-import puzzlesolver.constants.Constants;
 import puzzlesolver.Piece;
 import puzzlesolver.Side;
+import puzzlesolver.constants.Constants;
 
 public enum PieceType {
 

@@ -3,6 +3,7 @@ package puzzlesolver;
 import java.util.LinkedList;
 
 public class PointsBuilder {
+
   LinkedList<double[]> elements = new LinkedList<>();
   int length;
 

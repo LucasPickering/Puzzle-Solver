@@ -10,7 +10,9 @@ import puzzlesolver.enums.Direction;
 import puzzlesolver.simple.SimpleGenerator;
 import puzzlesolver.simple.SimplePieceList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class SimplePieceListTest {
 
@@ -49,7 +51,7 @@ public class SimplePieceListTest {
   }
 
   @Test
-  public void testClear(){
+  public void testClear() {
     empty.clear();
     oneByOne.clear();
     fourByFour.clear();

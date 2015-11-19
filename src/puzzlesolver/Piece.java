@@ -20,40 +20,11 @@ import puzzlesolver.enums.PieceType;
  */
 public class Piece {
 
-  public static class Builder {
-
-    private final Side[] sides = new Side[Constants.NUM_SIDES];
-
-    /**
-     * Sets this piece's side in the given direction to the given side.
-     *
-     * @param side the side to be added
-     * @param dir  the direction of the side in this piece
-     */
-    public Builder setSide(Side side, Direction dir) {
-      sides[dir.ordinal()] = side.copy();
-      return this;
-    }
-
-    /**
-     * Builds a {@link Piece} from this builder's sides.
-     */
-    public Piece build() {
-      for (Side side : sides) {
-        if (side != null) {
-          return new Piece(sides);
-        }
-      }
-      throw new IllegalStateException("At least one side must be non-null");
-    }
-  }
-
   /**
    * Sides are ordered in the same way as {@link Direction}: NORTH, EAST, SOUTH, WEST.
    */
   private final Side[] sides;
   private final PieceType[] pieceTypes;
-
   /**
    * Constructs a new Piece with the given 4 sides.
    *
@@ -178,5 +149,33 @@ public class Piece {
       }
     }
     return true;
+  }
+
+  public static class Builder {
+
+    private final Side[] sides = new Side[Constants.NUM_SIDES];
+
+    /**
+     * Sets this piece's side in the given direction to the given side.
+     *
+     * @param side the side to be added
+     * @param dir  the direction of the side in this piece
+     */
+    public Builder setSide(Side side, Direction dir) {
+      sides[dir.ordinal()] = side.copy();
+      return this;
+    }
+
+    /**
+     * Builds a {@link Piece} from this builder's sides.
+     */
+    public Piece build() {
+      for (Side side : sides) {
+        if (side != null) {
+          return new Piece(sides);
+        }
+      }
+      throw new IllegalStateException("At least one side must be non-null");
+    }
   }
 }

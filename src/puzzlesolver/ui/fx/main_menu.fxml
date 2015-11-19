@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
-<?import javafx.collections.ObservableList?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -13,12 +10,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Line?>
-<?import puzzlesolver.constants.UI ?>
-
+<?import puzzlesolver.constants.UI?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="312.0" prefWidth="231.0"
-            stylesheets="@main_menu.css" xmlns:puzzlesolver.="http://javafx.com/javafx/8"
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="231.0"
+            stylesheets="@main_menu.css" xmlns="http://javafx.com/javafx/8"
             fx:controller="puzzlesolver.ui.fx.MainController">
 
   <GridPane hgap="10.0" layoutY="2.0" prefHeight="312.0" prefWidth="231.0"
@@ -36,36 +31,31 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
     </rowConstraints>
 
-    <Label alignment="CENTER" styleClass="title" text="Puzzle-O-Matic"
-           textAlignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER"/>
-    <TextField id="text-label" fx:id="widthField" promptText="Width"
-               GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2"
-               GridPane.valignment="CENTER"/>
-    <TextField id="text-label" fx:id="heightField" promptText="Height"
-               GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER"/>
-    <Button fx:id="generateButton" mnemonicParsing="false" onAction="#generate"
-            text="Generate" GridPane.halignment="CENTER" GridPane.rowIndex="3"
-            GridPane.valignment="TOP"/>
-    <Button fx:id="solveButton" disable="true" alignment="CENTER_RIGHT" text="Solve"
-            mnemonicParsing="false" onAction="#solve" GridPane.columnIndex="1"
-            GridPane.halignment="LEFT" GridPane.rowIndex="3"
-            GridPane.valignment="CENTER"/>
-    <Line endX="100.0" startX="-100.0" GridPane.columnSpan="2"
-          GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
-    <ChoiceBox fx:id="renderTypeChoiceBox" items="renderTypes" prefWidth="150.0"
-               GridPane.columnSpan="2"
+    <Label alignment="CENTER" styleClass="title" text="Puzzle-O-Matic" textAlignment="CENTER"
+           GridPane.columnSpan="2" GridPane.halignment="CENTER"/>
+    <ChoiceBox fx:id="renderTypeChoiceBox" prefWidth="150.0" GridPane.columnSpan="2"
                GridPane.halignment="CENTER" GridPane.rowIndex="1">
       <UI fx:constant="TEXT_SIMPLE"/>
       <UI fx:constant="TEXT_FANCY"/>
       <UI fx:constant="VISUAL_SIMPLE"/>
       <UI fx:constant="VISUAL_FANCY"/>
     </ChoiceBox>
+    <TextField id="text-label" fx:id="widthField" promptText="Width" GridPane.halignment="CENTER"
+               GridPane.rowIndex="2" GridPane.valignment="CENTER"/>
+    <TextField id="text-label" fx:id="heightField" promptText="Height" GridPane.columnIndex="1"
+               GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER"/>
+    <Button fx:id="generateButton" mnemonicParsing="false" onAction="#generate" text="Generate"
+            GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP"/>
+    <Button fx:id="solveButton" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false"
+            onAction="#solve" text="Solve" GridPane.columnIndex="1" GridPane.halignment="LEFT"
+            GridPane.rowIndex="3" GridPane.valignment="CENTER"/>
+    <Line endX="100.0" startX="-100.0" GridPane.columnSpan="2" GridPane.halignment="CENTER"
+          GridPane.rowIndex="1" GridPane.valignment="TOP"/>
     <Slider fx:id="rateSlider" blockIncrement="100.0" majorTickUnit="100.0" max="1000.0"
             minorTickCount="10" orientation="VERTICAL" prefHeight="73.0" prefWidth="22.0"
             value="1000.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT"
             GridPane.rowIndex="3"/>
-    <Button mnemonicParsing="false" disable="true" text="Show"
-            GridPane.halignment="CENTER"
-            GridPane.rowIndex="3" GridPane.valignment="BOTTOM"/>
+    <Button fx:id="showButton" disable="true" mnemonicParsing="false" text="Show"
+            GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM"/>
   </GridPane>
 </AnchorPane>

@@ -1,14 +1,17 @@
 .root {
     /*-fx-background-color: slategray;*/
 }
+
 .label.title {
     -fx-font-size: 2em;
     -fx-font-style: oblique;
 }
+
 .label.text-field {
     -fx-font-size: 1em;
     -fx-font-style: oblique;
 }
+
 .button.emphasized {
     -fx-font-style: oblique;
 }

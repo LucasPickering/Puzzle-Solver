@@ -19,6 +19,25 @@ public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
   private Canvas puzzleCanvas;
   private Image img = null;
 
+  public static Point globalPointFromLocalPoint(Point localPoint, Direction orientation,
+                                                int pieceX, int pieceY) {
+    Objects.requireNonNull(localPoint);
+    Objects.requireNonNull(orientation);
+    if (pieceX < 0 || pieceY < 0) {
+      throw new IllegalArgumentException("Piece coordinates must be natural numbers");
+    }
+
+    final int pieceGlobalX =
+        UI.VISUAL_PIECE_PADDING + pieceX * UI.VISUAL_PIECE_WIDTH;
+    final int pieceGlobalY =
+        UI.VISUAL_PIECE_PADDING + pieceY * UI.VISUAL_PIECE_HEIGHT;
+
+    return new Point(pieceGlobalX + ((UI.VISUAL_PIECE_WIDTH / 2) * orientation.x)
+                     + (localPoint.x * orientation.y),
+                     pieceGlobalY + ((UI.VISUAL_PIECE_HEIGHT / 2) * orientation.y)
+                     + (localPoint.y * orientation.x));
+  }
+
   @Override
   public void init(Solver solver, Canvas puzzleCanvas) {
     this.solver = solver;
@@ -86,24 +105,5 @@ public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
       }
     }
 
-  }
-
-  public static Point globalPointFromLocalPoint(Point localPoint, Direction orientation,
-                                                int pieceX, int pieceY) {
-    Objects.requireNonNull(localPoint);
-    Objects.requireNonNull(orientation);
-    if (pieceX < 0 || pieceY < 0) {
-      throw new IllegalArgumentException("Piece coordinates must be natural numbers");
-    }
-
-    final int pieceGlobalX =
-        UI.VISUAL_PIECE_PADDING + pieceX * UI.VISUAL_PIECE_WIDTH;
-    final int pieceGlobalY =
-        UI.VISUAL_PIECE_PADDING + pieceY * UI.VISUAL_PIECE_HEIGHT;
-
-    return new Point(pieceGlobalX + ((UI.VISUAL_PIECE_WIDTH / 2) * orientation.x)
-                     + (localPoint.x * orientation.y),
-                     pieceGlobalY + ((UI.VISUAL_PIECE_HEIGHT / 2) * orientation.y)
-                     + (localPoint.y * orientation.x));
   }
 }

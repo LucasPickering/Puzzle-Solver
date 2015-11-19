@@ -8,8 +8,8 @@ public enum SideType {
   /**
    * Check if this {@link SideType} and the given {@link SideType} are capable of fitting with each
    * other.
-   * @param s the side time to check compatibility with
    *
+   * @param s the side time to check compatibility with
    * @return 0 if the sides are compatible, else another integer.
    */
   public int compatible(SideType s) {

@@ -3,7 +3,6 @@ package puzzlesolver;
 import com.sun.istack.internal.NotNull;
 
 import puzzlesolver.enums.Direction;
-import puzzlesolver.enums.PieceType;
 
 public interface PieceList {
 

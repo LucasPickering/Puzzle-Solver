@@ -70,14 +70,11 @@ public class FuncsTest {
     assertEquals(0, Funcs.expSearch(intList4, Comparator.naturalOrder(), 2, true));
     assertEquals(2, Funcs.expSearch(intList4, Comparator.naturalOrder(), 2, false));
 
-
     assertEquals(3, Funcs.expSearch(intList4, Comparator.naturalOrder(), 4, true));
     assertEquals(5, Funcs.expSearch(intList4, Comparator.naturalOrder(), 4, false));
 
-
     assertEquals(6, Funcs.expSearch(intList4, Comparator.naturalOrder(), 7, true));
     assertEquals(8, Funcs.expSearch(intList4, Comparator.naturalOrder(), 7, false));
-
 
     assertEquals(9, Funcs.expSearch(intList4, Comparator.naturalOrder(), 10, true));
     assertEquals(11, Funcs.expSearch(intList4, Comparator.naturalOrder(), 10, false));

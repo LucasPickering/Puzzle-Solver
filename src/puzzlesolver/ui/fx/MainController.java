@@ -27,6 +27,8 @@ import puzzlesolver.simple.SimpleSolver;
 
 public class MainController extends Application {
 
+  public final String BUTTON_SOLVE = "Solve", BUTTON_CANCEL = "Cancel",
+      BUTTON_SHOW = "Show";
   public Canvas puzzleCanvas = new Canvas(UI.WINDOW_MIN_WIDTH,
                                           UI.WINDOW_MIN_HEIGHT);
   public Button generateButton;
@@ -41,8 +43,6 @@ public class MainController extends Application {
   private Solver solver = new SimpleSolver();
   private PuzzleController puzzleController = new PuzzleController(solver, puzzleCanvas);
   private Piece[] puzzle;
-  public final String BUTTON_SOLVE = "Solve", BUTTON_CANCEL = "Cancel",
-      BUTTON_SHOW = "Show";
 
   public static void main(String[] args) {
     launch(args);
