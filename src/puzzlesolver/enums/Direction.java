@@ -1,6 +1,6 @@
 package puzzlesolver.enums;
 
-import puzzlesolver.Constants;
+import puzzlesolver.constants.Constants;
 
 public enum Direction {
 

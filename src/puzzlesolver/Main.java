@@ -2,6 +2,7 @@ package puzzlesolver;
 
 import java.util.Arrays;
 
+import puzzlesolver.constants.Constants;
 import puzzlesolver.ui.console.ConsoleController;
 import puzzlesolver.ui.fx.MainController;
 

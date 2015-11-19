@@ -1,7 +1,7 @@
 package puzzlesolver.simple;
 
 import puzzlesolver.AbstractSolver;
-import puzzlesolver.Constants;
+import puzzlesolver.constants.Constants;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
 import puzzlesolver.enums.Direction;

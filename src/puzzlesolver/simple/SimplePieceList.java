@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
-import puzzlesolver.Constants;
+import puzzlesolver.constants.Constants;
 import puzzlesolver.Funcs;
 import puzzlesolver.Piece;
 import puzzlesolver.PieceComparator;

@@ -3,7 +3,7 @@ package puzzlesolver.test;
 import org.junit.Before;
 import org.junit.Test;
 
-import puzzlesolver.Constants;
+import puzzlesolver.constants.Constants;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
 import puzzlesolver.Side;

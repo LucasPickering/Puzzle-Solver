@@ -18,20 +18,20 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import puzzlesolver.Constants;
 import puzzlesolver.Generator;
 import puzzlesolver.Piece;
 import puzzlesolver.Solver;
+import puzzlesolver.constants.UI;
 import puzzlesolver.simple.SimpleGenerator;
 import puzzlesolver.simple.SimpleSolver;
 
 public class MainController extends Application {
 
-  public Canvas puzzleCanvas = new Canvas(Constants.UI.WINDOW_MIN_WIDTH,
-                                          Constants.UI.WINDOW_MIN_HEIGHT);
+  public Canvas puzzleCanvas = new Canvas(UI.WINDOW_MIN_WIDTH,
+                                          UI.WINDOW_MIN_HEIGHT);
   public Button generateButton;
-  public Button solveButton = new Button(Constants.UI.BUTTON_SHOW);
-  public Button showButton = new Button(Constants.UI.BUTTON_SOLVE);
+  public Button solveButton = new Button(UI.BUTTON_SHOW);
+  public Button showButton = new Button(UI.BUTTON_SOLVE);
   public TextField heightField;
   public TextField widthField;
   public ChoiceBox<String> renderTypeChoiceBox;
@@ -41,6 +41,8 @@ public class MainController extends Application {
   private Solver solver = new SimpleSolver();
   private PuzzleController puzzleController = new PuzzleController(solver, puzzleCanvas);
   private Piece[] puzzle;
+  public final String BUTTON_SOLVE = "Solve", BUTTON_CANCEL = "Cancel",
+      BUTTON_SHOW = "Show";
 
   public static void main(String[] args) {
     launch(args);
@@ -108,8 +110,8 @@ public class MainController extends Application {
       timer.cancel();
     }
     switch (solveButton.getText()) {
-      case Constants.UI.BUTTON_SOLVE:
-        solveButton.setText(Constants.UI.BUTTON_CANCEL);
+      case UI.BUTTON_SOLVE:
+        solveButton.setText(UI.BUTTON_CANCEL);
         solver.init(puzzle);
 
         timer = new Timer("solver", true);
@@ -125,8 +127,8 @@ public class MainController extends Application {
           }
         }, 0, (long) rateSlider.getValue());
         break;
-      case Constants.UI.BUTTON_CANCEL:
-        solveButton.setText(Constants.UI.BUTTON_SOLVE);
+      case UI.BUTTON_CANCEL:
+        solveButton.setText(UI.BUTTON_SOLVE);
     }
   }
 

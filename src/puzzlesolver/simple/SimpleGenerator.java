@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import puzzlesolver.Constants;
+import puzzlesolver.constants.Constants;
 import puzzlesolver.Generator;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
 

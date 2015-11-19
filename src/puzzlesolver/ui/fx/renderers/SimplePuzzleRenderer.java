@@ -5,11 +5,11 @@ import java.util.Objects;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import puzzlesolver.Constants;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
 import puzzlesolver.PointsBuilder;
 import puzzlesolver.Solver;
+import puzzlesolver.constants.UI;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.simple.SimpleSide;
 
@@ -34,18 +34,18 @@ public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
 
   public int getRequiredWidth() {
     return (solver == null || solver.getSolution() == null)
-           ? Constants.UI.WINDOW_MIN_WIDTH
-           : Math.max(solver.getSolution().length * Constants.UI.VISUAL_PIECE_WIDTH
-                      + Constants.UI.VISUAL_PIECE_PADDING * 2,
-                      Constants.UI.WINDOW_MIN_WIDTH);
+           ? UI.WINDOW_MIN_WIDTH
+           : Math.max(solver.getSolution().length * UI.VISUAL_PIECE_WIDTH
+                      + UI.VISUAL_PIECE_PADDING * 2,
+                      UI.WINDOW_MIN_WIDTH);
   }
 
   public int getRequiredHeight() {
     return (solver == null || solver.getSolution() == null)
-           ? Constants.UI.WINDOW_MIN_HEIGHT
-           : Math.max(solver.getSolution()[0].length * Constants.UI.VISUAL_PIECE_HEIGHT
-                      + Constants.UI.VISUAL_PIECE_PADDING * 2,
-                      Constants.UI.WINDOW_MIN_HEIGHT);
+           ? UI.WINDOW_MIN_HEIGHT
+           : Math.max(solver.getSolution()[0].length * UI.VISUAL_PIECE_HEIGHT
+                      + UI.VISUAL_PIECE_PADDING * 2,
+                      UI.WINDOW_MIN_HEIGHT);
   }
 
   @Override
@@ -97,13 +97,13 @@ public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
     }
 
     final int pieceGlobalX =
-        Constants.UI.VISUAL_PIECE_PADDING + pieceX * Constants.UI.VISUAL_PIECE_WIDTH;
+        UI.VISUAL_PIECE_PADDING + pieceX * UI.VISUAL_PIECE_WIDTH;
     final int pieceGlobalY =
-        Constants.UI.VISUAL_PIECE_PADDING + pieceY * Constants.UI.VISUAL_PIECE_HEIGHT;
+        UI.VISUAL_PIECE_PADDING + pieceY * UI.VISUAL_PIECE_HEIGHT;
 
-    return new Point(pieceGlobalX + ((Constants.UI.VISUAL_PIECE_WIDTH / 2) * orientation.x)
+    return new Point(pieceGlobalX + ((UI.VISUAL_PIECE_WIDTH / 2) * orientation.x)
                      + (localPoint.x * orientation.y),
-                     pieceGlobalY + ((Constants.UI.VISUAL_PIECE_HEIGHT / 2) * orientation.y)
+                     pieceGlobalY + ((UI.VISUAL_PIECE_HEIGHT / 2) * orientation.y)
                      + (localPoint.y * orientation.x));
   }
 }
