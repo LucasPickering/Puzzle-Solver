@@ -59,8 +59,8 @@ public class FancyTextView implements TextView {
       for (int j = 0; j < width; j++) {
         countPieces++;
         Piece curPiece = pieces[i][j];
-        int tempHeight = height * 4 + 1;
-        int tempWidth = width * 4 + 2;
+        int tempHeight = i * 4 + 1;
+        int tempWidth = j * 4 + 2;
         if (curPiece == null) {
           board[tempHeight][tempWidth] = EMPTY;
           board[tempHeight][tempWidth + 1] = EMPTY;
@@ -123,20 +123,21 @@ public class FancyTextView implements TextView {
     return '*';
   }
 
-  String statusBar(int total, int remain) {
+  String statusBar(int total, int count) {
     char[] charBars = new char[10];
     int bar = total / 10;
-    int showBars = remain / bar;
-    Arrays.fill(charBars, 0, showBars - 1, '▮');
+    int showBars = count / bar;
+    Arrays.fill(charBars, 0, showBars, '▮');
     String bars = new String(charBars);
     return bars;
   }
 
-  String[] finalBoard(char[][] board, int total, int remain) {
+  String[] finalBoard(char[][] board, int total, int count) {
     int height = board.length;
     int width = board[0].length;
-    String[] strBoard = new String[height + 2];
-    // filling in the borders so its pretty
+    String[] strBoard = new String[height + 1];
+
+    // filling in the pretty stuff
 
     // top row
     char[] topRow = new char[width - 1];
@@ -160,7 +161,7 @@ public class FancyTextView implements TextView {
     for (int i = 0; i < board.length; i++) {
       strBoard[i] = new String(board[i]);
     }
-    String status = "│ remain: " + remain + "            │ [" + statusBar(total, remain) + "] │";
+    String status = "│ remain: " + (total - count) + "            │ [" + statusBar(total, count) + "] │";
     strBoard[height] = status;
     strBoard[height + 1] = "╰-----------------------------------------------------╯";
     return strBoard;
