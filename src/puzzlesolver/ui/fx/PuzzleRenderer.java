@@ -109,9 +109,9 @@ public class PuzzleRenderer {
     final int pieceGlobalY =
         Constants.UI.VISUAL_PIECE_PADDING + pieceY * Constants.UI.VISUAL_PIECE_HEIGHT;
 
-    return new Point(pieceGlobalX + (Constants.UI.VISUAL_PIECE_WIDTH * orientation.x)
+    return new Point(pieceGlobalX + ((Constants.UI.VISUAL_PIECE_WIDTH / 2) * orientation.x)
                      + (localPoint.x * orientation.y),
-                     pieceGlobalY + (Constants.UI.VISUAL_PIECE_HEIGHT * orientation.y)
+                     pieceGlobalY + ((Constants.UI.VISUAL_PIECE_HEIGHT / 2) * orientation.y)
                      + (localPoint.y * orientation.x));
   }
 }
