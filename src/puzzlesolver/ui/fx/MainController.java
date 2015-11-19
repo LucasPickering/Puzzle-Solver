@@ -28,9 +28,10 @@ import puzzlesolver.simple.SimpleSolver;
 
 public class MainController extends Application {
 
-  public Canvas puzzleCanvas;
+  public Canvas puzzleCanvas = new Canvas(Constants.UI.WINDOW_MIN_WIDTH,
+                                          Constants.UI.WINDOW_MIN_HEIGHT);
   public Button generateButton;
-  public Button solveButton;
+  public Button solveButton = new Button(Constants.UI.BUTTON_SHOW);
   public Button showButton = new Button(Constants.UI.BUTTON_SOLVE);
   public TextField heightField;
   public TextField widthField;
@@ -43,7 +44,7 @@ public class MainController extends Application {
   public Slider rateSlider = new Slider();
   Timer timer = null;
   private Solver solver = new SimpleSolver();
-  private PuzzleRenderer puzzleRenderer = new PuzzleRenderer(solver, puzzleCanvas);
+  private PuzzleController puzzleController = new PuzzleController(solver, puzzleCanvas);
   private Piece[] puzzle;
 
   public static void main(String[] args) {
@@ -73,8 +74,8 @@ public class MainController extends Application {
           root = FXMLLoader.load(getClass().getResource("puzzle.fxml"));
           Stage stage = new Stage();
           stage.setTitle("Puzzle!");
-          stage.setScene(new Scene(root, puzzleRenderer.getRequiredWidth(),
-                                   puzzleRenderer.getRequiredHeight()));
+          stage.setScene(new Scene(root, puzzleController.getRequiredWidth(),
+                                   puzzleController.getRequiredHeight()));
           stage.show();
         } catch (IOException e) {
           e.printStackTrace();
@@ -121,7 +122,7 @@ public class MainController extends Application {
           @Override
           public void run() {
             try {
-              puzzleRenderer.draw();
+              puzzleController.draw();
             } catch (Exception e) {
               e.printStackTrace();
             }
@@ -136,7 +137,7 @@ public class MainController extends Application {
 
   public void changeRenderMode(ObservableValue ov, String oldValue, String newValue) {
     if (!newValue.equals(oldValue)) {
-      puzzleRenderer.setRenderMethod(newValue);
+      puzzleController.setRenderMethod(newValue);
     }
   }
 }

@@ -3,7 +3,7 @@ package puzzlesolver.ui.fx.renderers;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
-public interface Renderer<T> {
+public interface PuzzleRenderer<T> {
 
   /**
    * Initialize the renderer with the object it will draw.
@@ -15,10 +15,15 @@ public interface Renderer<T> {
    */
   void init(T toDraw, Canvas canvas);
 
-  boolean setImage(Image img);
+  /**
+   * Set the image to draw on the puzzle pieces
+   *
+   * @param img the image to be drawn on the puzzle pieces
+   */
+  void setImage(Image img);
 
   /**
    * Re-draw the scene
    */
-  void update();
+  void update() throws Exception;
 }

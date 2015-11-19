@@ -40,7 +40,7 @@
                 <Button fx:id="generateButton" mnemonicParsing="false" onAction="#generate"
                         text="Generate" GridPane.halignment="CENTER" GridPane.rowIndex="3"
                         GridPane.valignment="TOP"/>
-                <Button fx:id="solveButton" alignment="CENTER_RIGHT" text="Solve"
+                <Button fx:id="solveButton" disable="true" alignment="CENTER_RIGHT" text="Solve"
                         mnemonicParsing="false" onAction="#solve" GridPane.columnIndex="1"
                         GridPane.halignment="LEFT" GridPane.rowIndex="3"
                         GridPane.valignment="CENTER"/>
@@ -52,7 +52,7 @@
                         minorTickCount="10"
                         orientation="VERTICAL" prefHeight="73.0" prefWidth="22.0" value="1000.0"
                         GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
-                <Button mnemonicParsing="false" text="Show" GridPane.halignment="CENTER"
+                <Button mnemonicParsing="false" disable="true" text="Show" GridPane.halignment="CENTER"
                         GridPane.rowIndex="3" GridPane.valignment="BOTTOM"/>
             </children>
         </GridPane>

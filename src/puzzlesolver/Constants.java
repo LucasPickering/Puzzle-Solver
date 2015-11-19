@@ -18,7 +18,8 @@ public final class Constants {
     public static final String TEXT_SIMPLE = "Text", TEXT_FANCY = "Text (Fancy)",
         VISUAL = "Visual", VISUAL_FANCY = "Visual Fancy";
 
-    public static final String BUTTON_SOLVE = "Solve", BUTTON_CANCEL = "Cancel";
+    public static final String BUTTON_SOLVE = "Solve", BUTTON_CANCEL = "Cancel",
+    BUTTON_SHOW = "Show";
 
     public static final int VISUAL_PIECE_WIDTH = 20, VISUAL_PIECE_HEIGHT = VISUAL_PIECE_WIDTH,
     WINDOW_MIN_WIDTH = 400, WINDOW_MIN_HEIGHT = 300, VISUAL_PIECE_PADDING = 10;
