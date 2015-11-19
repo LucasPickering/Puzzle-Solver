@@ -6,7 +6,6 @@ import java.util.TimerTask;
 
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -35,13 +34,9 @@ public class MainController extends Application {
   public Button showButton = new Button(Constants.UI.BUTTON_SOLVE);
   public TextField heightField;
   public TextField widthField;
-  public ObservableList<String> renderTypes =
-      FXCollections.observableArrayList(Constants.UI.TEXT_SIMPLE,
-                                        Constants.UI.TEXT_FANCY,
-                                        Constants.UI.VISUAL,
-                                        Constants.UI.VISUAL_FANCY);
   public ChoiceBox<String> renderTypeChoiceBox;
   public Slider rateSlider = new Slider();
+  public ObservableList<String> renderTypes;
   Timer timer = null;
   private Solver solver = new SimpleSolver();
   private PuzzleController puzzleController = new PuzzleController(solver, puzzleCanvas);
