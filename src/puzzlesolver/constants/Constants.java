@@ -14,5 +14,5 @@ public final class Constants {
    */
   public static final double SIDE_LENGTH = 10d;
 
-  public static final boolean USE_CONSOLE = true;
+  public static int VERBOSE_LEVEL = 0;
 }
