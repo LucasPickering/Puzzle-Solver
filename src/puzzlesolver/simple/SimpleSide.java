@@ -119,7 +119,7 @@ public final class SimpleSide implements Side {
 
   @Override
   public int hashCode() {
-    return Objects.hash(points);
+    return Objects.hash((Object[])points);
   }
 
   /**

@@ -3,7 +3,7 @@ package puzzlesolver.ui.fx;
 import javafx.scene.canvas.Canvas;
 import puzzlesolver.Point;
 import puzzlesolver.Solver;
-import puzzlesolver.constants.UI;
+import puzzlesolver.constants.UIConstants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.ui.fx.renderers.SimplePuzzleRenderer;
 
@@ -35,16 +35,16 @@ public class PuzzleController {
 
   public void setRenderMethod(String renderMethod) {
     switch (renderMethod) {
-      case UI.TEXT_SIMPLE:
+      case UIConstants.TEXT_SIMPLE:
         // TODO
         break;
-      case UI.TEXT_FANCY:
+      case UIConstants.TEXT_FANCY:
         // TODO
         break;
-      case UI.VISUAL_SIMPLE:
+      case UIConstants.VISUAL_SIMPLE:
         // TODO
         break;
-      case UI.VISUAL_FANCY:
+      case UIConstants.VISUAL_FANCY:
         // TODO
         break;
       default:

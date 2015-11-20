@@ -9,7 +9,7 @@ import puzzlesolver.Piece;
 import puzzlesolver.Point;
 import puzzlesolver.PointsBuilder;
 import puzzlesolver.Solver;
-import puzzlesolver.constants.UI;
+import puzzlesolver.constants.UIConstants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.simple.SimpleSide;
 
@@ -28,13 +28,13 @@ public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
     }
 
     final int pieceGlobalX =
-        UI.VISUAL_PIECE_PADDING + pieceX * UI.VISUAL_PIECE_WIDTH;
+        UIConstants.VISUAL_PIECE_PADDING + pieceX * UIConstants.VISUAL_PIECE_WIDTH;
     final int pieceGlobalY =
-        UI.VISUAL_PIECE_PADDING + pieceY * UI.VISUAL_PIECE_HEIGHT;
+        UIConstants.VISUAL_PIECE_PADDING + pieceY * UIConstants.VISUAL_PIECE_HEIGHT;
 
-    return new Point(pieceGlobalX + ((UI.VISUAL_PIECE_WIDTH / 2) * orientation.x)
+    return new Point(pieceGlobalX + ((UIConstants.VISUAL_PIECE_WIDTH / 2) * orientation.x)
                      + (localPoint.x * orientation.y),
-                     pieceGlobalY + ((UI.VISUAL_PIECE_HEIGHT / 2) * orientation.y)
+                     pieceGlobalY + ((UIConstants.VISUAL_PIECE_HEIGHT / 2) * orientation.y)
                      + (localPoint.y * orientation.x));
   }
 
@@ -53,18 +53,18 @@ public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
 
   public int getRequiredWidth() {
     return (solver == null || solver.getSolution() == null)
-           ? UI.WINDOW_MIN_WIDTH
-           : Math.max(solver.getSolution().length * UI.VISUAL_PIECE_WIDTH
-                      + UI.VISUAL_PIECE_PADDING * 2,
-                      UI.WINDOW_MIN_WIDTH);
+           ? UIConstants.WINDOW_MIN_WIDTH
+           : Math.max(solver.getSolution().length * UIConstants.VISUAL_PIECE_WIDTH
+                      + UIConstants.VISUAL_PIECE_PADDING * 2,
+                      UIConstants.WINDOW_MIN_WIDTH);
   }
 
   public int getRequiredHeight() {
     return (solver == null || solver.getSolution() == null)
-           ? UI.WINDOW_MIN_HEIGHT
-           : Math.max(solver.getSolution()[0].length * UI.VISUAL_PIECE_HEIGHT
-                      + UI.VISUAL_PIECE_PADDING * 2,
-                      UI.WINDOW_MIN_HEIGHT);
+           ? UIConstants.WINDOW_MIN_HEIGHT
+           : Math.max(solver.getSolution()[0].length * UIConstants.VISUAL_PIECE_HEIGHT
+                      + UIConstants.VISUAL_PIECE_PADDING * 2,
+                      UIConstants.WINDOW_MIN_HEIGHT);
   }
 
   @Override

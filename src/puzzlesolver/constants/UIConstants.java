@@ -1,7 +1,7 @@
 package puzzlesolver.constants;
 
-// UI
-public final class UI {
+// UIConstants
+public final class UIConstants {
 
   public static final String TEXT_SIMPLE = "Text (Simple)", TEXT_FANCY = "Text (Fancy)",
       VISUAL_SIMPLE = "Visual (Simple)", VISUAL_FANCY = "Visual (Fancy)";

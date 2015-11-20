@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import puzzlesolver.Generator;
 import puzzlesolver.Piece;
 import puzzlesolver.Solver;
-import puzzlesolver.constants.UI;
+import puzzlesolver.constants.UIConstants;
 import puzzlesolver.simple.SimpleGenerator;
 import puzzlesolver.simple.SimpleSolver;
 
@@ -29,11 +29,11 @@ public class MainController extends Application {
 
   public final String BUTTON_SOLVE = "Solve", BUTTON_CANCEL = "Cancel",
       BUTTON_SHOW = "Show";
-  public Canvas puzzleCanvas = new Canvas(UI.WINDOW_MIN_WIDTH,
-                                          UI.WINDOW_MIN_HEIGHT);
+  public Canvas puzzleCanvas = new Canvas(UIConstants.WINDOW_MIN_WIDTH,
+                                          UIConstants.WINDOW_MIN_HEIGHT);
   public Button generateButton;
-  public Button solveButton = new Button(UI.BUTTON_SHOW);
-  public Button showButton = new Button(UI.BUTTON_SOLVE);
+  public Button solveButton = new Button(UIConstants.BUTTON_SHOW);
+  public Button showButton = new Button(UIConstants.BUTTON_SOLVE);
   public TextField heightField;
   public TextField widthField;
   public ChoiceBox<String> renderTypeChoiceBox;
@@ -110,8 +110,8 @@ public class MainController extends Application {
       timer.cancel();
     }
     switch (solveButton.getText()) {
-      case UI.BUTTON_SOLVE:
-        solveButton.setText(UI.BUTTON_CANCEL);
+      case UIConstants.BUTTON_SOLVE:
+        solveButton.setText(UIConstants.BUTTON_CANCEL);
         solver.init(puzzle);
 
         timer = new Timer("solver", true);
@@ -127,8 +127,8 @@ public class MainController extends Application {
           }
         }, 0, (long) rateSlider.getValue());
         break;
-      case UI.BUTTON_CANCEL:
-        solveButton.setText(UI.BUTTON_SOLVE);
+      case UIConstants.BUTTON_CANCEL:
+        solveButton.setText(UIConstants.BUTTON_SOLVE);
     }
   }
 

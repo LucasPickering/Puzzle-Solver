@@ -3,7 +3,7 @@ package puzzlesolver.test.ui;
 import org.junit.Test;
 
 import puzzlesolver.Point;
-import puzzlesolver.constants.UI;
+import puzzlesolver.constants.UIConstants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.ui.fx.PuzzleController;
 
@@ -26,19 +26,19 @@ public class PuzzleControllerTest {
   @Test
   public void testGlobalPointFromLocalPoint() throws Exception {
     assertEquals(
-        new Point(UI.VISUAL_PIECE_PADDING, UI.VISUAL_PIECE_PADDING - (UI.VISUAL_PIECE_HEIGHT / 2)),
+        new Point(UIConstants.VISUAL_PIECE_PADDING, UIConstants.VISUAL_PIECE_PADDING - (UIConstants.VISUAL_PIECE_HEIGHT / 2)),
         PuzzleController.globalPointFromLocalPoint(p0_0, Direction.NORTH, 0, 0));
     assertEquals(
-        new Point(UI.VISUAL_PIECE_PADDING, UI.VISUAL_PIECE_PADDING + (UI.VISUAL_PIECE_HEIGHT / 2)),
+        new Point(UIConstants.VISUAL_PIECE_PADDING, UIConstants.VISUAL_PIECE_PADDING + (UIConstants.VISUAL_PIECE_HEIGHT / 2)),
         PuzzleController.globalPointFromLocalPoint(p0_0, Direction.SOUTH, 0, 0));
     assertEquals(
-        new Point(UI.VISUAL_PIECE_PADDING + (UI.VISUAL_PIECE_WIDTH / 2), UI.VISUAL_PIECE_PADDING),
+        new Point(UIConstants.VISUAL_PIECE_PADDING + (UIConstants.VISUAL_PIECE_WIDTH / 2), UIConstants.VISUAL_PIECE_PADDING),
         PuzzleController.globalPointFromLocalPoint(p0_0, Direction.EAST, 0, 0));
     assertEquals(
-        new Point(UI.VISUAL_PIECE_PADDING - (UI.VISUAL_PIECE_WIDTH / 2), UI.VISUAL_PIECE_PADDING),
+        new Point(UIConstants.VISUAL_PIECE_PADDING - (UIConstants.VISUAL_PIECE_WIDTH / 2), UIConstants.VISUAL_PIECE_PADDING),
         PuzzleController.globalPointFromLocalPoint(p0_0, Direction.WEST, 0, 0));
 
-    assertEquals(UI.VISUAL_PIECE_WIDTH,
+    assertEquals(UIConstants.VISUAL_PIECE_WIDTH,
                  PuzzleController.globalPointFromLocalPoint(p0_0, Direction.NORTH, 1, 0).x
                  - PuzzleController.globalPointFromLocalPoint(p0_0, Direction.NORTH, 0, 0).x,
                  0.01);

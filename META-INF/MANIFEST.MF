@@ -1,0 +1,3 @@
+Main-Class: puzzlesolver.Main
+Name: puzzlesolver/
+Specification-Title: Puzzle Solver

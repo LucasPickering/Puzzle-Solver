@@ -28,19 +28,19 @@ public class ConsoleController {
     requireInputPerStep = true;
   }
 
-  public static void main(String[] args) {
+  public static void main(boolean fancy) {
     ConsoleController consoleController = new ConsoleController();
     try {
-      consoleController.start(System.out);
+      consoleController.start(System.out, fancy);
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
-  public void start(PrintStream out) throws Exception {
+  public void start(PrintStream out, boolean fancy) throws Exception {
     Generator generator = new SimpleGenerator();
     Solver solver = new SimpleSolver();
-    TextView textView = new SimpleTextView(solver);
+    TextView textView = fancy ? new FancyTextView(solver) : new SimpleTextView(solver);
     Scanner in = new Scanner(System.in);
     int width, height;
 
