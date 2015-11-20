@@ -7,6 +7,9 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import java.util.Arrays;
+
+import puzzlesolver.constants.Constants;
 import puzzlesolver.ui.console.ConsoleController;
 import puzzlesolver.ui.fx.MainController;
 
@@ -18,12 +21,26 @@ import static puzzlesolver.constants.ConsoleConstants.CLI_SIMPLE;
 import static puzzlesolver.constants.ConsoleConstants.CLI_SIMPLE_LONG;
 import static puzzlesolver.constants.ConsoleConstants.HELP;
 import static puzzlesolver.constants.ConsoleConstants.HELP_LONG;
+import static puzzlesolver.constants.ConsoleConstants.VERBOSE;
 
 public class Main {
 
-
+  /**
+   * vroom vroom
+   */
   public static void main(String[] args) {
     Options options = getOptions();
+
+    // Find how many v's are in a -v[v[v[...]]] argument if one exists
+    // This throws a compiler error if not explicitly cast (see: http://stackoverflow.com/q/32891632)
+    // I apologize sincerely for how disgusting this is, but I wanted to do it in one line.
+
+    //noinspection RedundantCast
+    Constants.VERBOSE_LEVEL =
+        (int) Arrays.asList(args).stream().reduce(0, (integer, s) -> (s.matches("-(v)+"))
+                                                                     ? integer + s.length() - 1
+                                                                     : integer,
+                                                  (i1, i2) -> i1 + i2);
 
     CommandLineParser parser = new DefaultParser();
     CommandLine line;
@@ -32,7 +49,6 @@ public class Main {
       line = parser.parse(options, args);
 
     } catch (ParseException exp) {
-      // oops, something went wrong
       System.err.println("Parsing failed.  Reason: " + exp.getMessage());
       System.exit(2);
       return;
@@ -56,7 +72,12 @@ public class Main {
     options.addOption(CLI, CLI_LONG, false, "run in console output mode (default: Simple)");
     options.addOption(CLI_SIMPLE, CLI_SIMPLE_LONG, false, "with -" + CLI + ": simple output");
     options.addOption(CLI_FANCY, CLI_FANCY_LONG, false, "with -" + CLI + ": fancy output");
+    options.addOption(VERBOSE, "verbosity level (more v's in more places)");
 
     return options;
+  }
+
+  public static boolean isVerbose(int level) {
+    return level <= Constants.VERBOSE_LEVEL;
   }
 }
