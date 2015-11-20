@@ -20,7 +20,7 @@ import puzzlesolver.enums.SideType;
  *
  * <h4>Assertions:</h4> <ul> <li><code>points.length > 1</code></li> </ul>
  */
-public final class SimpleSide implements Side {
+public class SimpleSide implements Side {
 
   /**
    * List of points on the side.

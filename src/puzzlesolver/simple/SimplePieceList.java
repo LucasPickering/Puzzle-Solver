@@ -14,7 +14,7 @@ import puzzlesolver.PieceList;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 
-public final class SimplePieceList implements PieceList {
+public class SimplePieceList implements PieceList {
 
   /*
    * INVARIANTS

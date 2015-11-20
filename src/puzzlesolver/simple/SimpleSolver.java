@@ -7,7 +7,7 @@ import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
 
-public final class SimpleSolver extends AbstractSolver {
+public class SimpleSolver extends AbstractSolver {
 
   private int x;
   private int y;

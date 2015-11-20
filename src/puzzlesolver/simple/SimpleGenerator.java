@@ -14,7 +14,7 @@ import puzzlesolver.enums.Direction;
 /**
  * A class to generate a puzzle with pieces composed of {@link SimpleSide}s.
  */
-public final class SimpleGenerator implements Generator {
+public class SimpleGenerator implements Generator {
 
   private static final double MIN_X_DEVIATION = 1.0f;
   private static final double MAX_X_DEVIATION = 3.0f;
