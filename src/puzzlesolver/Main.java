@@ -52,7 +52,7 @@ public class Main {
       HelpFormatter formatter = new HelpFormatter();
       formatter.printHelp("puzzlesolver", ConsoleConstants.options, true);
     } else if (line.hasOption(CLI)) {
-      ConsoleController.main(line.hasOption(CLI_FANCY));
+      ConsoleController.start(line.hasOption(CLI_FANCY));
     } else {
       MainController.main(args);
     }

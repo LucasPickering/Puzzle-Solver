@@ -28,7 +28,11 @@ public class ConsoleController {
     requireInputPerStep = true;
   }
 
-  public static void main(boolean fancy) {
+  public static void main(String[] args) {
+    start(false);
+  }
+
+  public static void start(boolean fancy) {
     ConsoleController consoleController = new ConsoleController();
     try {
       consoleController.start(System.out, fancy);

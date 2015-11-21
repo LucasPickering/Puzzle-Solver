@@ -25,14 +25,14 @@ public class SimpleTextView implements TextView {
       for (int j = 0; j < pieces[i].length; j++) {
         Piece piece = pieces[i][j];
         if (piece == null) {
-          board[i][j] = (char) 177;
+          board[i][j] = '?';
         } else {
           switch (piece.getPieceType()) {
             case CORNER:
-              board[i][j] = (char) 192;
+              board[i][j] = 'C';
               break;
             case EDGE:
-              board[i][j] = (char) 179;
+              board[i][j] = 'E';
               break;
             case ALL_IN:
               board[i][j] = 'X';
