@@ -44,7 +44,7 @@ public class ConsoleController {
   public void start(PrintStream out, boolean fancy) throws Exception {
     Generator generator = new SimpleGenerator();
     Solver solver = new SimpleSolver();
-    TextView textView = fancy ? new FancyTextView(solver) : new SimpleTextView(solver);
+    TextView textView = fancy ? new AdvancedTextView(solver) : new SimpleTextView(solver);
     Scanner in = new Scanner(System.in);
     int width, height;
 
