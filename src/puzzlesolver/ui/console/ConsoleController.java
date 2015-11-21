@@ -55,12 +55,7 @@ public class ConsoleController {
     solver.init(generator.generate(width, height));
 
     do {
-      String[] render = textView.draw();
-      for (String line : render) {
-        out.println(line);
-      }
-      out.println();
-
+      print(out, textView.draw());
       if (requireInputPerStep) {
         in.nextLine();
       } else {
@@ -70,6 +65,14 @@ public class ConsoleController {
     } while (!solver.nextStep());
 
     out.println("Done!");
+    print(out, textView.draw());
     in.close();
+  }
+
+  private void print(PrintStream out, String[] render) {
+    for (String line : render) {
+      out.println(line);
+    }
+    out.println();
   }
 }
