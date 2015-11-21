@@ -2,7 +2,7 @@ package puzzlesolver.constants;
 
 import puzzlesolver.Piece;
 
-public final class Constants {
+public class Constants {
 
   /**
    * Number of sides to a {@link Piece}.
@@ -15,4 +15,6 @@ public final class Constants {
   public static final double SIDE_LENGTH = 10d;
 
   public static int VERBOSE_LEVEL = 0;
+
+  public static double COMP_DELTA = 0.001d;
 }
