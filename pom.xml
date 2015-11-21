@@ -1,7 +1,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>puzzlesolver</groupId>
-  <artifactId>puzzlesolver</artifactId>
+  <groupId>Puzzle-Solver</groupId>
+  <artifactId>Puzzle-Solver</artifactId>
   <version>1</version>
   <build>
     <plugins>
