@@ -9,6 +9,8 @@ import java.util.Objects;
  */
 public class Point implements Comparable<Point>, Cloneable {
 
+  private static final DoubleDeltaComparator comp = new DoubleDeltaComparator();
+
   /**
    * X-coordinate of the point (distance from left).
    */
@@ -70,10 +72,10 @@ public class Point implements Comparable<Point>, Cloneable {
       return 0;
     }
 
-    int compareResult = Double.compare(y, p.y);
+    int compareResult = comp.compare(y, p.y);
     if (compareResult != 0) {
       return compareResult;
     }
-    return Double.compare(x, p.x);
+    return comp.compare(x, p.x);
   }
 }
