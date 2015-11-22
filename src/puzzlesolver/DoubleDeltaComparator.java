@@ -37,13 +37,7 @@ public class DoubleDeltaComparator implements Comparator<Double> {
   public int compare(Double d1, Double d2) {
     Objects.requireNonNull(d1);
     Objects.requireNonNull(d2);
-    final double diff = d1 - d2;
-    if (diff < -delta) {
-      return -1;
-    }
-    if (diff > delta) {
-      return 1;
-    }
-    return 0;
+
+    return Math.abs(d1 - d2) < delta ? 0 : Double.compare(d1, d2);
   }
 }
