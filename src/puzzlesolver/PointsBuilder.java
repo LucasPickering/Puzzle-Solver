@@ -29,7 +29,7 @@ public class PointsBuilder {
     return result;
   }
 
-  public int getLength() {
+  public int size() {
     return length;
   }
 }

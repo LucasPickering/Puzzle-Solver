@@ -2,6 +2,7 @@ package puzzlesolver.ui.fx.renderers;
 
 import javax.naming.OperationNotSupportedException;
 
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
 public interface PuzzleRenderer<T> {
@@ -25,7 +26,22 @@ public interface PuzzleRenderer<T> {
   }
 
   /**
-   * Re-draw the scene
+   * Get the required width of the renderer window (in pixels).
+   *
+   * @return required width of the renderer window (in pixels)
    */
-  void update() throws Exception;
+  int getRequiredWidth();
+
+  /**
+   * Get the required height of the renderer window (in pixels).
+   *
+   * @return required height of the renderer window (in pixels)
+   */
+  int getRequiredHeight();
+
+  /**
+   * Re-draw the scene
+   * @param canvas {@link Canvas} to draw on
+   */
+  void update(Canvas canvas) throws Exception;
 }

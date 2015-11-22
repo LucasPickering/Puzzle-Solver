@@ -1,5 +1,7 @@
 package puzzlesolver.constants;
 
+import java.util.Random;
+
 import puzzlesolver.Logger;
 import puzzlesolver.Piece;
 
@@ -20,4 +22,6 @@ public class Constants {
   public static double COMP_DELTA = 0.00001d;
 
   public static final Logger LOGGER = new Logger(VERBOSE_LEVEL, System.out);
+
+  public static long RANDOM_SEED = new Random().nextInt();
 }

@@ -2,8 +2,10 @@ package puzzlesolver.ui.fx.renderers;
 
 import java.util.Objects;
 
+import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
 import puzzlesolver.PointsBuilder;
@@ -13,16 +15,15 @@ import puzzlesolver.constants.UIConstants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.simple.SimpleSide;
 
-public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
+public class SimpleVisualPuzzleRenderer implements PuzzleRenderer<Solver> {
 
-  Solver solver;
-  private Canvas puzzleCanvas;
+  @FXML
+  private Solver solver;
 
-  public SimplePuzzleRenderer() {
-    this(null);
+  public SimpleVisualPuzzleRenderer() {
   }
 
-  public SimplePuzzleRenderer(Solver solver) {
+  public SimpleVisualPuzzleRenderer(Solver solver) {
     init(solver);
   }
 
@@ -30,6 +31,7 @@ public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
                                                 int pieceX, int pieceY) {
     Objects.requireNonNull(localPoint);
     Objects.requireNonNull(orientation);
+
     if (pieceX < 0 || pieceY < 0) {
       throw new IllegalArgumentException("Piece coordinates must be natural numbers");
     }
@@ -46,12 +48,13 @@ public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
   }
 
   public void init(Solver solver) {
+    Objects.requireNonNull(solver);
+
     this.solver = solver;
-    puzzleCanvas = new Canvas(getRequiredWidth(), getRequiredHeight());
-    Constants.LOGGER.println(1, "Initialized " + puzzleCanvas.getWidth() + "x" +
-                                puzzleCanvas.getHeight() + " puzzle rendering window.");
+    Constants.LOGGER.println(1, "Initialized puzzle rendering window.");
   }
 
+  @Override
   public int getRequiredWidth() {
     return (solver == null || solver.getSolution() == null)
            ? UIConstants.WINDOW_MIN_WIDTH
@@ -60,6 +63,7 @@ public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
                       UIConstants.WINDOW_MIN_WIDTH);
   }
 
+  @Override
   public int getRequiredHeight() {
     return (solver == null || solver.getSolution() == null)
            ? UIConstants.WINDOW_MIN_HEIGHT
@@ -69,44 +73,55 @@ public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
   }
 
   @Override
-  public void update() throws Exception {
-    GraphicsContext gc = puzzleCanvas.getGraphicsContext2D();
+  public void update(Canvas canvas) throws Exception {
+    GraphicsContext gc = canvas.getGraphicsContext2D();
     Piece[][] solution = solver.getSolution();
 
-    Constants.LOGGER.printf(1, "Rendering %dx%d puzzle.\n", solution.length, solution[0].length);
+    Constants.LOGGER.printf(1, "Drawing %dx%d puzzle.\n", solution.length, solution[0].length);
 
     // Clear the canvas
-    gc.clearRect(0, 0, puzzleCanvas.getWidth(), puzzleCanvas.getHeight());
-
-    PointsBuilder xs = new PointsBuilder();
-    PointsBuilder ys = new PointsBuilder();
+    gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
     for (int arrayX = 0; arrayX < solution.length; arrayX++) {
       for (int arrayY = 0; arrayY < solution[0].length; arrayY++) {
-        double[] xPoints;
-        double[] yPoints;
-        for (Direction d : Direction.values()) {
-          Point[] points = ((SimpleSide) solution[arrayX][arrayY].getSide(d)).getPoints();
-
-          xPoints = new double[points.length];
-          yPoints = new double[points.length];
-
-          for (int i = 0; i < points.length; i++) {
-            Point globalPoint = globalPointFromLocalPoint(points[i], d, arrayX, arrayY);
-            xPoints[i] = globalPoint.x;
-            yPoints[i] = globalPoint.y;
-          }
-
-          xs.add(xPoints);
-          ys.add(yPoints);
-        }
-        if (xs.getLength() != ys.getLength()) {
-          throw new Exception(String.format("mismatch in number of coordinates: x(%d) != y(%d)",
-                                            xs.getLength(), ys.getLength()));
-        }
-        gc.fillPolygon(xs.toPoints(), ys.toPoints(), xs.getLength());
+        drawPiece(gc, solution[arrayX][arrayY], arrayX, arrayY);
       }
     }
 
+  }
+
+  private void drawPiece(GraphicsContext gc, Piece piece, int arrayX, int arrayY) throws Exception {
+    gc.setFill(Color.BLACK);
+    gc.getCanvas().setWidth(getRequiredWidth());
+    gc.getCanvas().setHeight(getRequiredHeight());
+    Constants.LOGGER.println(2, "Drawing piece");
+    double[] xPoints;
+    double[] yPoints;
+    gc.fillPolygon(new double[]{0, 10, 10, 0}, new double[] {0, 0, 10, 10}, 4);
+    PointsBuilder xs = new PointsBuilder();
+    PointsBuilder ys = new PointsBuilder();
+    if (piece != null) {
+      for (Direction d : Direction.values()) {
+        Point[] points = ((SimpleSide) piece.getSide(d)).getPoints();
+        Constants.LOGGER.printf(3, "Direction %s: %s", d, points);
+
+        xPoints = new double[points.length];
+        yPoints = new double[points.length];
+
+        for (int i = 0; i < points.length; i++) {
+          Point globalPoint = globalPointFromLocalPoint(points[i], d, arrayX, arrayY);
+          xPoints[i] = globalPoint.x;
+          yPoints[i] = globalPoint.y;
+        }
+
+        xs.add(xPoints);
+        ys.add(yPoints);
+      }
+      if (xs.size() != ys.size()) {
+        throw new Exception(String.format("mismatch in number of coordinates: x(%d) != y(%d)",
+                                          xs.size(), ys.size()));
+      }
+      gc.fillPolygon(xs.toPoints(), ys.toPoints(), xs.size());
+    }
   }
 }

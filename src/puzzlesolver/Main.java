@@ -16,6 +16,7 @@ import puzzlesolver.ui.fx.MainController;
 import static puzzlesolver.constants.ConsoleConstants.CLI;
 import static puzzlesolver.constants.ConsoleConstants.CLI_FANCY;
 import static puzzlesolver.constants.ConsoleConstants.HELP;
+import static puzzlesolver.constants.ConsoleConstants.RANDOM_SEED;
 
 public class Main {
 
@@ -48,6 +49,10 @@ public class Main {
     }
 
     // TODO add behaviour for the rest of the arguments
+    if (line.hasOption(RANDOM_SEED)) {
+      Constants.RANDOM_SEED = line.getOptionValue(RANDOM_SEED).hashCode();
+    }
+
     if (line.hasOption(HELP)) {
       HelpFormatter formatter = new HelpFormatter();
       formatter.printHelp("puzzlesolver", ConsoleConstants.options, true);
