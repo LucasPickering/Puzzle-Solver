@@ -1,6 +1,5 @@
 package puzzlesolver.ui.fx;
 
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,7 +7,6 @@ import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,8 +25,6 @@ import puzzlesolver.simple.SimpleSolver;
 
 public class MainController extends Application {
 
-  public final String BUTTON_SOLVE = "Solve", BUTTON_CANCEL = "Cancel",
-      BUTTON_SHOW = "Show";
   public Canvas puzzleCanvas = new Canvas(UIConstants.WINDOW_MIN_WIDTH,
                                           UIConstants.WINDOW_MIN_HEIGHT);
   public Button generateButton;
@@ -41,7 +37,7 @@ public class MainController extends Application {
   public ObservableList<String> renderTypes;
   Timer timer = null;
   private Solver solver = new SimpleSolver();
-  private PuzzleController puzzleController = new PuzzleController(solver, puzzleCanvas);
+  private PuzzleController puzzleController = new PuzzleController(solver);
   private Piece[] puzzle;
 
   public static void main(String[] args) {
@@ -64,21 +60,7 @@ public class MainController extends Application {
         .addListener(this::changeRenderMode);
     renderTypeChoiceBox.show();
 
-    showButton.setOnAction(new EventHandler<ActionEvent>() {
-      public void handle(ActionEvent event) {
-        Parent root;
-        try {
-          root = FXMLLoader.load(getClass().getResource("puzzle.fxml"));
-          Stage stage = new Stage();
-          stage.setTitle("Puzzle!");
-          stage.setScene(new Scene(root, puzzleController.getRequiredWidth(),
-                                   puzzleController.getRequiredHeight()));
-          stage.show();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
-    });
+    showButton.setOnAction(puzzleController::openPuzzleWindow);
 
     rateSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
       if (!newValue.equals(oldValue) && timer != null) {
@@ -102,6 +84,7 @@ public class MainController extends Application {
       generateButton.setDisable(false);
       generateButton.setText("Regenerate");
       solveButton.setDisable(false);
+      showButton.setDisable(false);
     }
   }
 

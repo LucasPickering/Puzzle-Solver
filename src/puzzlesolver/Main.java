@@ -25,10 +25,10 @@ public class Main {
   public static void main(String[] args) {
 
     // Find how many v's are in a -v[v[v[...]]] argument if one exists
-    // This throws a compiler error if not explicitly cast (see: http://stackoverflow.com/q/32891632)
     // I apologize sincerely for how disgusting this is, but I wanted to do it in one line.
 
-    //noinspection RedundantCast
+    // This throws a compiler error if not explicitly cast (see: http://stackoverflow.com/q/32891632)
+    // noinspection RedundantCast
     Constants.VERBOSE_LEVEL =
         (int) Arrays.asList(args).stream().reduce(0, (integer, s) -> (s.matches("-(v)+"))
                                                                      ? integer + s.length() - 1
@@ -56,10 +56,5 @@ public class Main {
     } else {
       MainController.main(args);
     }
-  }
-
-
-  public static boolean isVerboseEnoughFor(int level) {
-    return level <= Constants.VERBOSE_LEVEL;
   }
 }

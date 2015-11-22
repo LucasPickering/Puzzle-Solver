@@ -4,12 +4,11 @@ import java.util.Objects;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import puzzlesolver.Main;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
 import puzzlesolver.PointsBuilder;
 import puzzlesolver.Solver;
+import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.simple.SimpleSide;
@@ -18,7 +17,14 @@ public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
 
   Solver solver;
   private Canvas puzzleCanvas;
-  private Image img = null;
+
+  public SimplePuzzleRenderer() {
+    this(null);
+  }
+
+  public SimplePuzzleRenderer(Solver solver) {
+    init(solver);
+  }
 
   public static Point globalPointFromLocalPoint(Point localPoint, Direction orientation,
                                                 int pieceX, int pieceY) {
@@ -39,21 +45,11 @@ public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
                      + (localPoint.y * orientation.x));
   }
 
-  @Override
-  public void init(Solver solver, Canvas puzzleCanvas) {
+  public void init(Solver solver) {
     this.solver = solver;
-    this.puzzleCanvas = puzzleCanvas;
-    this.puzzleCanvas.setWidth(getRequiredWidth());
-    this.puzzleCanvas.setHeight(getRequiredHeight());
-    if (Main.isVerboseEnoughFor(1)) {
-      System.out.println("Initialized " + puzzleCanvas.getWidth() + "x" +
-                         puzzleCanvas.getHeight() + " puzzle rendering window.");
-    }
-  }
-
-  @Override
-  public void setImage(Image img) {
-    this.img = img;
+    puzzleCanvas = new Canvas(getRequiredWidth(), getRequiredHeight());
+    Constants.LOGGER.println(1, "Initialized " + puzzleCanvas.getWidth() + "x" +
+                                puzzleCanvas.getHeight() + " puzzle rendering window.");
   }
 
   public int getRequiredWidth() {
@@ -77,9 +73,7 @@ public class SimplePuzzleRenderer implements PuzzleRenderer<Solver> {
     GraphicsContext gc = puzzleCanvas.getGraphicsContext2D();
     Piece[][] solution = solver.getSolution();
 
-    if (Main.isVerboseEnoughFor(1)) {
-      System.out.printf("Rendering %dx%d puzzle.\n", solution.length, solution[0].length);
-    }
+    Constants.LOGGER.printf(1, "Rendering %dx%d puzzle.\n", solution.length, solution[0].length);
 
     // Clear the canvas
     gc.clearRect(0, 0, puzzleCanvas.getWidth(), puzzleCanvas.getHeight());

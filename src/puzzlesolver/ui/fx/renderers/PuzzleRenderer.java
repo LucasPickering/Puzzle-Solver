@@ -1,6 +1,7 @@
 package puzzlesolver.ui.fx.renderers;
 
-import javafx.scene.canvas.Canvas;
+import javax.naming.OperationNotSupportedException;
+
 import javafx.scene.image.Image;
 
 public interface PuzzleRenderer<T> {
@@ -11,16 +12,17 @@ public interface PuzzleRenderer<T> {
    * {@param toDraw} will not be copied.
    *
    * @param toDraw the object to be drawn
-   * @param canvas the canvas to be drawn to
    */
-  void init(T toDraw, Canvas canvas);
+  void init(T toDraw);
 
   /**
    * Set the image to draw on the puzzle pieces
    *
    * @param img the image to be drawn on the puzzle pieces
    */
-  void setImage(Image img);
+  default void setImage(Image img) throws OperationNotSupportedException {
+    throw new OperationNotSupportedException("setImage not supported in this PuzzleRenderer");
+  }
 
   /**
    * Re-draw the scene

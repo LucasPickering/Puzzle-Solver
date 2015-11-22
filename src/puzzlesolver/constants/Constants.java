@@ -1,5 +1,6 @@
 package puzzlesolver.constants;
 
+import puzzlesolver.Logger;
 import puzzlesolver.Piece;
 
 public class Constants {
@@ -17,4 +18,6 @@ public class Constants {
   public static int VERBOSE_LEVEL = 0;
 
   public static double COMP_DELTA = 0.001d;
+
+  public static final Logger LOGGER = new Logger(VERBOSE_LEVEL, System.out);
 }

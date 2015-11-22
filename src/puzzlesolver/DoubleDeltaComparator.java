@@ -38,6 +38,6 @@ public class DoubleDeltaComparator implements Comparator<Double> {
     Objects.requireNonNull(d1);
     Objects.requireNonNull(d2);
 
-    return Math.abs(d1 - d2) < delta ? 0 : Double.compare(d1, d2);
+    return Math.abs(d1 - d2) <= delta ? 0 : Double.compare(d1, d2);
   }
 }
