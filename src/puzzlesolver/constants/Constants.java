@@ -17,7 +17,7 @@ public class Constants {
 
   public static int VERBOSE_LEVEL = 0;
 
-  public static double COMP_DELTA = 0.001d;
+  public static double COMP_DELTA = 0.00001d;
 
   public static final Logger LOGGER = new Logger(VERBOSE_LEVEL, System.out);
 }

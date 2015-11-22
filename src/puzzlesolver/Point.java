@@ -1,5 +1,6 @@
 package puzzlesolver;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Objects;
  */
 public class Point implements Comparable<Point>, Cloneable {
 
-  private static final DoubleDeltaComparator comp = new DoubleDeltaComparator();
+  private static final Comparator<Double> comp = new DoubleDeltaComparator();
 
   /**
    * X-coordinate of the point (distance from left).
