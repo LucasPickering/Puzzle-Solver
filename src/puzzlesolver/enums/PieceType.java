@@ -74,15 +74,21 @@ public enum PieceType {
 
     switch (this) {
       case OPPOSITES:
-        return sides[0] == sides[2]
-               && sides[1] == sides[3];
+        return sidesEqualXorNull(sides[0], sides[2])
+               && sidesEqualXorNull(sides[1], sides[3]);
 
       case ADJACENTS:
-        return (sides[0] == sides[1] && sides[2] == sides[3])
-               || (sides[0] == sides[3] && sides[1] == sides[2]);
+        return (sidesEqualXorNull(sides[0], sides[1]) && sidesEqualXorNull(sides[2], sides[3]))
+               || (sidesEqualXorNull(sides[0], sides[3]) && sidesEqualXorNull(sides[1], sides[2]));
 
       default:
         return true;
     }
+  }
+
+  private boolean sidesEqualXorNull(SideType s1, SideType s2) {
+    return (s1 == null)
+           ? s2 != null
+           : s2 == null || s1 == s2;
   }
 }
