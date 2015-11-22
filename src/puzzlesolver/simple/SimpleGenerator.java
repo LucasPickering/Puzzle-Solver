@@ -21,10 +21,11 @@ public class SimpleGenerator implements Generator {
   private static final double MIN_Y_DEVIATION = 0.1f;
   private static final double MAX_Y_DEVIATION = 1.0f;
 
-  private final Random random = new Random();
+  private Random random;
 
   @Override
-  public Piece[] generate(int width, int height) {
+  public Piece[] generate(long seed, int width, int height) {
+    random = new Random(seed);
     final Piece[][] pieces = new Piece[width][height];
 
     /* Generate 4wh sides.
@@ -70,8 +71,13 @@ public class SimpleGenerator implements Generator {
         toReturn.add(pieces[i][j]);
       }
     }
-    Collections.shuffle(toReturn); // Shuffle the list to "unsolve" it
+    Collections.shuffle(toReturn, random); // Shuffle the list to "unsolve" it
     return toReturn.toArray(new Piece[width * height]);
+  }
+
+  @Override
+  public Piece[] generate(int width, int height) {
+    return generate(new Random().nextLong(), width, height);
   }
 
   private SimpleSide generateSide(boolean flat) {
