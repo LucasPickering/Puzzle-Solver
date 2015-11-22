@@ -52,7 +52,8 @@ public class ConsoleController {
     width = in.nextInt();
     out.print("Puzzle Height: ");
     height = in.nextInt();
-    solver.init(generator.generate("test seed".hashCode(), width, height));
+    generator.setSeed("test seed".hashCode()); // TODO: Remove this line
+    solver.init(generator.generate(width, height));
 
     do {
       print(out, textView.draw());
