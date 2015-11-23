@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -29,7 +30,7 @@ public class PuzzleController implements Initializable {
   private AnchorPane puzzlePane;
   private PuzzleRenderer<Solver> puzzleRenderer = new SimpleVisualPuzzleRenderer();
   @FXML
-  private Canvas puzzleCanvas = new Canvas(getRequiredWidth(), getRequiredHeight());
+  private Canvas puzzleCanvas;
   private Solver solver = new SimpleSolver();
   private Stage stage;
 
@@ -63,15 +64,16 @@ public class PuzzleController implements Initializable {
 
   public void openPuzzleWindow(ActionEvent event) {
     if (stage == null) {
+      Parent root;
       try {
-        Parent root = FXMLLoader
-            .load(getClass().getResource("puzzle.fxml"));
+        root = FXMLLoader.load(getClass().getResource("puzzle.fxml"));
+        Scene scene = new Scene(root, getRequiredWidth(), getRequiredHeight(), true,
+                                SceneAntialiasing.BALANCED);
+        puzzleCanvas = new Canvas();
+
         stage = new Stage();
-        stage.setResizable(false);
-        stage.setTitle("Puzzle!");
-        stage.setScene(new Scene(root, getRequiredWidth(),
-                                 getRequiredHeight()));
-        stage.setOnCloseRequest(event1 -> stage.hide());
+        stage.setScene(scene);
+        stage.show();
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -97,11 +99,11 @@ public class PuzzleController implements Initializable {
         break;
       case UIConstants.VISUAL_SIMPLE:
         puzzleRenderer = new SimpleVisualPuzzleRenderer(solver);
-        Constants.LOGGER.printf(1, "Changed render method to %s", renderMethod);
+        Constants.LOGGER.printf(1, "Changed render method to %s\n", renderMethod);
         break;
       case UIConstants.VISUAL_FANCY:
         puzzleRenderer = new SimpleVisualPuzzleRenderer(solver);
-        Constants.LOGGER.printf(1, "Changed render method to %s", renderMethod);
+        Constants.LOGGER.printf(1, "Changed render method to %s\n", renderMethod);
         break;
       default:
         throw new IllegalArgumentException(renderMethod + " is not a valid render method");

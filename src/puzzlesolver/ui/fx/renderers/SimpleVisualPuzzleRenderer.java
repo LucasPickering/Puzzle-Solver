@@ -92,6 +92,8 @@ public class SimpleVisualPuzzleRenderer implements PuzzleRenderer<Solver> {
 
   private void drawPiece(GraphicsContext gc, Piece piece, int arrayX, int arrayY) throws Exception {
     gc.setFill(Color.BLACK);
+    gc.setLineWidth(2);
+    gc.setStroke(Color.DEEPPINK);
     gc.getCanvas().setWidth(getRequiredWidth());
     gc.getCanvas().setHeight(getRequiredHeight());
     Constants.LOGGER.println(2, "Drawing piece");
@@ -121,6 +123,8 @@ public class SimpleVisualPuzzleRenderer implements PuzzleRenderer<Solver> {
         throw new Exception(String.format("mismatch in number of coordinates: x(%d) != y(%d)",
                                           xs.size(), ys.size()));
       }
+
+      gc.strokePolygon(xs.toPoints(), ys.toPoints(), xs.size());
       gc.fillPolygon(xs.toPoints(), ys.toPoints(), xs.size());
     }
   }

@@ -57,7 +57,7 @@
             GridPane.rowIndex="3" GridPane.valignment="CENTER"/>
     <Line endX="100.0" startX="-100.0" GridPane.columnSpan="2" GridPane.halignment="CENTER"
           GridPane.rowIndex="1" GridPane.valignment="TOP"/>
-    <Slider fx:id="rateSlider" blockIncrement="100.0" majorTickUnit="100.0" max="1000.0"
+    <Slider fx:id="rateSlider" blockIncrement="100.0" majorTickUnit="100.0" min="1.0" max="1000.0"
             minorTickCount="10" orientation="VERTICAL" prefHeight="73.0" prefWidth="22.0"
             value="1000.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT"
             GridPane.rowIndex="3"/>

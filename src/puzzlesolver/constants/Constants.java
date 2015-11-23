@@ -17,11 +17,9 @@ public class Constants {
    */
   public static final double SIDE_LENGTH = 10d;
 
-  public static int VERBOSE_LEVEL = 0;
-
   public static double COMP_DELTA = 0.00001d;
 
-  public static final Logger LOGGER = new Logger(VERBOSE_LEVEL, System.out);
+  public static final Logger LOGGER = new Logger(System.out);
 
-  public static long RANDOM_SEED = new Random().nextInt();
+  public static long RANDOM_SEED = new Random().nextLong();
 }

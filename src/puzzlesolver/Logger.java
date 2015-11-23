@@ -6,166 +6,178 @@ import java.util.Locale;
 
 public class Logger extends FilterOutputStream {
 
-  private final int globalLogLevel;
   private final PrintStream delegate;
+  private int globalVerbosity;
 
-  public Logger(int globalLogLevel, PrintStream out) {
+  public Logger(PrintStream out) {
+    this(0, out);
+  }
+
+  public Logger(int globalVerbosity, PrintStream out) {
     super(out);
     this.delegate = out;
-    this.globalLogLevel = globalLogLevel;
+    this.globalVerbosity = globalVerbosity;
+  }
+
+  public int getGlobalVerbosity() {
+    return globalVerbosity;
+  }
+
+  public void setVerbosity(int verbosity) {
+    globalVerbosity = verbosity;
   }
 
   public void write(int logLevel, int b) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.write(b);
     }
   }
 
   public void write(int logLevel, byte[] buf, int off, int len) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.write(buf, off, len);
     }
   }
 
   public void print(int logLevel, boolean b) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.print(b);
     }
   }
 
   public void print(int logLevel, char c) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.print(c);
     }
   }
 
   public void print(int logLevel, int i) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.print(i);
     }
   }
 
   public void print(int logLevel, long l) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.print(l);
     }
   }
 
   public void print(int logLevel, float f) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.print(f);
     }
   }
 
   public void print(int logLevel, double d) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.print(d);
     }
   }
 
   public void print(int logLevel, char[] s) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.print(s);
     }
   }
 
   public void print(int logLevel, String s) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.print(s);
     }
   }
 
   public void print(int logLevel, Object obj) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.print(obj);
     }
   }
 
   public void println(int logLevel) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.println();
     }
   }
 
   public void println(int logLevel, boolean x) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.println(x);
     }
   }
 
   public void println(int logLevel, char x) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.println(x);
     }
   }
 
   public void println(int logLevel, int x) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.println(x);
     }
   }
 
   public void println(int logLevel, long x) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.println(x);
     }
   }
 
   public void println(int logLevel, float x) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.println(x);
     }
   }
 
   public void println(int logLevel, double x) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.println(x);
     }
   }
 
   public void println(int logLevel, char[] x) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.println(x);
     }
   }
 
   public void println(int logLevel, String x) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.println(x);
     }
   }
 
   public void println(int logLevel, Object x) {
-    if (logLevel <= globalLogLevel) {
+    if (logLevel <= globalVerbosity) {
       delegate.println(x);
     }
   }
 
   public PrintStream printf(int logLevel, String format, Object... args) {
-    return (logLevel <= globalLogLevel) ? delegate.printf(format, args) : delegate;
+    return (logLevel <= globalVerbosity) ? delegate.printf(format, args) : delegate;
   }
 
   public PrintStream printf(int logLevel, Locale l, String format, Object... args) {
-    return (logLevel <= globalLogLevel) ? delegate.printf(l, format, args) : delegate;
+    return (logLevel <= globalVerbosity) ? delegate.printf(l, format, args) : delegate;
   }
 
   public PrintStream format(int logLevel, String format, Object... args) {
-    return (logLevel <= globalLogLevel) ? delegate.format(format, args) : delegate;
+    return (logLevel <= globalVerbosity) ? delegate.format(format, args) : delegate;
   }
 
   public PrintStream format(int logLevel, Locale l, String format, Object... args) {
-    return (logLevel <= globalLogLevel) ? delegate.format(l, format, args) : delegate;
+    return (logLevel <= globalVerbosity) ? delegate.format(l, format, args) : delegate;
   }
 
   public PrintStream append(int logLevel, CharSequence csq) {
-    return (logLevel <= globalLogLevel) ? delegate.append(csq) : delegate;
+    return (logLevel <= globalVerbosity) ? delegate.append(csq) : delegate;
   }
 
   public PrintStream append(int logLevel, CharSequence csq, int start, int end) {
-    return (logLevel <= globalLogLevel) ? delegate.append(csq, start, end) : delegate;
+    return (logLevel <= globalVerbosity) ? delegate.append(csq, start, end) : delegate;
   }
 
   public PrintStream append(int logLevel, char c) {
-    return (logLevel <= globalLogLevel) ? delegate.append(c) : delegate;
+    return (logLevel <= globalVerbosity) ? delegate.append(c) : delegate;
   }
 }

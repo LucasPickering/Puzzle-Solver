@@ -28,18 +28,27 @@ import puzzlesolver.simple.SimpleGenerator;
 
 public class MainController extends Application implements Initializable {
 
-  @FXML private Button generateButton;
-  @FXML private Button solveButton = new Button(UIConstants.BUTTON_SHOW);
-  @FXML private Button showButton = new Button(UIConstants.BUTTON_SOLVE);
-  @FXML private TextField heightField;
-  @FXML private TextField widthField;
-  @FXML private ChoiceBox<String> renderTypeChoiceBox;
-  @FXML private Slider rateSlider = new Slider();
-  private ObservableList<String> renderTypes;
   Timer timer = null;
-  @FXML private Solver solver;
+  @FXML
+  private Button generateButton;
+  @FXML
+  private Button solveButton = new Button(UIConstants.BUTTON_SHOW);
+  @FXML
+  private Button showButton = new Button(UIConstants.BUTTON_SOLVE);
+  @FXML
+  private TextField heightField;
+  @FXML
+  private TextField widthField;
+  @FXML
+  private ChoiceBox<String> renderTypeChoiceBox;
+  @FXML
+  private Slider rateSlider = new Slider();
+  private ObservableList<String> renderTypes;
+  @FXML
+  private Solver solver;
   private PuzzleController puzzleController;
   private Piece[] puzzle;
+  private boolean stopSolve;
 
   public static void main(String[] args) {
     launch(args);
@@ -88,28 +97,36 @@ public class MainController extends Application implements Initializable {
    */
   @FXML
   private void solve() {
-    if (timer != null) {
-      timer.cancel();
-    }
     switch (solveButton.getText()) {
       case UIConstants.BUTTON_SOLVE:
-        solveButton.setText(UIConstants.BUTTON_CANCEL);
-        solver.init(puzzle);
+        if (solver.getSolution() == null) {
+          solver.init(puzzle);
+        }
+        if (stopSolve) {
+          stopSolve = false;
+          solveButton.setText(UIConstants.BUTTON_CANCEL);
+        }
 
-        timer = new Timer("solver", true);
+        timer = new Timer(Thread.currentThread().getName(), false);
         timer.scheduleAtFixedRate(new TimerTask() {
           @Override
           public void run() {
             try {
-              puzzleController.draw();
+              if (stopSolve) {
+                this.cancel();
+              } else {
+                puzzleController.draw();
+                solver.nextStep();
+              }
             } catch (Exception e) {
               e.printStackTrace();
             }
-            solver.nextStep();
           }
         }, 0, (long) rateSlider.getValue());
+
         break;
       case UIConstants.BUTTON_CANCEL:
+        stopSolve = true;
         solveButton.setText(UIConstants.BUTTON_SOLVE);
     }
   }
@@ -141,7 +158,7 @@ public class MainController extends Application implements Initializable {
 
     rateSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
       if (!newValue.equals(oldValue) && timer != null) {
-        solve();
+        stopSolve = true;
       }
     });
   }

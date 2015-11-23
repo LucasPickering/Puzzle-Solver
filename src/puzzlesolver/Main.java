@@ -30,11 +30,15 @@ public class Main {
 
     // This throws a compiler error if not explicitly cast (see: http://stackoverflow.com/q/32891632)
     // noinspection RedundantCast
-    Constants.VERBOSE_LEVEL =
-        (int) Arrays.asList(args).stream().reduce(0, (integer, s) -> (s.matches("-(v)+"))
-                                                                     ? integer + s.length() - 1
-                                                                     : integer,
-                                                  (i1, i2) -> i1 + i2);
+    Constants.LOGGER.setVerbosity((int) Arrays.asList(args)
+        .stream()
+        .reduce(0, (integer, s) -> (s.matches("-(v)+"))
+                                   ? integer + s.length() - 1
+                                   : integer,
+                (i1, i2) -> i1 + i2));
+
+    Constants.LOGGER.printf(1, "Verbose Level: %d%n", Constants.LOGGER.getGlobalVerbosity());
+    Constants.LOGGER.printf(1, "Random Seed: %d%n", Constants.RANDOM_SEED);
 
     CommandLineParser parser = new DefaultParser();
     CommandLine line;
