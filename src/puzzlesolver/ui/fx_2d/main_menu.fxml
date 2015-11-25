@@ -16,7 +16,7 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="231.0"
             stylesheets="@main_menu.css" xmlns="http://javafx.com/javafx/8"
-            fx:controller="puzzlesolver.ui.fx.MainController">
+            fx:controller="puzzlesolver.ui.fx_2d.MainController">
   <fx:include source="puzzle.fxml"/>
   <fx:define>
     <SimpleSolver fx:id="solver"/>

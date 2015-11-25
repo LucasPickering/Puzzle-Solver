@@ -5,7 +5,7 @@ import org.junit.Test;
 import puzzlesolver.Point;
 import puzzlesolver.constants.UIConstants;
 import puzzlesolver.enums.Direction;
-import puzzlesolver.ui.fx.PuzzleController;
+import puzzlesolver.ui.fx_2d.PuzzleController;
 
 import static org.junit.Assert.assertEquals;
 

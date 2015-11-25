@@ -1,4 +1,4 @@
-package puzzlesolver.ui.fx;
+package puzzlesolver.ui.fx_2d;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,8 +21,8 @@ import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.simple.SimpleSolver;
-import puzzlesolver.ui.fx.renderers.PuzzleRenderer;
-import puzzlesolver.ui.fx.renderers.SimpleVisualPuzzleRenderer;
+import puzzlesolver.ui.fx_2d.renderers.PuzzleRenderer;
+import puzzlesolver.ui.fx_2d.renderers.SimpleVisualPuzzleRenderer;
 
 public class PuzzleController implements Initializable {
 

@@ -16,7 +16,8 @@ public class ConsoleConstants {
       CLI_FANCY = "f", CLI_FANCY_LONG = "cli-fancy",
       VERBOSE = "v",
       EXIT_CODES = "e", EXIT_CODES_LONG = "exit-codes",
-      RANDOM_SEED = "r", RANDOM_SEED_LONG = "random-seed";
+      RANDOM_SEED = "r", RANDOM_SEED_LONG = "random-seed",
+      THREE_D = "d", THREE_D_LONG = "3d";
 
   public static final Options options = new Options() {
     {
@@ -27,6 +28,7 @@ public class ConsoleConstants {
       this.addOption(VERBOSE, "verbosity level (more v's in more places)");
       this.addOption(EXIT_CODES, EXIT_CODES_LONG, false, "print meanings of exit codes");
       this.addOption(RANDOM_SEED, RANDOM_SEED_LONG, true, "specify the random seed to be used");
+      this.addOption(THREE_D, THREE_D_LONG, false, "use 3D puzzle renderer");
     }
   };
 

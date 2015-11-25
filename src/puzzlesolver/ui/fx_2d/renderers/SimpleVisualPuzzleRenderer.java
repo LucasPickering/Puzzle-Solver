@@ -1,4 +1,6 @@
-package puzzlesolver.ui.fx.renderers;
+package puzzlesolver.ui.fx_2d.renderers;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Objects;
 
@@ -8,8 +10,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
-import puzzlesolver.PointsBuilder;
 import puzzlesolver.Solver;
+import puzzlesolver.arrays.PointsBuilder;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
 import puzzlesolver.enums.Direction;
@@ -97,9 +99,12 @@ public class SimpleVisualPuzzleRenderer implements PuzzleRenderer<Solver> {
     gc.getCanvas().setWidth(getRequiredWidth());
     gc.getCanvas().setHeight(getRequiredHeight());
     Constants.LOGGER.println(2, "Drawing piece");
-    double[] xPoints;
-    double[] yPoints;
-    gc.fillPolygon(new double[]{0, 10, 10, 0}, new double[] {0, 0, 10, 10}, 4);
+    Double[] xPoints;
+    Double[] yPoints;
+
+    // test
+    gc.fillPolygon(new double[]{0, 10, 10, 0}, new double[]{0, 0, 10, 10}, 4);
+
     PointsBuilder xs = new PointsBuilder();
     PointsBuilder ys = new PointsBuilder();
     if (piece != null) {
@@ -107,8 +112,8 @@ public class SimpleVisualPuzzleRenderer implements PuzzleRenderer<Solver> {
         Point[] points = ((SimpleSide) piece.getSide(d)).getPoints();
         Constants.LOGGER.printf(3, "Direction %s: %s", d, points);
 
-        xPoints = new double[points.length];
-        yPoints = new double[points.length];
+        xPoints = new Double[points.length];
+        yPoints = new Double[points.length];
 
         for (int i = 0; i < points.length; i++) {
           Point globalPoint = globalPointFromLocalPoint(points[i], d, arrayX, arrayY);
@@ -116,16 +121,18 @@ public class SimpleVisualPuzzleRenderer implements PuzzleRenderer<Solver> {
           yPoints[i] = globalPoint.y;
         }
 
-        xs.add(xPoints);
-        ys.add(yPoints);
+        xs.addAll(xPoints);
+        ys.addAll(yPoints);
       }
       if (xs.size() != ys.size()) {
         throw new Exception(String.format("mismatch in number of coordinates: x(%d) != y(%d)",
                                           xs.size(), ys.size()));
       }
 
-      gc.strokePolygon(xs.toPoints(), ys.toPoints(), xs.size());
-      gc.fillPolygon(xs.toPoints(), ys.toPoints(), xs.size());
+      gc.strokePolygon(ArrayUtils.toPrimitive(xs.toPoints()),
+                       ArrayUtils.toPrimitive(ys.toPoints()), xs.size());
+      gc.fillPolygon(ArrayUtils.toPrimitive(xs.toPoints()),
+                     ArrayUtils.toPrimitive(ys.toPoints()), xs.size());
     }
   }
 }

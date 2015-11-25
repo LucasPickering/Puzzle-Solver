@@ -1,4 +1,4 @@
-package puzzlesolver.ui.fx;
+package puzzlesolver.ui.fx_2d;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -107,7 +107,7 @@ public class MainController extends Application implements Initializable {
           solveButton.setText(UIConstants.BUTTON_CANCEL);
         }
 
-        timer = new Timer(Thread.currentThread().getName(), false);
+        timer = new Timer("Solve and Render", true);
         timer.scheduleAtFixedRate(new TimerTask() {
           @Override
           public void run() {
