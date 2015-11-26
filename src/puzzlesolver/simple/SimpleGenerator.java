@@ -16,10 +16,10 @@ import puzzlesolver.enums.Direction;
  */
 public class SimpleGenerator implements Generator {
 
-  private static final double MIN_X_DEVIATION = 1.0f;
-  private static final double MAX_X_DEVIATION = 3.0f;
-  private static final double MIN_Y_DEVIATION = 0.1f;
-  private static final double MAX_Y_DEVIATION = 1.0f;
+  private static final double MIN_X_DEVIATION = Constants.SIDE_LENGTH * 0.1d;
+  private static final double MAX_X_DEVIATION = Constants.SIDE_LENGTH * 0.3d;
+  private static final double MIN_Y_DEVIATION = Constants.SIDE_LENGTH * 0.01d;
+  private static final double MAX_Y_DEVIATION = Constants.SIDE_LENGTH * 0.1d;
 
   private Random random = new Random();
 
