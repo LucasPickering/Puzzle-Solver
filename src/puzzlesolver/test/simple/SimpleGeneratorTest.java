@@ -16,7 +16,11 @@ public class SimpleGeneratorTest {
 
   @Test
   public void testGenerate() throws Exception {
-    Piece[] generated = generator.generate(4, 4);
+    testInRange(generator.generate(4, 4));
+    testInRange(generator.generate(6, 6));
+  }
+
+  private void testInRange(Piece[] generated) {
     for (Piece piece : generated) {
       for (Direction d : Direction.values()) {
         Point[] points = ((SimpleSide)piece.getSide(d)).getPoints();
