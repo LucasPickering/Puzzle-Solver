@@ -66,8 +66,8 @@ public class Piece {
    * @throws IllegalStateException if there is no definite type for this piece
    */
   public PieceType getPieceType() {
-    if (pieceTypes.length == 1) {
-      return pieceTypes[0];
+    if (getPieceTypes().length == 1) {
+      return getPieceTypes()[0];
     }
     throw new IllegalStateException("No single type for this piece!");
   }
@@ -90,7 +90,7 @@ public class Piece {
    * @return true if the given type is the <i>only</i> type that this piece can be, false otherwise
    */
   public boolean definitelyType(PieceType pieceType) {
-    return pieceTypes.length == 1 && pieceTypes[0] == pieceType;
+    return getPieceTypes().length == 1 && getPieceTypes()[0] == pieceType;
   }
 
   /**
