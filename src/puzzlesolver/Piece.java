@@ -23,8 +23,9 @@ public class Piece {
   /**
    * Sides are ordered in the same way as {@link Direction}: NORTH, EAST, SOUTH, WEST.
    */
-  private final Side[] sides;
-  private final PieceType[] pieceTypes;
+  private Side[] sides;
+  private PieceType[] pieceTypes;
+
   /**
    * Constructs a new Piece with the given 4 sides.
    *
@@ -32,7 +33,6 @@ public class Piece {
    */
   private Piece(Side[] sides) {
     this.sides = sides;
-    this.pieceTypes = findPieceTypes();
   }
 
   /**
@@ -52,6 +52,9 @@ public class Piece {
    * @return the type of this piece
    */
   public PieceType[] getPieceTypes() {
+    if (pieceTypes == null) {
+      pieceTypes = findPieceTypes();
+    }
     return pieceTypes.clone();
   }
 
@@ -151,12 +154,65 @@ public class Piece {
     return true;
   }
 
+  /**
+   * Rotates the sides of this piece from {@param from} to {@param to}. For example, {@code
+   * rotate(NORTH, EAST)} rotates the piece one space clockwise, so that the old north side is the new
+   * east side. Does not clone the piece first, so use this wisely!
+   *
+   * @param from the direction to be rotated from
+   * @param to   the direction to be rotated to
+   */
+  public void rotate(Direction from, Direction to) {
+    final Side[] newSides = new Side[Constants.NUM_SIDES];
+    int rotAmt = (from.ordinal() - to.ordinal()) % Constants.NUM_SIDES;
+    if (rotAmt < 0) {
+      rotAmt += Constants.NUM_SIDES;
+    }
+    System.arraycopy(sides, 0, newSides, rotAmt, Constants.NUM_SIDES - rotAmt);
+    System.arraycopy(sides, rotAmt, newSides, Constants.NUM_SIDES - rotAmt, rotAmt);
+    sides = newSides;
+  }
+
+  /**
+   * Makes a clone of thise piece, then rotates that clone from {@code from} to {@code to}. Rotation
+   * is done by calling {@link #rotate}, so this rotation will follow that method's rules.
+   *
+   * @param from the direction to be rotated from
+   * @param to   the direction to be rotated to
+   */
+  public Piece copyRotate(Direction from, Direction to) {
+    final Piece copy = copy();
+    copy.rotate(from, to);
+    return copy;
+  }
+
+  /**
+   * Makes a deep copy of this piece, copying each side as well.
+   *
+   * @return a deep copy of this piece
+   */
+  public Piece copy() {
+    final Builder builder = new Builder();
+    for (Direction dir : Direction.values()) {
+      builder.setSide(sides[dir.ordinal()], dir); // Builder clones the side
+    }
+
+    final Piece piece = builder.build();
+
+    // If we have this piece's types already, carry them over to the clone
+    if (pieceTypes != null) {
+      piece.pieceTypes = pieceTypes.clone();
+    }
+    return piece;
+  }
+
   public static class Builder {
 
     private final Side[] sides = new Side[Constants.NUM_SIDES];
 
     /**
-     * Sets this piece's side in the given direction to the given side.
+     * Sets this piece's side in the given direction to the given side. Makes a copy of the given side
+     * to stay safe from bad people.
      *
      * @param side the side to be added
      * @param dir  the direction of the side in this piece
