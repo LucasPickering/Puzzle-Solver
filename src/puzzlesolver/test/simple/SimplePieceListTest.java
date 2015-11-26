@@ -24,6 +24,7 @@ public class SimplePieceListTest {
   @Before
   public void setUp() {
     Generator gen = new SimpleGenerator();
+    gen.setSeed("SimplePieceListTest".hashCode());
     oneByOne.addAll(gen.generate(1, 1));
     fourByFour.addAll(gen.generate(4, 4));
     bigList.addAll(gen.generate(30, 30));
