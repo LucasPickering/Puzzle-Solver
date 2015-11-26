@@ -10,6 +10,6 @@ public final class UIConstants {
       BUTTON_SHOW = "Show";
 
   @SuppressWarnings("SuspiciousNameCombination")
-  public static final int VISUAL_PIECE_WIDTH = 20, VISUAL_PIECE_HEIGHT = VISUAL_PIECE_WIDTH,
-      WINDOW_MIN_WIDTH = 400, WINDOW_MIN_HEIGHT = 300, VISUAL_PIECE_PADDING = 10;
+  public static final int VISUAL_PIECE_WIDTH = 40, VISUAL_PIECE_HEIGHT = VISUAL_PIECE_WIDTH,
+      WINDOW_MIN_WIDTH = 400, WINDOW_MIN_HEIGHT = 300, VISUAL_PIECE_PADDING = 40;
 }

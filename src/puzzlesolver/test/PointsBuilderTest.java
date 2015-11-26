@@ -5,32 +5,32 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import puzzlesolver.PointsBuilder;
+import puzzlesolver.arrays.PointsBuilder;
 
 public class PointsBuilderTest {
 
   PointsBuilder pb = new PointsBuilder();
-  PointsBuilder pb2 = new PointsBuilder(1, 2, 3);
+  PointsBuilder pb2 = new PointsBuilder(1d, 2d, 3d);
 
   @Test
   public void testAdd() throws Exception {
-    pb.add(1, 2, 3);
+    pb.addAll(1d, 2d, 3d);
     Assert.assertEquals(3, pb.size());
   }
 
   @Test
   public void testToPoints() throws Exception {
-    Assert.assertTrue(Arrays.equals(new double[]{1, 2, 3}, pb2.toPoints()));
-    Assert.assertTrue(Arrays.equals(new double[]{}, pb.toPoints()));
-    pb2.add(4, 5);
-    Assert.assertTrue(Arrays.equals(new double[]{1, 2, 3, 4, 5}, pb2.toPoints()));
+    Assert.assertTrue(Arrays.equals(new Double[]{1d, 2d, 3d}, pb2.toPoints()));
+    Assert.assertTrue(Arrays.equals(new Double[]{}, pb.toPoints()));
+    pb2.addAll(4d, 5d);
+    Assert.assertTrue(Arrays.equals(new Double[]{1d, 2d, 3d, 4d, 5d}, pb2.toPoints()));
   }
 
   @Test
   public void testSize() throws Exception {
     Assert.assertEquals(pb2.size(), pb2.toPoints().length);
     Assert.assertEquals(pb.size(), pb.toPoints().length);
-    pb.add(4, 5);
+    pb.addAll(4d, 5d);
     Assert.assertEquals(pb.size(), pb.toPoints().length);
   }
 }

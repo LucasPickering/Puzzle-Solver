@@ -1,4 +1,4 @@
-package puzzlesolver.ui.fx.renderers;
+package puzzlesolver.ui.fx_2d.renderers;
 
 import javax.naming.OperationNotSupportedException;
 
