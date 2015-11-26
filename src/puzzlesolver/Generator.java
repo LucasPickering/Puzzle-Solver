@@ -9,10 +9,20 @@ public interface Generator {
   /**
    * Sets the seed to be used for the {@link java.util.Random Random} that the puzzle is generated
    * with. Two puzzles generated with the same seed are guaranteed to be identical, including the
-   * order of the pieces after they have been shuffled. This should be called before
+   * order of the pieces after they have been shuffled. This should be called before {@link
+   * #generate}.
+   *
    * @param seed the seed for the random generator
    */
   void setSeed(long seed);
+
+  /**
+   * Sets the seed to be used for the {@link java.util.Random Random} that the puzzle is generated
+   * with. Uses the {@link Object#hashCode} of the object as the seed. Two puzzles generated with the
+   * game seed are guaranteed to be identical, including the order of the pieces after they have been
+   * shuffled. This should be calle before {@link #generate}.
+   */
+  void setSeed(Object o);
 
   /**
    * Generates a puzzle of entirely unique pieces of the given grid size.

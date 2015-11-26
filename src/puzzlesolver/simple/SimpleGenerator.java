@@ -29,6 +29,11 @@ public class SimpleGenerator implements Generator {
   }
 
   @Override
+  public void setSeed(Object o) {
+    setSeed(o.hashCode());
+  }
+
+  @Override
   public Piece[] generate(int width, int height) {
     final Piece[][] pieces = new Piece[width][height];
 
