@@ -161,8 +161,9 @@ public class Piece {
    *
    * @param from the direction to be rotated from
    * @param to   the direction to be rotated to
+   * @return this, after rotation
    */
-  public void rotate(Direction from, Direction to) {
+  public Piece rotate(Direction from, Direction to) {
     final Side[] newSides = new Side[Constants.NUM_SIDES];
     int rotAmt = (from.ordinal() - to.ordinal()) % Constants.NUM_SIDES;
     if (rotAmt < 0) {
@@ -171,6 +172,7 @@ public class Piece {
     System.arraycopy(sides, 0, newSides, rotAmt, Constants.NUM_SIDES - rotAmt);
     System.arraycopy(sides, rotAmt, newSides, Constants.NUM_SIDES - rotAmt, rotAmt);
     sides = newSides;
+    return this;
   }
 
   /**
@@ -179,11 +181,10 @@ public class Piece {
    *
    * @param from the direction to be rotated from
    * @param to   the direction to be rotated to
+   * @return the rotated copy
    */
   public Piece copyRotate(Direction from, Direction to) {
-    final Piece copy = copy();
-    copy.rotate(from, to);
-    return copy;
+    return copy().rotate(from, to);
   }
 
   /**
