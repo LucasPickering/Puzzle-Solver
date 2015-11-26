@@ -75,26 +75,26 @@ public class SimpleVisualPuzzleRenderer implements PuzzleRenderer<Solver> {
                                                 int pieceY, int puzzleWidth, int puzzleHeight,
                                                 double windowWidth, double windowHeight) {
     // May have to scale. For now, made a placeholder.
-    final double scaledPaddingX = UIConstants.VISUAL_PIECE_PADDING;
-    final double scaledPaddingY = UIConstants.VISUAL_PIECE_PADDING;
+    final double scaledPaddingX = UIConstants.VISUAL_PIECE_WIDTH;
+    final double scaledPaddingY = UIConstants.VISUAL_PIECE_HEIGHT;
 
-    final double pieceWidth = (windowWidth - scaledPaddingX * 2) / puzzleWidth;
-    final double pieceHeight = (windowHeight - scaledPaddingY * 2) / puzzleHeight;
+    final double scaledPieceWidth = (windowWidth - scaledPaddingX * 2) / puzzleWidth;
+    final double scaledPieceHeight = (windowHeight - scaledPaddingY * 2) / puzzleHeight;
 
-    final double scaleX = pieceWidth / UIConstants.VISUAL_PIECE_WIDTH;
-    final double scaleY = pieceHeight / UIConstants.VISUAL_PIECE_HEIGHT;
+    final double scaleX = scaledPieceWidth / UIConstants.VISUAL_PIECE_WIDTH;
+    final double scaleY = scaledPieceHeight / UIConstants.VISUAL_PIECE_HEIGHT;
 
-    final double pieceGlobalX = scaledPaddingX + pieceX * pieceWidth;
-    final double pieceGlobalY = scaledPaddingY + pieceY * pieceHeight;
+    final double pieceGlobalX = scaledPaddingX + pieceX * scaledPieceWidth;
+    final double pieceGlobalY = scaledPaddingY + pieceY * scaledPieceHeight;
 
     final double
-      pointGlobalX =
-      pieceGlobalX + ((pieceWidth / 2) * orientation.x)
-      + localPoint.x * scaleX * orientation.y;
+      pointGlobalX = pieceGlobalX + ((scaledPieceWidth / 2) * orientation.x)
+                     + (orientation.y == -1 ? scaledPieceWidth - localPoint.x * scaleX * orientation.y
+                                            : localPoint.x * scaleX * orientation.y);
     final double
-      pointGlobalY =
-      pieceGlobalY + ((pieceHeight / 2) * orientation.y)
-      + localPoint.y * scaleX * orientation.x;
+      pointGlobalY = pieceGlobalY + ((scaledPieceHeight / 2) * orientation.y)
+                     + (orientation.x == -1 ? scaledPieceWidth - localPoint.y * scaleY * orientation.x
+                                            : localPoint.y * scaleY * orientation.x);
 
     return new Point(pointGlobalX, pointGlobalY);
   }
@@ -147,9 +147,6 @@ public class SimpleVisualPuzzleRenderer implements PuzzleRenderer<Solver> {
     Constants.LOGGER.println(2, "Drawing piece");
     Double[] xPoints;
     Double[] yPoints;
-
-    // test
-    gc.fillPolygon(new double[]{0, 10, 10, 0}, new double[]{0, 0, 10, 10}, 4);
 
     PointsBuilder xs = new PointsBuilder();
     PointsBuilder ys = new PointsBuilder();
