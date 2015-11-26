@@ -50,9 +50,13 @@ public class ThreeDController extends Application {
 
     primaryStage.setTitle("Puzzle!");
     Group root = new Group();
-    Canvas canvas = new Canvas(300, 250);
+
+    primaryStage.setMinWidth(UIConstants.WINDOW_MIN_WIDTH);
+    primaryStage.setMinHeight(UIConstants.WINDOW_MIN_HEIGHT);
+    Canvas canvas = new Canvas(UIConstants.WINDOW_MIN_WIDTH, UIConstants.WINDOW_MIN_HEIGHT);
     canvas.widthProperty().bind(primaryStage.widthProperty());
     canvas.heightProperty().bind(primaryStage.heightProperty());
+
     GraphicsContext gc = canvas.getGraphicsContext2D();
     root.getChildren().add(canvas);
     primaryStage.setScene(new Scene(root));
