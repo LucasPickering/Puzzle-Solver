@@ -109,9 +109,9 @@ public class ThreeDController extends Application {
               Point[] points = ((SimpleSide) s).getPoints();
               for (int i = points.length - 1; i >= 0; i--) {
                 Point globalPoint = SimpleVisualPuzzleRenderer
-                    .globalPointFromLocalPoint2(points[i], direction, x, y,
-                                                solution.length, solution[0].length,
-                                                windowWidth, windowHeight);
+                    .globalPointFromLocalPoint(points[i], direction, x, y,
+                                               solution.length, solution[0].length,
+                                               windowWidth, windowHeight);
 
                 xs.add(globalPoint.x);
                 ys.add(globalPoint.y);

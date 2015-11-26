@@ -30,14 +30,14 @@ public interface PuzzleRenderer<T> {
    *
    * @return required width of the renderer window (in pixels)
    */
-  int getRequiredWidth();
+  double getRequiredWidth();
 
   /**
    * Get the required height of the renderer window (in pixels).
    *
    * @return required height of the renderer window (in pixels)
    */
-  int getRequiredHeight();
+  double getRequiredHeight();
 
   /**
    * Re-draw the scene
