@@ -2,8 +2,6 @@ package puzzlesolver.ui.fx_3d;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.Arrays;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -14,6 +12,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
 import javafx.stage.Stage;
 import puzzlesolver.Generator;
 import puzzlesolver.Piece;
@@ -32,7 +32,10 @@ public class ThreeDController extends Application {
 
   private static final int WIDTH = 4;
   private static final int HEIGHT = 4;
-  private Paint[] colors = new Paint[]{Color.NAVY, Color.BLACK, Color.FIREBRICK};
+  private Paint[] colors = new Paint[]{Color.NAVY, Color.DARKSLATEBLUE,
+                                       Color.DARKGOLDENROD, Color.DARKOLIVEGREEN,
+                                       Color.MAROON, Color.DARKVIOLET,
+                                       Color.DARKCYAN, Color.DARKORCHID};
   private boolean dynamicSize;
 
   public static void main(String[] args) {
@@ -48,6 +51,8 @@ public class ThreeDController extends Application {
     primaryStage.setTitle("Puzzle!");
     Group root = new Group();
     Canvas canvas = new Canvas(300, 250);
+    canvas.widthProperty().bind(primaryStage.widthProperty());
+    canvas.heightProperty().bind(primaryStage.heightProperty());
     GraphicsContext gc = canvas.getGraphicsContext2D();
     root.getChildren().add(canvas);
     primaryStage.setScene(new Scene(root));
@@ -78,11 +83,17 @@ public class ThreeDController extends Application {
         Piece piece = solution[x][y];
 
         if (piece != null) {
-          gc.setStroke(colors[(y * solution.length + x) % colors.length]);
-          gc.setFill(Color.BLUEVIOLET);
+          gc.setStroke(colors[(piece.getPieceType().ordinal()) % colors.length]);
+          gc.setFill(colors[(piece.getPieceType().ordinal()) % colors.length]);
+          gc.setLineJoin(StrokeLineJoin.ROUND);
+          gc.setLineCap(StrokeLineCap.ROUND);
+          double scaleX = gc.getCanvas().getWidth() / solution.length;
+          double scaleY = gc.getCanvas().getHeight() / solution[0].length;
 
-          if (dynamicSize) {
+          if (!dynamicSize) {
             gc.setLineWidth(1);
+          } else {
+            gc.setLineWidth((scaleX + scaleY) / 2 / 200);
           }
 
           PointsBuilder xs = new PointsBuilder();
@@ -92,9 +103,10 @@ public class ThreeDController extends Application {
             Side s = piece.getSide(direction);
             if (s != null) {
               Point[] points = ((SimpleSide) s).getPoints();
-              for (Point point : points) {
-                Point globalPoint
-                    = SimpleVisualPuzzleRenderer.globalPointFromLocalPoint(point, direction, x, y);
+              for (int i = points.length - 1; i >= 0; i--) {
+                Point globalPoint = SimpleVisualPuzzleRenderer
+                    .globalPointFromLocalPoint2(points[i], direction, x, y, scaleX, scaleY);
+
                 xs.add(globalPoint.x);
                 ys.add(globalPoint.y);
               }
@@ -135,7 +147,6 @@ public class ThreeDController extends Application {
 
     public void nextStep() {
       solver.nextStep();
-      System.out.println(Arrays.deepToString(solver.getSolution()));
     }
 
     @Override
