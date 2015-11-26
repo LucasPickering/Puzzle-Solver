@@ -165,12 +165,12 @@ public class Piece {
    */
   public Piece rotate(Direction from, Direction to) {
     final Side[] newSides = new Side[Constants.NUM_SIDES];
-    int rotAmt = (from.ordinal() - to.ordinal()) % Constants.NUM_SIDES;
+    int rotAmt = (to.ordinal() - from.ordinal()) % Constants.NUM_SIDES;
     if (rotAmt < 0) {
       rotAmt += Constants.NUM_SIDES;
     }
     System.arraycopy(sides, 0, newSides, rotAmt, Constants.NUM_SIDES - rotAmt);
-    System.arraycopy(sides, rotAmt, newSides, Constants.NUM_SIDES - rotAmt, rotAmt);
+    System.arraycopy(sides, Constants.NUM_SIDES - rotAmt, newSides, 0, rotAmt);
     sides = newSides;
     return this;
   }
