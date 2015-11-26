@@ -87,13 +87,13 @@ public class ThreeDController extends Application {
           gc.setFill(colors[(piece.getPieceType().ordinal()) % colors.length]);
           gc.setLineJoin(StrokeLineJoin.ROUND);
           gc.setLineCap(StrokeLineCap.ROUND);
-          double scaleX = gc.getCanvas().getWidth() / solution.length;
-          double scaleY = gc.getCanvas().getHeight() / solution[0].length;
+          double windowWidth = gc.getCanvas().getWidth();
+          double windowHeight = gc.getCanvas().getHeight();
 
           if (!dynamicSize) {
             gc.setLineWidth(1);
           } else {
-            gc.setLineWidth((scaleX + scaleY) / 2 / 200);
+            gc.setLineWidth((windowWidth + windowHeight) / 2 / 200);
           }
 
           PointsBuilder xs = new PointsBuilder();
@@ -105,7 +105,9 @@ public class ThreeDController extends Application {
               Point[] points = ((SimpleSide) s).getPoints();
               for (int i = points.length - 1; i >= 0; i--) {
                 Point globalPoint = SimpleVisualPuzzleRenderer
-                    .globalPointFromLocalPoint2(points[i], direction, x, y, scaleX, scaleY);
+                    .globalPointFromLocalPoint2(points[i], direction, x, y,
+                                                solution.length, solution[0].length,
+                                                windowWidth, windowHeight);
 
                 xs.add(globalPoint.x);
                 ys.add(globalPoint.y);

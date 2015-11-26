@@ -111,6 +111,10 @@ public class SimpleVisualPuzzleRenderer implements PuzzleRenderer<Solver> {
 
     final double pointGlobalX;
     final double pointGlobalY;
+
+    // TODO finish this function
+
+    return new Point(0, 0);
   }
 
   public void init(Solver solver) {
