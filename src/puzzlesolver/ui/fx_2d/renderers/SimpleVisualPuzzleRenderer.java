@@ -29,6 +29,15 @@ public class SimpleVisualPuzzleRenderer implements PuzzleRenderer<Solver> {
     init(solver);
   }
 
+  /**
+   * Get a global point from a local point.
+   *
+   * @param localPoint  local point to calculate from
+   * @param orientation direction of parent side
+   * @param pieceX      x-position in 2D points array
+   * @param pieceY      y-position in 2D points array
+   * @return global point
+   */
   public static Point globalPointFromLocalPoint(Point localPoint, Direction orientation,
                                                 int pieceX, int pieceY) {
     Objects.requireNonNull(localPoint);
@@ -44,9 +53,64 @@ public class SimpleVisualPuzzleRenderer implements PuzzleRenderer<Solver> {
         UIConstants.VISUAL_PIECE_PADDING + pieceY * UIConstants.VISUAL_PIECE_HEIGHT;
 
     return new Point(pieceGlobalX + ((UIConstants.VISUAL_PIECE_WIDTH / 2) * orientation.x)
-                     + (localPoint.x * orientation.y),
+                     + 5 * localPoint.x * orientation.y,
                      pieceGlobalY + ((UIConstants.VISUAL_PIECE_HEIGHT / 2) * orientation.y)
-                     + (localPoint.y * orientation.x));
+                     + 5 * localPoint.y * orientation.x);
+  }
+
+  /**
+   * Get a global point from a local point.
+   *
+   * @param localPoint  local point to calculate from
+   * @param orientation direction of parent side
+   * @param pieceX      x-position in 2D points array
+   * @param pieceY      y-position in 2D points array
+   * @param scaleX      (windowWidth / puzzleWidth)
+   * @param scaleY      (windowHeight / puzzleHeight)
+   * @return global point
+   */
+  public static Point globalPointFromLocalPoint(Point localPoint, Direction orientation,
+                                                int pieceX, int pieceY,
+                                                double scaleX, double scaleY) {
+
+    Point preScale = globalPointFromLocalPoint(localPoint, orientation,
+                                               pieceX, pieceY);
+    return new Point(
+        (preScale.x - preScale.x / (scaleX * UIConstants.VISUAL_PIECE_PADDING))
+        * (scaleX / UIConstants.VISUAL_PIECE_WIDTH * 13 / 16)
+        + preScale.x / (UIConstants.VISUAL_PIECE_PADDING * scaleX),
+        (preScale.y - preScale.x / (scaleY * UIConstants.VISUAL_PIECE_PADDING))
+        * (scaleY / UIConstants.VISUAL_PIECE_HEIGHT * 3 / 4)
+        + preScale.y / (UIConstants.VISUAL_PIECE_PADDING * scaleY));
+
+  }
+
+
+  /**
+   * Get a global point from a local point.
+   *
+   * @param localPoint   local point to calculate from
+   * @param orientation  direction of parent side
+   * @param pieceX       x-position in 2D points array
+   * @param pieceY       y-position in 2D points array
+   * @param windowWidth  width of window to render in
+   * @param windowHeight width of window to render in
+   * @return global point
+   */
+  public static Point globalPointFromLocalPoint2(Point localPoint, Direction orientation,
+                                                 int pieceX, int pieceY,
+                                                 int puzzleWidth, int puzzleHeight,
+                                                 double windowWidth, double windowHeight) {
+    // May have to scale. For now, made a placeholder.
+    final double scaledPadding = UIConstants.VISUAL_PIECE_PADDING;
+    final double pieceWidth = (windowWidth - scaledPadding * 2) / puzzleWidth;
+    final double pieceHeight = (windowHeight - scaledPadding * 2) / puzzleHeight;
+
+    final double pieceGlobalX = scaledPadding + pieceX * pieceWidth;
+    final double pieceGlobalY = scaledPadding + pieceY * pieceHeight;
+
+    final double pointGlobalX;
+    final double pointGlobalY;
   }
 
   public void init(Solver solver) {
