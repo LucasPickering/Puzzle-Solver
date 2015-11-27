@@ -56,6 +56,7 @@ public class MainController extends Application implements Initializable {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    getParameters();
     Parent root = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
     primaryStage.setTitle("Puzzle-O-Matic!");
     primaryStage.setResizable(false);

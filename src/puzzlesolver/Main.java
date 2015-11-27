@@ -12,7 +12,7 @@ import puzzlesolver.constants.ConsoleConstants;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.ui.console.ConsoleController;
 import puzzlesolver.ui.fx_2d.MainController;
-import puzzlesolver.ui.fx_3d.ThreeDController;
+import puzzlesolver.ui.fx_3d.SimpleController;
 
 import static puzzlesolver.constants.ConsoleConstants.CLI;
 import static puzzlesolver.constants.ConsoleConstants.CLI_FANCY;
@@ -65,7 +65,7 @@ public class Main {
     } else if (line.hasOption(CLI)) {
       ConsoleController.start(line.hasOption(CLI_FANCY));
     } else if (line.hasOption(THREE_D)) {
-      ThreeDController.main(args);
+      SimpleController.main(args);
     } else {
       MainController.main(args);
     }
