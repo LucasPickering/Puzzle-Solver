@@ -21,7 +21,7 @@ public class SimpleGenerator implements Generator {
   private static final double MIN_Y_DEVIATION = Constants.SIDE_LENGTH * 0.01d;
   private static final double MAX_Y_DEVIATION = Constants.SIDE_LENGTH * 0.1d;
 
-  private Random random = new Random();
+  protected Random random = new Random();
 
   @Override
   public void setSeed(long seed) {

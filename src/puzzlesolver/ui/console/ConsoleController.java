@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 import puzzlesolver.Generator;
 import puzzlesolver.Solver;
+import puzzlesolver.rotation.RotationGenerator;
 import puzzlesolver.rotation.RotationSolver;
-import puzzlesolver.simple.SimpleGenerator;
 
 public class ConsoleController {
 
@@ -42,7 +42,7 @@ public class ConsoleController {
   }
 
   public void start(PrintStream out, boolean fancy) throws Exception {
-    Generator generator = new SimpleGenerator();
+    Generator generator = new RotationGenerator();
     Solver solver = new RotationSolver();
     TextView textView = fancy ? new AdvancedTextView(solver) : new SimpleTextView(solver);
     Scanner in = new Scanner(System.in);
