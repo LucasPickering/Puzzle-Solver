@@ -90,12 +90,23 @@ public class SimpleGenerator implements Generator {
     if (flat) {
       return new SimpleSide(corner1, corner2);
     }
-    final double midX = randomInRange(MIN_X_DEVIATION, MAX_X_DEVIATION);
-    final double midY = randomInRange(MIN_Y_DEVIATION, MAX_Y_DEVIATION);
+    final double midX = randomInRange(MIN_X_DEVIATION, MAX_X_DEVIATION, false);
+    final double midY = randomInRange(MIN_Y_DEVIATION, MAX_Y_DEVIATION, true);
     return new SimpleSide(corner1, new Point(midX, midY), corner2);
   }
 
-  private double randomInRange(double min, double max) {
-    return (random.nextDouble() * (max - min) + min) * (random.nextInt(2) == 0 ? -1 : 1);
+  /**
+   * Generates a random number in the given range.
+   *
+   * @param min    the minimum of the number
+   * @param max    the maximum of the number
+   * @param negate if true, number will randomly be negated, if false it will always be [min, max]
+   */
+  private double randomInRange(double min, double max, boolean negate) {
+    double d = (random.nextDouble() * (max - min) + min);
+    if (negate) {
+      return d * (random.nextInt(2) == 0 ? -1 : 1);
+    }
+    return d;
   }
 }

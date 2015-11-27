@@ -95,7 +95,7 @@ public class ThreeDController extends Application {
           double windowHeight = gc.getCanvas().getHeight();
 
           if (!dynamicSize) {
-            gc.setLineWidth(1);
+            gc.setLineWidth(2);
           } else {
             gc.setLineWidth((windowWidth + windowHeight) / 2 / 200);
           }
@@ -109,9 +109,9 @@ public class ThreeDController extends Application {
               Point[] points = ((SimpleSide) s).getPoints();
               for (int i = points.length - 1; i >= 0; i--) {
                 Point globalPoint = SimpleVisualPuzzleRenderer
-                    .globalPointFromLocalPoint(points[i], direction, x, y,
-                                               solution.length, solution[0].length,
-                                               windowWidth, windowHeight);
+                  .globalPointFromLocalPoint(points[i], direction, x, y,
+                                             solution.length, solution[0].length,
+                                             windowWidth, windowHeight);
 
                 xs.add(globalPoint.x);
                 ys.add(globalPoint.y);
