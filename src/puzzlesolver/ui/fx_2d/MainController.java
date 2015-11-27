@@ -25,6 +25,7 @@ import puzzlesolver.Solver;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
 import puzzlesolver.simple.SimpleGenerator;
+import puzzlesolver.simple.SimpleSolver;
 
 public class MainController extends Application implements Initializable {
 
@@ -49,6 +50,7 @@ public class MainController extends Application implements Initializable {
   private PuzzleController puzzleController;
   private Piece[] puzzle;
   private boolean stopSolve;
+  private SteppableAnimationTimer animationTimer;
 
   public static void main(String[] args) {
     launch(args);
@@ -56,6 +58,7 @@ public class MainController extends Application implements Initializable {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    // TODO check for seed
     getParameters();
     Parent root = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
     primaryStage.setTitle("Puzzle-O-Matic!");
@@ -105,7 +108,7 @@ public class MainController extends Application implements Initializable {
         }
         if (stopSolve) {
           stopSolve = false;
-          solveButton.setText(UIConstants.BUTTON_CANCEL);
+          solveButton.setText(UIConstants.BUTTON_STOP);
         }
 
         timer = new Timer("Solve and Render", true);
@@ -116,8 +119,7 @@ public class MainController extends Application implements Initializable {
               if (stopSolve) {
                 this.cancel();
               } else {
-                puzzleController.draw();
-                solver.nextStep();
+                puzzleController.nextStep();
               }
             } catch (Exception e) {
               e.printStackTrace();
@@ -126,7 +128,7 @@ public class MainController extends Application implements Initializable {
         }, 0, (long) rateSlider.getValue());
 
         break;
-      case UIConstants.BUTTON_CANCEL:
+      case UIConstants.BUTTON_STOP:
         stopSolve = true;
         solveButton.setText(UIConstants.BUTTON_SOLVE);
     }
@@ -147,6 +149,9 @@ public class MainController extends Application implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     puzzleController = new PuzzleController();
+    if (solver == null) {
+      solver = new SimpleSolver();
+    }
     puzzleController.init(solver);
 
     // Set up renderTypeChoiceBox

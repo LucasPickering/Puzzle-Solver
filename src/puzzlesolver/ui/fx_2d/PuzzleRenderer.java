@@ -149,6 +149,6 @@ public class PuzzleRenderer {
     gc.fillRect(width * (puzzleWidth - 1) / puzzleWidth, height * (puzzleWidth - 1) / puzzleHeight,
                 width / puzzleWidth, height / puzzleHeight);
 
-    drawPiece(gc, solver.getUnplacedPieces());
+    //TODO draw piece in box
   }
 }
