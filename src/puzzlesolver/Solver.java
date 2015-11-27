@@ -32,4 +32,16 @@ public interface Solver {
    * @return a 2-D array representing all pieces that have been placed, in their final spots
    */
   Piece[][] getSolution();
+
+  /**
+   * Gets the x-value of the piece that this solver will work on next.
+   * @return the x-value of the next spot to fill
+   */
+  int getX();
+
+  /**
+   * Gets the y-value of the piece that this solver will work on next.
+   * @return the y-value of the next spot to fill
+   */
+  int getY();
 }
