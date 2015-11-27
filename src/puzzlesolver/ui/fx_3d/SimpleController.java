@@ -26,8 +26,6 @@ public class SimpleController extends Application {
                                        Color.DARKGOLDENROD, Color.DARKOLIVEGREEN,
                                        Color.MAROON, Color.DARKVIOLET,
                                        Color.DARKCYAN, Color.DARKORCHID};
-  private boolean dynamicSize;
-
   public static void main(String[] args) {
     Application.launch(args);
   }
@@ -52,16 +50,13 @@ public class SimpleController extends Application {
     canvas.heightProperty().bind(primaryStage.getScene().heightProperty());
     primaryStage.show();
 
-    dynamicSize = gc.getCanvas().widthProperty().isBound()
-                  || gc.getCanvas().heightProperty().isBound();
-
     SteppableAnimationTimer timer = new SteppableAnimationTimer(solver, gc);
     primaryStage.getScene().setOnMouseClicked(new MouseEventHandler(timer));
     timer.start();
   }
 
   private void drawPuzzle(GraphicsContext gc, Solver solver) {
-    PuzzleRenderer pr = new PuzzleRenderer(solver);
+    PuzzleRenderer pr = new PuzzleRenderer();
     pr.drawPuzzle(gc, solver);
   }
 
