@@ -34,15 +34,23 @@ public class RotationSolver extends AbstractSolver {
     } else if (x < width && y < height) {
       final Piece madePiece = makePiece(x, y);
       Piece foundPiece;
+      int rotations;
       // Looks for matches, and rotates the piece up to 3 times if no matches are found
-      for (int i = 1; (foundPiece = unplacedPieces.find(madePiece)) == null &&
-                      i < Direction.values().length; i++) {
+      for (rotations = 1; (foundPiece = unplacedPieces.find(madePiece)) == null &&
+                  rotations < Direction.values().length; rotations++) {
         madePiece.rotate(Direction.NORTH, Direction.EAST); // If no matches were found, rotate once
       }
-      if (foundPiece == null && !rotated) {
-        rotateSolution();
-        rotated = true;
+
+      if (foundPiece == null) {
+        if (!rotated) {
+          rotateSolution();
+          rotated = true;
+          return nextStep();
+        }
+        throw new IllegalStateException(String.format("No piece found to go at (%d, %d)", x, y));
       }
+
+      foundPiece.rotate(Direction.NORTH, Direction.values()[rotations - 1]);
       solution[x][y] = foundPiece;
       unplacedPieces.remove(foundPiece);
     }
