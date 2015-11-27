@@ -45,38 +45,40 @@ public class PuzzleController {
 
   public void openPuzzleWindow(ActionEvent event) {
     if (stage == null) {
-      puzzleCanvas = new Canvas();
-
-      stage = new Stage();
-      Group root = new Group();
-
-      stage.setMinWidth(UIConstants.WINDOW_MIN_WIDTH);
-      stage.setMinHeight(UIConstants.WINDOW_MIN_HEIGHT);
-
-      Canvas canvas = new Canvas(UIConstants.WINDOW_MIN_WIDTH, UIConstants.WINDOW_MIN_HEIGHT);
-
-      GraphicsContext gc = canvas.getGraphicsContext2D();
-      root.getChildren().add(canvas);
-      stage.setScene(new Scene(root));
-      canvas.widthProperty().bind(stage.getScene().widthProperty());
-      canvas.heightProperty().bind(stage.getScene().heightProperty());
-      stage.setTitle("Puzzle!");
-      animationTimer = new SteppableAnimationTimer(solver, gc, puzzleRenderer);
-      stage.onCloseRequestProperty()
-           .addListener((observable, oldValue, newValue) -> animationTimer.stop());
-      stage.onShowingProperty()
-           .addListener((observable, oldValue, newValue) -> animationTimer.start());
+      setupPuzzleWindow();
     }
     stage.show();
   }
 
-  public void draw() {
-    puzzleRenderer.drawPuzzle(puzzleCanvas.getGraphicsContext2D(), solver);
-    puzzleRenderer.drawNextPiece(puzzleCanvas.getGraphicsContext2D(), solver);
+  private void setupPuzzleWindow() {
+    puzzleCanvas = new Canvas();
+
+    stage = new Stage();
+    Group root = new Group();
+
+    stage.setMinWidth(UIConstants.WINDOW_MIN_WIDTH);
+    stage.setMinHeight(UIConstants.WINDOW_MIN_HEIGHT);
+
+    Canvas canvas = new Canvas(UIConstants.WINDOW_MIN_WIDTH, UIConstants.WINDOW_MIN_HEIGHT);
+
+    GraphicsContext gc = canvas.getGraphicsContext2D();
+    root.getChildren().add(canvas);
+    stage.setScene(new Scene(root));
+    canvas.widthProperty().bind(stage.getScene().widthProperty());
+    canvas.heightProperty().bind(stage.getScene().heightProperty());
+    stage.setTitle("Puzzle!");
+    animationTimer = new SteppableAnimationTimer(solver, gc, puzzleRenderer);
+    stage.setOnCloseRequest(event -> animationTimer.stop());
+    stage.setOnShowing(event -> animationTimer.start());
+    stage.getScene().setOnMouseClicked(new MouseEventHandler(animationTimer));
   }
 
-  public void nextStep() {
-    animationTimer.nextStep();
+  public void draw() {
+    puzzleRenderer.draw(puzzleCanvas.getGraphicsContext2D(), solver);
+  }
+
+  public boolean nextStep() {
+    return animationTimer.nextStep();
   }
 
   public void setRenderMethod(String renderMethod) {

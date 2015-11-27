@@ -7,7 +7,6 @@ import java.util.TimerTask;
 
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,13 +43,11 @@ public class MainController extends Application implements Initializable {
   private ChoiceBox<String> renderTypeChoiceBox;
   @FXML
   private Slider rateSlider = new Slider();
-  private ObservableList<String> renderTypes;
   @FXML
   private Solver solver;
   private PuzzleController puzzleController;
   private Piece[] puzzle;
   private boolean stopSolve;
-  private SteppableAnimationTimer animationTimer;
 
   public static void main(String[] args) {
     launch(args);
@@ -58,8 +55,8 @@ public class MainController extends Application implements Initializable {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    // TODO check for seed
     getParameters();
+    // TODO check for seed
     Parent root = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
     primaryStage.setTitle("Puzzle-O-Matic!");
     primaryStage.setResizable(false);
@@ -85,6 +82,7 @@ public class MainController extends Application implements Initializable {
     try {
       puzzle = generator.generate(Integer.parseInt(widthField.getText()),
                                   Integer.parseInt(heightField.getText()));
+      solver.init(puzzle);
     } catch (NumberFormatException e) {
       throw new IllegalArgumentException("Bad number input");
     } finally {
@@ -103,9 +101,6 @@ public class MainController extends Application implements Initializable {
   private void solve() {
     switch (solveButton.getText()) {
       case UIConstants.BUTTON_SOLVE:
-        if (solver.getSolution() == null) {
-          solver.init(puzzle);
-        }
         if (stopSolve) {
           stopSolve = false;
           solveButton.setText(UIConstants.BUTTON_STOP);
@@ -119,7 +114,9 @@ public class MainController extends Application implements Initializable {
               if (stopSolve) {
                 this.cancel();
               } else {
-                puzzleController.nextStep();
+                if (puzzleController.nextStep()) {
+                  this.cancel();
+                }
               }
             } catch (Exception e) {
               e.printStackTrace();
@@ -156,9 +153,13 @@ public class MainController extends Application implements Initializable {
 
     // Set up renderTypeChoiceBox
     renderTypeChoiceBox.getSelectionModel()
-        .selectedItemProperty()
-        .addListener(this::changeRenderMode);
+                       .selectedItemProperty()
+                       .addListener(this::changeRenderMode);
+    renderTypeChoiceBox.getSelectionModel().select(UIConstants.VISUAL_FANCY);
     renderTypeChoiceBox.show();
+
+    widthField.setText("4");
+    heightField.setText("4");
 
     showButton.setOnAction(puzzleController::openPuzzleWindow);
 

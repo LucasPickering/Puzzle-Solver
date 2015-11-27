@@ -2,6 +2,8 @@ package puzzlesolver.ui.fx_2d;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.Objects;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -37,6 +39,7 @@ public class PuzzleRenderer {
   public static Point getGlobalPoint(Point localPoint, Direction orientation, int pieceX,
                                      int pieceY, int puzzleWidth, int puzzleHeight,
                                      double windowWidth, double windowHeight) {
+    Objects.requireNonNull(localPoint);
     // May have to scale. For now, made a placeholder.
     final double scaledPaddingX = UIConstants.VISUAL_PIECE_WIDTH;
     final double scaledPaddingY = UIConstants.VISUAL_PIECE_HEIGHT;
@@ -72,9 +75,16 @@ public class PuzzleRenderer {
         pointGlobalY += scaleY * localPoint.x;
         pointGlobalX -= scaleX * localPoint.y;
         break;
+      default:
+        break;
     }
 
     return new Point(pointGlobalX, pointGlobalY);
+  }
+
+  public void draw(GraphicsContext gc, Solver solver) {
+    drawPuzzle(gc, solver);
+    // drawNextPiece(gc, solver);
   }
 
   public void drawPuzzle(GraphicsContext gc, Solver solver) {
@@ -95,6 +105,7 @@ public class PuzzleRenderer {
 
   public void drawPiece(GraphicsContext gc, Piece piece, int x, int y,
                         int puzzleWidth, int puzzleHeight) {
+    gc.setGlobalAlpha(1.0d);
     gc.setStroke(colors[colors.length - 1 - piece.getPieceType().ordinal() % colors.length]);
     gc.setFill(colors[(piece.getPieceType().ordinal()) % colors.length]);
     gc.setLineJoin(StrokeLineJoin.ROUND);
@@ -137,18 +148,24 @@ public class PuzzleRenderer {
   public void drawNextPiece(GraphicsContext gc, Solver solver) {
     gc.setFill(Color.PALEVIOLETRED);
     gc.setStroke(Color.INDIANRED);
+    gc.setGlobalAlpha(0.5d);
 
     Piece[][] solution = solver.getSolution();
 
     final double width = gc.getCanvas().getWidth();
     final double height = gc.getCanvas().getHeight();
 
-    final double puzzleWidth = solution.length;
-    final double puzzleHeight = solution[0].length;
+    final int puzzleWidth = solution.length;
+    final int puzzleHeight = solution[0].length;
 
     gc.fillRect(width * (puzzleWidth - 1) / puzzleWidth, height * (puzzleWidth - 1) / puzzleHeight,
                 width / puzzleWidth, height / puzzleHeight);
 
-    //TODO draw piece in box
+    if (solver.getX() < puzzleWidth && solver.getY() < puzzleHeight) {
+      Piece next = solution[solver.getX()][solver.getY()];
+      if (next != null) {
+        drawPiece(gc, next, puzzleWidth - 1, puzzleHeight - 1, puzzleWidth, puzzleHeight);
+      }
+    }
   }
 }

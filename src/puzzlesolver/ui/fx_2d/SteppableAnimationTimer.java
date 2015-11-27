@@ -16,12 +16,12 @@ public class SteppableAnimationTimer extends AnimationTimer {
     this.puzzleRenderer = puzzleRenderer;
   }
 
-  public void nextStep() {
-    solver.nextStep();
+  public boolean nextStep() {
+    return solver.nextStep();
   }
 
   @Override
   public void handle(long now) {
-    puzzleRenderer.drawPuzzle(gc, solver);
+    puzzleRenderer.draw(gc, solver);
   }
 }
