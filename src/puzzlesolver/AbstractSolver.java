@@ -119,6 +119,18 @@ public abstract class AbstractSolver implements Solver {
    * rotated solution.
    */
   protected void rotateSolution() {
-
+    Piece[][] newSolution = new Piece[solution[0].length][];
+    for (int i = 0; i < newSolution.length; i++) {
+      newSolution[i] = new Piece[solution.length];
+    }
+    for (int x = 0; x < newSolution.length; x++) {
+      for (int y = 0; y < newSolution[0].length; y++) {
+        if (x >= solution.length || y >= solution[0].length) {
+          return;
+        }
+        newSolution[x][y] = solution[x][y];
+      }
+    }
+    solution = newSolution;
   }
 }
