@@ -73,24 +73,37 @@ public class MainController extends Application implements Initializable {
   @FXML
   private void generate(ActionEvent event) {
     generateButton.setDisable(true);
-    generateButton.setText("Generating...");
-    Constants.LOGGER.println(1, "Generating new puzzle.");
+    solveButton.setDisable(true);
+    showButton.setDisable(true);
 
-    Generator generator = new SimpleGenerator();
-    generator.setSeed(Constants.RANDOM_SEED);
+    switch (generateButton.getText()) {
+      case UIConstants.BUTTON_REGENERATE:
+        if (timer != null) {
+          timer.cancel();
+        }
+      case UIConstants.BUTTON_GENERATE:
+        Constants.LOGGER.println(1, "Generating new puzzle.");
 
-    try {
-      puzzle = generator.generate(Integer.parseInt(widthField.getText()),
-                                  Integer.parseInt(heightField.getText()));
-      solver.init(puzzle);
-    } catch (NumberFormatException e) {
-      throw new IllegalArgumentException("Bad number input");
-    } finally {
-      generateButton.setDisable(false);
-      generateButton.setText("Regenerate");
-      solveButton.setDisable(false);
-      puzzleController.openPuzzleWindow(event);
-      showButton.setDisable(false);
+        Generator generator = new SimpleGenerator();
+        if (puzzle == null) {
+          generator.setSeed(Constants.RANDOM_SEED);
+        }
+
+        try {
+          puzzle = generator.generate(Integer.parseInt(widthField.getText()),
+                                      Integer.parseInt(heightField.getText()));
+          solver.init(puzzle);
+          puzzleController.init(solver);
+          puzzleController.openPuzzleWindow(event);
+          generateButton.setText(UIConstants.BUTTON_REGENERATE);
+        } catch (NumberFormatException e) {
+          throw new IllegalArgumentException("Bad number input");
+        } finally {
+          solveButton.setDisable(false);
+          generateButton.setDisable(false);
+          showButton.setDisable(false);
+        }
+        break;
     }
   }
 
@@ -155,11 +168,8 @@ public class MainController extends Application implements Initializable {
     renderTypeChoiceBox.getSelectionModel()
                        .selectedItemProperty()
                        .addListener(this::changeRenderMode);
-    renderTypeChoiceBox.getSelectionModel().select(UIConstants.VISUAL_FANCY);
+    renderTypeChoiceBox.getSelectionModel().select(UIConstants.RENDER_VISUAL_FANCY);
     renderTypeChoiceBox.show();
-
-    widthField.setText("4");
-    heightField.setText("4");
 
     showButton.setOnAction(puzzleController::openPuzzleWindow);
 

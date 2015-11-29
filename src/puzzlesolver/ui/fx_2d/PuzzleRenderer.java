@@ -20,10 +20,13 @@ import puzzlesolver.simple.SimpleSide;
 
 public class PuzzleRenderer {
 
-  private Paint[] colors = new Paint[]{Color.NAVY, Color.DARKSLATEBLUE,
-                                       Color.DARKGOLDENROD, Color.DARKOLIVEGREEN,
-                                       Color.MAROON, Color.DARKVIOLET,
-                                       Color.DARKCYAN, Color.DARKORCHID};
+  private Paint[] FILL_COLORS = new Paint[]{Color.NAVY, Color.DARKSLATEBLUE,
+                                            Color.DARKGOLDENROD, Color.DARKOLIVEGREEN,
+                                            Color.MAROON, Color.DARKVIOLET,
+                                            Color.DARKCYAN, Color.DARKORCHID};
+  private Paint[] STROKE_COLORS = new Paint[]{Color.LIGHTSEAGREEN,
+                                              Color.LIGHTSALMON,
+                                              Color.LIGHTYELLOW};
 
   /**
    * Get a global point from a local point.
@@ -83,6 +86,7 @@ public class PuzzleRenderer {
   }
 
   public void draw(GraphicsContext gc, Solver solver) {
+    gc.getCanvas().getScene().setFill(Color.STEELBLUE.darker());
     drawPuzzle(gc, solver);
     // drawNextPiece(gc, solver);
   }
@@ -105,9 +109,8 @@ public class PuzzleRenderer {
 
   public void drawPiece(GraphicsContext gc, Piece piece, int x, int y,
                         int puzzleWidth, int puzzleHeight) {
-    gc.setGlobalAlpha(1.0d);
-    gc.setStroke(colors[colors.length - 1 - piece.getPieceType().ordinal() % colors.length]);
-    gc.setFill(colors[(piece.getPieceType().ordinal()) % colors.length]);
+    gc.setFill(
+      FILL_COLORS[FILL_COLORS.length - 1 - piece.getPieceType().ordinal() % FILL_COLORS.length]);
     gc.setLineJoin(StrokeLineJoin.ROUND);
     gc.setLineCap(StrokeLineCap.ROUND);
     double windowWidth = gc.getCanvas().getWidth();
@@ -121,6 +124,7 @@ public class PuzzleRenderer {
     for (Direction direction : Direction.values()) {
       Side s = piece.getSide(direction);
       if (s != null) {
+        gc.setStroke(STROKE_COLORS[s.getSideType().ordinal() % STROKE_COLORS.length]);
         Point[] points = ((SimpleSide) s).getPoints();
         if (direction == Direction.SOUTH || direction == Direction.WEST) {
           Point temp = points[0];
@@ -140,7 +144,9 @@ public class PuzzleRenderer {
     }
     double[] primitiveXs = ArrayUtils.toPrimitive(xs.toPoints());
     double[] primitiveYs = ArrayUtils.toPrimitive(ys.toPoints());
+    gc.setGlobalAlpha(1.0d);
     gc.fillPolygon(primitiveXs, primitiveYs, xs.size());
+    gc.setGlobalAlpha(0.5d);
     gc.strokePolygon(primitiveXs, primitiveYs, xs.size());
   }
 

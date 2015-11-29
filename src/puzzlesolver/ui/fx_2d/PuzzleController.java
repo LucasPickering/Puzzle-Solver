@@ -37,7 +37,11 @@ public class PuzzleController {
 
   public void init(Solver solver) {
     Objects.requireNonNull(solver);
-    this.solver = solver;
+    if (solver != this.solver) {
+      closePuzzleWindow();
+      this.solver = solver;
+      stage = null;
+    }
     if (puzzleRenderer == null) {
       puzzleRenderer = new PuzzleRenderer();
     }
@@ -83,22 +87,28 @@ public class PuzzleController {
 
   public void setRenderMethod(String renderMethod) {
     switch (renderMethod) {
-      case UIConstants.TEXT_SIMPLE:
+      case UIConstants.RENDER_TEXT_SIMPLE:
         // TODO
         break;
-      case UIConstants.TEXT_FANCY:
+      case UIConstants.RENDER_TEXT_ADVANCED:
         // TODO
         break;
-      case UIConstants.VISUAL_SIMPLE:
+      case UIConstants.RENDER_VISUAL_SIMPLE:
         puzzleRenderer = new PuzzleRenderer();
         Constants.LOGGER.printf(1, "Changed render method to %s\n", renderMethod);
         break;
-      case UIConstants.VISUAL_FANCY:
+      case UIConstants.RENDER_VISUAL_FANCY:
         puzzleRenderer = new PuzzleRenderer();
         Constants.LOGGER.printf(1, "Changed render method to %s\n", renderMethod);
         break;
       default:
         throw new IllegalArgumentException(renderMethod + " is not a valid render method");
+    }
+  }
+
+  public void closePuzzleWindow() {
+    if (stage != null) {
+      stage.close();
     }
   }
 }
