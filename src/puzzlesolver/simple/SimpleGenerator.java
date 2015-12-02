@@ -93,8 +93,8 @@ public class SimpleGenerator implements Generator {
     if (flat) {
       return new SimpleSide(corner1, corner2);
     }
-    final double midX = Funcs.randomInRange(random, MIN_X_DEVIATION, MAX_X_DEVIATION, false);
-    final double midY = Funcs.randomInRange(random, MIN_Y_DEVIATION, MAX_Y_DEVIATION, true);
+    final double midX = Funcs.randomInRange(random, MIN_X_DEVIATION, MAX_X_DEVIATION);
+    final double midY = Funcs.randomInRangeNegate(random, MIN_Y_DEVIATION, MAX_Y_DEVIATION);
     return new SimpleSide(corner1, new Point(midX, midY), corner2);
   }
 }

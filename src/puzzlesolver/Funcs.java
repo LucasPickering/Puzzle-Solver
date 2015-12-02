@@ -52,18 +52,24 @@ public final class Funcs {
   }
 
   /**
-   * Generates a random number in the given range.
+   * Generates a random number in the range [min, max].
    *
    * @param random the random generator to be used
    * @param min    the minimum of the number
    * @param max    the maximum of the number
-   * @param negate if true, number will randomly be negated, if false it will always be [min, max]
    */
-  public static double randomInRange(Random random, double min, double max, boolean negate) {
-    double d = (random.nextDouble() * (max - min) + min);
-    if (negate) {
-      return d * (random.nextInt(2) == 0 ? -1 : 1);
-    }
-    return d;
+  public static double randomInRange(Random random, double min, double max) {
+    return random.nextDouble() * (max - min) + min;
+  }
+
+  /**
+   * Generates a random number in the range [min, max], and randomly negates it (on a 50-50 chance).
+   *
+   * @param random the random generator to be used
+   * @param min    the minimum of the number
+   * @param max    the maximum of the number
+   */
+  public static double randomInRangeNegate(Random random, double min, double max) {
+    return randomInRange(random, min, max) * (random.nextInt(2) == 0 ? -1 : 1);
   }
 }
