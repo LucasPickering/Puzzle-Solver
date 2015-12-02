@@ -16,7 +16,6 @@ import puzzlesolver.Solver;
 import puzzlesolver.arrays.PointsBuilder;
 import puzzlesolver.constants.UIConstants;
 import puzzlesolver.enums.Direction;
-import puzzlesolver.simple.SimpleSide;
 
 public class PuzzleRenderer {
 
@@ -125,7 +124,7 @@ public class PuzzleRenderer {
       Side s = piece.getSide(direction);
       if (s != null) {
         gc.setStroke(STROKE_COLORS[s.getSideType().ordinal() % STROKE_COLORS.length]);
-        Point[] points = ((SimpleSide) s).getPoints();
+        Point[] points = s.getPoints();
         if (direction == Direction.SOUTH || direction == Direction.WEST) {
           Point temp = points[0];
           points[0] = points[points.length - 1];

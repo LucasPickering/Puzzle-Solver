@@ -46,6 +46,14 @@ public interface Side extends Comparable<Side>, Cloneable {
   Side inverse();
 
   /**
+   * Get a <i>shallow</i> copy of the {@link Point}s, not the original {@link Point}s. The array
+   * itself is copied, but each {@link Point} is not.
+   *
+   * @return a copy of the array of {@link Point}s representing this side.
+   */
+  Point[] getPoints();
+
+  /**
    * Is this side flat or not?
    *
    * @return true if {@link #getSideType} == {@link SideType#FLAT}, false otherwise

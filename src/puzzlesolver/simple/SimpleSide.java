@@ -119,7 +119,7 @@ public class SimpleSide implements Side {
 
   @Override
   public int hashCode() {
-    return Objects.hash((Object[])points);
+    return Objects.hash((Object[]) points);
   }
 
   /**
@@ -163,16 +163,10 @@ public class SimpleSide implements Side {
     return 0;
   }
 
-  /**
-   * Get a copy of the {@link Point}s, not the original {@link Point}s.
-   *
-   * @return a copy of the array of {@link Point}s representing this side
-   */
+  @Override
   public Point[] getPoints() {
     Point[] copy = new Point[points.length];
-    for (int i = 0; i < points.length; i++) {
-      copy[i] = points[i].clone();
-    }
+    System.arraycopy(points, 0, copy, 0, points.length);
     return copy;
   }
 
