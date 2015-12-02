@@ -37,11 +37,20 @@ public class RotationSolver extends AbstractSolver {
       int rotations;
       // Looks for matches, and rotates the piece up to 3 times if no matches are found
       for (rotations = 1; (foundPiece = unplacedPieces.find(madePiece)) == null &&
-                  rotations < Direction.values().length; rotations++) {
+                          rotations < Direction.values().length; rotations++) {
         madePiece.rotate(Direction.NORTH, Direction.EAST); // If no matches were found, rotate once
       }
 
-      if (foundPiece == null) {
+      /*
+       * There's a chance that the "wrong" first corner was placed, and the puzzles is rotated 90
+       * degrees from what it should be. If the puzzle is non-square, it won't fit. We assume that
+       * when we can't find a specific piece, that it's because we're looking for an edge piece
+       * that shouldn't actually be an edge piece. This means we've reached the end of the array
+       * before we should've, and that the puzzle is rotated 90 degrees. Re-allocate the array with
+        * reversed dimensions, and we're good to go.
+       */
+      if (foundPiece == null) { // If it didn't find a piece
+        // If the puzzle hasn't been rotated yet
         if (!rotated) {
           rotateSolution();
           rotated = true;
@@ -59,5 +68,23 @@ public class RotationSolver extends AbstractSolver {
       y++;
     }
     return y >= height; // If we're past the last row, we're done
+  }
+
+  /**
+   * Re-allocates the solution array with reversed dimensions. The old width is the new height, and
+   * vice versa. Puts all the old pieces in the new array without changing their positions at all.
+   */
+  private void rotateSolution() {
+    Piece[][] newSolution = new Piece[solution[0].length][];
+    for (int x = 0; x < newSolution.length; x++) {
+      newSolution[x] = new Piece[solution.length];
+      for (int y = 0; y < newSolution[0].length; y++) {
+        if (x >= solution.length || y >= solution[0].length) {
+          return;
+        }
+        newSolution[x][y] = solution[x][y];
+      }
+    }
+    solution = newSolution;
   }
 }
