@@ -192,13 +192,4 @@ public class SimpleSide implements Side {
     return new SimpleSide(Arrays.stream(points).map(point -> new Point(point.x, -point.y))
                               .collect(Collectors.toList()));
   }
-
-  /**
-   * Get the number of points on the edge.
-   *
-   * @return number of points on the edge
-   */
-  public int getPointCount() {
-    return points.length;
-  }
 }
