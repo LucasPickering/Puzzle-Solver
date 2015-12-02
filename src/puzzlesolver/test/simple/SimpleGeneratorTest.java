@@ -5,25 +5,42 @@ import org.junit.Test;
 import puzzlesolver.Generator;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
+import puzzlesolver.Side;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.simple.SimpleGenerator;
-import puzzlesolver.simple.SimpleSide;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class SimpleGeneratorTest {
+
   Generator generator = new SimpleGenerator();
 
   @Test
-  public void testGenerate() throws Exception {
+  public void testGenerate() {
     testInRange(generator.generate(4, 4));
     testInRange(generator.generate(6, 6));
+  }
+
+  @Test
+  public void testFlat() {
+    Side side = generator.generateSide(true);
+    assertTrue(side.isFlat());
+    assertEquals(2, side.getPoints().length);
+  }
+
+  @Test
+  public void testNotFlat() {
+    Side side = generator.generateSide(false);
+    assertFalse(side.isFlat());
+    assertEquals(3, side.getPoints().length);
   }
 
   private void testInRange(Piece[] generated) {
     for (Piece piece : generated) {
       for (Direction d : Direction.values()) {
-        Point[] points = ((SimpleSide)piece.getSide(d)).getPoints();
+        Point[] points = piece.getSide(d).getPoints();
         if (points.length != 2) {
           Point start = points[0];
           Point end = points[points.length - 1];
