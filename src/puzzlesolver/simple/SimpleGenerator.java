@@ -5,9 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import puzzlesolver.Funcs;
 import puzzlesolver.Generator;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
+import puzzlesolver.Side;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 
@@ -84,29 +86,15 @@ public class SimpleGenerator implements Generator {
     return toReturn.toArray(new Piece[width * height]);
   }
 
-  private SimpleSide generateSide(boolean flat) {
+  @Override
+  public Side generateSide(boolean flat) {
     final Point corner1 = new Point(0d, 0d);
     final Point corner2 = new Point(Constants.SIDE_LENGTH, 0d);
     if (flat) {
       return new SimpleSide(corner1, corner2);
     }
-    final double midX = randomInRange(MIN_X_DEVIATION, MAX_X_DEVIATION, false);
-    final double midY = randomInRange(MIN_Y_DEVIATION, MAX_Y_DEVIATION, true);
+    final double midX = Funcs.randomInRange(random, MIN_X_DEVIATION, MAX_X_DEVIATION, false);
+    final double midY = Funcs.randomInRange(random, MIN_Y_DEVIATION, MAX_Y_DEVIATION, true);
     return new SimpleSide(corner1, new Point(midX, midY), corner2);
-  }
-
-  /**
-   * Generates a random number in the given range.
-   *
-   * @param min    the minimum of the number
-   * @param max    the maximum of the number
-   * @param negate if true, number will randomly be negated, if false it will always be [min, max]
-   */
-  private double randomInRange(double min, double max, boolean negate) {
-    double d = (random.nextDouble() * (max - min) + min);
-    if (negate) {
-      return d * (random.nextInt(2) == 0 ? -1 : 1);
-    }
-    return d;
   }
 }

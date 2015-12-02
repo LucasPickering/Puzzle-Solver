@@ -3,6 +3,7 @@ package puzzlesolver;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public final class Funcs {
 
@@ -43,10 +44,26 @@ public final class Funcs {
         if (i == 0) {
           return index; // Return this index
         }
-        i = -1; // Reset i to reset the exponentiatiogoesment0 ed to after thiationration)
+        i = -1; // Reset i to reset the exponentiation after this iteration
       } else { // If we should keep exponentially looking
         index = nextIndex; // Set current index to next and let it loop again
       }
     }
+  }
+
+  /**
+   * Generates a random number in the given range.
+   *
+   * @param random the random generator to be used
+   * @param min    the minimum of the number
+   * @param max    the maximum of the number
+   * @param negate if true, number will randomly be negated, if false it will always be [min, max]
+   */
+  public static double randomInRange(Random random, double min, double max, boolean negate) {
+    double d = (random.nextDouble() * (max - min) + min);
+    if (negate) {
+      return d * (random.nextInt(2) == 0 ? -1 : 1);
+    }
+    return d;
   }
 }

@@ -33,4 +33,11 @@ public interface Generator {
    */
   Piece[] generate(int width, int height);
 
+  /**
+   * Generates a new {@link Side} according to this generator's rules.
+   * @param flat if true, the side will be flat (only have two points)
+   * @return the new side
+   */
+  Side generateSide(boolean flat);
+
 }
