@@ -36,8 +36,8 @@ public class RotationSolver extends AbstractSolver {
       Piece foundPiece;
       int rotations;
       // Looks for matches, and rotates the piece up to 3 times if no matches are found
-      for (rotations = 1; (foundPiece = unplacedPieces.find(madePiece)) == null &&
-                          rotations < Direction.values().length; rotations++) {
+      for (rotations = 0; (foundPiece = unplacedPieces.find(madePiece)) == null &&
+                          rotations < Direction.values().length - 1; rotations++) {
         madePiece.rotate(Direction.NORTH, Direction.EAST); // If no matches were found, rotate once
       }
 
@@ -52,16 +52,16 @@ public class RotationSolver extends AbstractSolver {
       if (foundPiece == null) { // If it didn't find a piece
         // If the puzzle hasn't been rotated yet
         if (!rotated) {
-          rotateSolution();
           rotated = true;
+          rotateSolution();
           return nextStep();
         }
         throw new IllegalStateException(String.format("No piece found to go at (%d, %d)", x, y));
       }
 
-      foundPiece.rotate(Direction.NORTH, Direction.values()[rotations - 1]);
-      solution[x][y] = foundPiece;
-      unplacedPieces.remove(foundPiece);
+      foundPiece.rotate(Direction.values()[rotations], Direction.NORTH); // Rotate it back
+      solution[x][y] = foundPiece; // Put it in the solution
+      unplacedPieces.remove(foundPiece); // Remove it from the list of unplaced pieces
     }
     if (++x >= width) { // Increment x, if the row is done, go to the next row
       x = 0;
@@ -75,16 +75,22 @@ public class RotationSolver extends AbstractSolver {
    * vice versa. Puts all the old pieces in the new array without changing their positions at all.
    */
   private void rotateSolution() {
-    Piece[][] newSolution = new Piece[solution[0].length][];
-    for (int x = 0; x < newSolution.length; x++) {
-      newSolution[x] = new Piece[solution.length];
-      for (int y = 0; y < newSolution[0].length; y++) {
-        if (x >= solution.length || y >= solution[0].length) {
-          return;
-        }
-        newSolution[x][y] = solution[x][y];
-      }
+    // Swap width and height
+    int temp = width;
+    width = height;
+    height = temp;
+
+    Piece[][] newSolution = new Piece[width][height]; // Make a new solution with width/height swapped
+    for (int x = 0; x < width && x < height; x++) { // Copy the old data into the new solution
+      newSolution[x] = new Piece[height];
+      System.arraycopy(solution[x], 0, newSolution[x], 0, Math.min(width, height));
     }
     solution = newSolution;
+
+    // If x is now out of bounds, fix it
+    if (x >= width) {
+      x = 0;
+      y++;
+    }
   }
 }
