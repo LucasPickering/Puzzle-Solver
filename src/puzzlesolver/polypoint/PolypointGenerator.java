@@ -12,8 +12,8 @@ import puzzlesolver.simple.SimpleSide;
 
 public class PolypointGenerator extends RotationGenerator {
 
-  private static final double MIN_X_DIFF = 0.1d * Constants.SIDE_LENGTH;
-  private static final double MAX_X_DIFF = 0.2d * Constants.SIDE_LENGTH;
+  private static final double MIN_X_DIFF = Constants.SIDE_LENGTH * 0.1d;
+  private static final double MAX_X_DIFF = Constants.SIDE_LENGTH * 0.2d;
   private static final double MIN_Y_DEVIATION = Constants.SIDE_LENGTH * 0.02d;
   private static final double MAX_Y_DEVIATION = Constants.SIDE_LENGTH * 0.2d;
 
