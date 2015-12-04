@@ -35,9 +35,11 @@
            GridPane.columnSpan="2" GridPane.halignment="CENTER"/>
     <ChoiceBox fx:id="renderTypeChoiceBox" prefWidth="150.0" GridPane.columnSpan="2"
                GridPane.halignment="CENTER" GridPane.rowIndex="1">
+      <!--
       <UIConstants fx:constant="RENDER_TEXT_SIMPLE"/>
       <UIConstants fx:constant="RENDER_TEXT_ADVANCED"/>
       <UIConstants fx:constant="RENDER_VISUAL_SIMPLE"/>
+      -->
       <UIConstants fx:constant="RENDER_VISUAL_FANCY"/>
     </ChoiceBox>
     <TextField id="text-label" fx:id="widthField" GridPane.halignment="CENTER"

@@ -10,15 +10,15 @@ import java.util.Arrays;
 
 import puzzlesolver.constants.ConsoleConstants;
 import puzzlesolver.constants.Constants;
+import puzzlesolver.enums.ExitCode;
 import puzzlesolver.ui.console.ConsoleController;
 import puzzlesolver.ui.fx_2d.MainController;
-import puzzlesolver.ui.fx_3d.SimpleController;
 
 import static puzzlesolver.constants.ConsoleConstants.CLI;
 import static puzzlesolver.constants.ConsoleConstants.CLI_FANCY;
+import static puzzlesolver.constants.ConsoleConstants.EXIT_CODES;
 import static puzzlesolver.constants.ConsoleConstants.HELP;
 import static puzzlesolver.constants.ConsoleConstants.RANDOM_SEED;
-import static puzzlesolver.constants.ConsoleConstants.THREE_D;
 
 public class Main {
 
@@ -62,10 +62,11 @@ public class Main {
     if (line.hasOption(HELP)) {
       HelpFormatter formatter = new HelpFormatter();
       formatter.printHelp("puzzlesolver", ConsoleConstants.options, true);
+    } else if (line.hasOption(EXIT_CODES)){
+      ExitCode.printAll(System.out);
     } else if (line.hasOption(CLI)) {
       ConsoleController.start(line.hasOption(CLI_FANCY));
-    } else if (line.hasOption(THREE_D)) {
-      SimpleController.main(args);
+      ConsoleController.main(args);
     } else {
       MainController.main(args);
     }

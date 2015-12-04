@@ -29,7 +29,7 @@ public class ConsoleController {
   }
 
   public static void main(String[] args) {
-    start(false);
+    start(true);
   }
 
   public static void start(boolean fancy) {
