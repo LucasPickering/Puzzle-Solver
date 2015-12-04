@@ -15,7 +15,7 @@ public class PolypointGenerator extends RotationGenerator {
   private static final double MIN_X_DIFF = Constants.SIDE_LENGTH * 0.1d;
   private static final double MAX_X_DIFF = Constants.SIDE_LENGTH * 0.2d;
   private static final double MIN_Y_DEVIATION = Constants.SIDE_LENGTH * 0.02d;
-  private static final double MAX_Y_DEVIATION = Constants.SIDE_LENGTH * 0.2d;
+  private static final double MAX_Y_DEVIATION = Constants.SIDE_LENGTH * 0.1d;
 
   @Override
   public Side generateSide(boolean flat) {
@@ -25,7 +25,7 @@ public class PolypointGenerator extends RotationGenerator {
     if (!flat) {
       // Add midpoints
       for (double x = Funcs.randomInRange(random, MIN_X_DIFF, MAX_X_DIFF);
-           x < Constants.SIDE_LENGTH;
+           x < Constants.SIDE_LENGTH - MIN_X_DIFF;
            x += Funcs.randomInRange(random, MIN_X_DIFF, MAX_X_DIFF)) {
         points.add(new Point(x, Funcs.randomInRangeNegate(random, MIN_Y_DEVIATION, MAX_Y_DEVIATION)));
       }
