@@ -23,8 +23,8 @@ import puzzlesolver.Piece;
 import puzzlesolver.Solver;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
-import puzzlesolver.simple.SimpleGenerator;
-import puzzlesolver.simple.SimpleSolver;
+import puzzlesolver.polypoint.PolypointGenerator;
+import puzzlesolver.rotation.RotationSolver;
 
 public class MainController extends Application implements Initializable {
 
@@ -81,10 +81,11 @@ public class MainController extends Application implements Initializable {
         if (timer != null) {
           timer.cancel();
         }
+        // Falls through to the next case
       case UIConstants.BUTTON_GENERATE:
         Constants.LOGGER.println(1, "Generating new puzzle.");
 
-        Generator generator = new SimpleGenerator();
+        Generator generator = new PolypointGenerator();
         if (puzzle == null) {
           generator.setSeed(Constants.RANDOM_SEED);
         }
@@ -160,7 +161,7 @@ public class MainController extends Application implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     puzzleController = new PuzzleController();
     if (solver == null) {
-      solver = new SimpleSolver();
+      solver = new RotationSolver();
     }
     puzzleController.init(solver);
 
