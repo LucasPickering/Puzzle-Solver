@@ -126,9 +126,7 @@ public class PuzzleRenderer {
         gc.setStroke(STROKE_COLORS[s.getSideType().ordinal() % STROKE_COLORS.length]);
         Point[] points = s.getPoints();
         if (direction == Direction.SOUTH || direction == Direction.WEST) {
-          Point temp = points[0];
-          points[0] = points[points.length - 1];
-          points[points.length - 1] = temp;
+          ArrayUtils.reverse(points);
         }
         for (Point point : points) {
           Point globalPoint = PuzzleRenderer
@@ -141,6 +139,7 @@ public class PuzzleRenderer {
         }
       }
     }
+
     double[] primitiveXs = ArrayUtils.toPrimitive(xs.toPoints());
     double[] primitiveYs = ArrayUtils.toPrimitive(ys.toPoints());
     gc.setGlobalAlpha(1.0d);
