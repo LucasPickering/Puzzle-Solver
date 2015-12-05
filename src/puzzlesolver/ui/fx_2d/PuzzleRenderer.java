@@ -198,8 +198,8 @@ public class PuzzleRenderer {
     double randomVariant = 0.1d * Math.random();
     gc.setFill(
       new Color(1.0d - 0.4d * x / puzzleWidth - randomVariant,
-                0.5d + 0.4d * x / puzzleWidth + randomVariant,
-                0.5d + 0.4d * y / puzzleHeight + randomVariant, 1.0d));
+                0.5d + 0.4d * (y / puzzleHeight / 2 - x / puzzleWidth) + randomVariant,
+                0.9d * y / puzzleHeight + randomVariant, 1.0d));
     gc.setLineJoin(StrokeLineJoin.ROUND);
     gc.setLineCap(StrokeLineCap.ROUND);
     double windowWidth = gc.getCanvas().getWidth();
