@@ -1,11 +1,11 @@
 package puzzlesolver.rotation;
 
-import puzzlesolver.AbstractSolver;
 import puzzlesolver.Piece;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
+import puzzlesolver.simple.SimpleSolver;
 
-public class RotationSolver extends AbstractSolver {
+public class RotationSolver extends SimpleSolver {
 
   /**
    * Keeps track of whether the puzzle has been rotated once.
