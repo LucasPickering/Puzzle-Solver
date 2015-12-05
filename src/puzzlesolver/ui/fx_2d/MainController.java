@@ -30,6 +30,8 @@ public class MainController extends Application implements Initializable {
 
   Timer timer = null;
   @FXML
+  private TextField seedField;
+  @FXML
   private Button generateButton;
   @FXML
   private Button solveButton = new Button(UIConstants.BUTTON_SHOW);
@@ -88,7 +90,13 @@ public class MainController extends Application implements Initializable {
 
         Generator generator = new PolypointGenerator();
         if (puzzle == null) {
-          generator.setSeed(Constants.RANDOM_SEED);
+          if (seedField.getText() != null && !seedField.getText().equals("")) {
+            try {
+              generator.setSeed(Long.parseLong(seedField.getText()));
+            } catch (NumberFormatException e) {
+              generator.setSeed(seedField.getText().hashCode());
+            }
+          }
         }
 
         try {
@@ -180,5 +188,7 @@ public class MainController extends Application implements Initializable {
         stopSolve = true;
       }
     });
+
+    seedField.setText(Long.toString(Constants.RANDOM_SEED));
   }
 }
