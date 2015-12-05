@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import puzzlesolver.Point;
 import puzzlesolver.Solver;
@@ -37,14 +38,10 @@ public class PuzzleController {
 
   public void init(Solver solver) {
     Objects.requireNonNull(solver);
-    if (solver != this.solver) {
-      closePuzzleWindow();
-      this.solver = solver;
-      stage = null;
-    }
-    if (puzzleRenderer == null) {
-      puzzleRenderer = new PuzzleRenderer();
-    }
+    deinitPuzzleWindow();
+    this.solver = solver;
+    stage = null;
+    puzzleRenderer = new PuzzleRenderer();
   }
 
   public void openPuzzleWindow(ActionEvent event) {
@@ -75,6 +72,17 @@ public class PuzzleController {
     stage.setOnCloseRequest(event -> animationTimer.stop());
     stage.setOnShowing(event -> animationTimer.start());
     stage.getScene().setOnMouseClicked(new MouseEventHandler(animationTimer));
+    stage.getScene().setFill(Color.STEELBLUE.darker());
+    stage.getScene().widthProperty().addListener((observable, oldValue, newValue) -> {
+      puzzleRenderer.draw(gc, solver);
+    });
+    stage.getScene().heightProperty().addListener((observable, oldValue, newValue) -> {
+      puzzleRenderer.draw(gc, solver);
+    });
+  }
+
+  public void update() {
+    puzzleRenderer.update(puzzleCanvas.getGraphicsContext2D(), solver);
   }
 
   public void draw() {
@@ -110,5 +118,11 @@ public class PuzzleController {
     if (stage != null) {
       stage.close();
     }
+  }
+
+  public void deinitPuzzleWindow() {
+    closePuzzleWindow();
+    stage = null;
+    puzzleCanvas = null;
   }
 }

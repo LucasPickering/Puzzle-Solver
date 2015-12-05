@@ -22,6 +22,6 @@ public class SteppableAnimationTimer extends AnimationTimer {
 
   @Override
   public void handle(long now) {
-    puzzleRenderer.draw(gc, solver);
+    puzzleRenderer.update(gc, solver);
   }
 }

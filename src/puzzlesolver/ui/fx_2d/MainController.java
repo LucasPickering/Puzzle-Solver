@@ -62,6 +62,7 @@ public class MainController extends Application implements Initializable {
     primaryStage.setResizable(false);
     Scene scene = new Scene(root, root.prefWidth(400), root.prefHeight(300));
     primaryStage.setScene(scene);
+    primaryStage.setAlwaysOnTop(true);
     primaryStage.show();
   }
 
@@ -117,8 +118,8 @@ public class MainController extends Application implements Initializable {
       case UIConstants.BUTTON_SOLVE:
         if (stopSolve) {
           stopSolve = false;
-          solveButton.setText(UIConstants.BUTTON_STOP);
         }
+        solveButton.setText(UIConstants.BUTTON_STOP);
 
         timer = new Timer("Solve and Render", true);
         timer.scheduleAtFixedRate(new TimerTask() {
