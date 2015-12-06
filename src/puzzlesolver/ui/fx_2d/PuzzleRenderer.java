@@ -3,6 +3,7 @@ package puzzlesolver.ui.fx_2d;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Objects;
+import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -13,6 +14,7 @@ import puzzlesolver.Point;
 import puzzlesolver.Side;
 import puzzlesolver.Solver;
 import puzzlesolver.arrays.PointsBuilder;
+import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
 import puzzlesolver.enums.Direction;
 
@@ -20,10 +22,9 @@ public class PuzzleRenderer {
 
   int lastDrawnX = 0;
   int lastDrawnY = 0;
-
+  Random random = new Random(Constants.RANDOM_SEED);
   int previousPuzzleWidth;
   int previousPuzzleHeight;
-
   /*
   private Paint[] FILL_COLORS = new Paint[]{Color.NAVY, Color.DARKSLATEBLUE,
                                             Color.DARKGOLDENROD, Color.DARKOLIVEGREEN,
@@ -117,6 +118,10 @@ public class PuzzleRenderer {
     return new Point(pointGlobalX, pointGlobalY);
   }
 
+  public void setSeed(long seed) {
+    random.setSeed(seed);
+  }
+
   public void draw(GraphicsContext gc, Solver solver) {
     reset(gc);
     previousPuzzleWidth = 0;
@@ -189,17 +194,22 @@ public class PuzzleRenderer {
     }
   }
 
+  double[] doubles = null;
+
   public void drawPiece(GraphicsContext gc, Piece piece, int x, int y,
                         int puzzleWidth, int puzzleHeight) {
+    if (doubles == null) {
+      doubles = random.doubles(puzzleWidth * puzzleHeight).toArray();
+    }
     /*
     gc.setFill(
       FILL_COLORS[FILL_COLORS.length - 1 - piece.getPieceType().ordinal() % FILL_COLORS.length]);
     */
-    double randomVariant = 0.1d * Math.random();
+    double randomVariant = 0.1d * doubles[y * puzzleWidth + x];
     gc.setFill(
       new Color(1.0d - 0.4d * x / puzzleWidth - randomVariant,
-                0.5d + 0.4d * x / puzzleWidth + randomVariant,
-                0.5d + 0.4d * y / puzzleHeight + randomVariant, 1.0d));
+                0.5d + 0.4d * (y / puzzleHeight / 2 - x / puzzleWidth) + randomVariant,
+                0.9d * y / puzzleHeight + randomVariant, 1.0d));
     gc.setLineJoin(StrokeLineJoin.ROUND);
     gc.setLineCap(StrokeLineCap.ROUND);
     double windowWidth = gc.getCanvas().getWidth();
