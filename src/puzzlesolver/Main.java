@@ -27,6 +27,9 @@ public class Main {
    */
   public static void main(String[] args) {
 
+    // Enable hardware acceleration
+    System.setProperty("sun.java2d.opengl", "true");
+
     // Find how many v's are in a -v[v[v[...]]] argument if one exists
     // I apologize sincerely for how disgusting this is, but I wanted to do it in one line.
 
