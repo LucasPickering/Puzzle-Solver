@@ -18,13 +18,15 @@ import puzzlesolver.polypoint.PolypointGenerator;
 
 @State(Scope.Benchmark)
 @Threads(4)
-@Warmup(iterations=3, time=500, timeUnit= TimeUnit.MILLISECONDS)
-@Measurement(iterations=3, time=500, timeUnit=TimeUnit.MILLISECONDS)
+@Warmup(iterations = 3, time = 500, timeUnit = TimeUnit.MILLISECONDS)
+@Measurement(iterations = 3, time = 500, timeUnit = TimeUnit.MILLISECONDS)
 @BenchmarkMode(Mode.AverageTime)
 public class PolypointGeneratorTest {
 
-  @Param({"50", "100", "200", "300"}) private int sideLength;
-  @Param({"0.2d", "0.1d", "0.05d", "0.01d"}) private double complexity;
+  @Param({"50", "100", "200", "300"})
+  private int sideLength;
+  @Param({"0.2d", "0.1d", "0.05d", "0.01d"})
+  private double complexity;
 
   @Benchmark
   public void measureGenerate() {
