@@ -48,7 +48,9 @@ public class PuzzleController {
     deinitPuzzleWindow();
     this.solver = solver;
     stage = null;
-    puzzleRenderer = new PuzzleRenderer();
+    if (puzzleRenderer == null) {
+      puzzleRenderer = new PuzzleRenderer();
+    }
   }
 
   public void openPuzzleWindow(ActionEvent event) {
@@ -59,7 +61,8 @@ public class PuzzleController {
   }
 
   private void setupPuzzleWindow() {
-    puzzleCanvas = new Canvas();
+    puzzleCanvas = new Canvas(UIConstants.WINDOW_MIN_WIDTH,
+                              UIConstants.WINDOW_MIN_HEIGHT);
 
     stage = new Stage();
     Group root = new Group();
@@ -67,13 +70,11 @@ public class PuzzleController {
     stage.setMinWidth(UIConstants.WINDOW_MIN_WIDTH);
     stage.setMinHeight(UIConstants.WINDOW_MIN_HEIGHT);
 
-    Canvas canvas = new Canvas(UIConstants.WINDOW_MIN_WIDTH, UIConstants.WINDOW_MIN_HEIGHT);
-
-    GraphicsContext gc = canvas.getGraphicsContext2D();
-    root.getChildren().add(canvas);
+    GraphicsContext gc = puzzleCanvas.getGraphicsContext2D();
+    root.getChildren().add(puzzleCanvas);
     stage.setScene(new Scene(root));
-    canvas.widthProperty().bind(stage.getScene().widthProperty());
-    canvas.heightProperty().bind(stage.getScene().heightProperty());
+    puzzleCanvas.widthProperty().bind(stage.getScene().widthProperty());
+    puzzleCanvas.heightProperty().bind(stage.getScene().heightProperty());
     stage.setTitle("Puzzle!");
     animationTimer = new SteppableAnimationTimer(solver, gc, puzzleRenderer);
     stage.setOnCloseRequest(event -> animationTimer.stop());
@@ -89,6 +90,12 @@ public class PuzzleController {
     stage.getScene().heightProperty().addListener((observable, oldValue, newValue) -> {
       puzzleRenderer.draw(gc, solver);
     });
+
+    if (puzzleRenderer == null) {
+      puzzleRenderer = new PuzzleRenderer();
+    } else {
+      puzzleRenderer.reset(puzzleCanvas.getGraphicsContext2D());
+    }
   }
 
   public void update() {

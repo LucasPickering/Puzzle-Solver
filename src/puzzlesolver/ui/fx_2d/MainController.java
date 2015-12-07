@@ -129,6 +129,9 @@ public class MainController extends Application implements Initializable {
         }
         solveButton.setText(UIConstants.BUTTON_STOP);
 
+        if (timer != null) {
+          timer.cancel();
+        }
         timer = new Timer("Solve and Render", true);
         timer.scheduleAtFixedRate(new TimerTask() {
           @Override

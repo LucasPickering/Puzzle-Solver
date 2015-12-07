@@ -20,21 +20,13 @@ import puzzlesolver.enums.Direction;
 
 public class PuzzleRenderer {
 
-  int lastDrawnX = 0;
-  int lastDrawnY = 0;
-  Random random = new Random(Constants.RANDOM_SEED);
-  int previousPuzzleWidth;
-  int previousPuzzleHeight;
-  /*
-  private Paint[] FILL_COLORS = new Paint[]{Color.NAVY, Color.DARKSLATEBLUE,
-                                            Color.DARKGOLDENROD, Color.DARKOLIVEGREEN,
-                                            Color.MAROON, Color.DARKVIOLET,
-                                            Color.DARKCYAN, Color.DARKORCHID};
-  private Paint[] STROKE_COLORS = new Paint[]{Color.LIGHTSEAGREEN,
-                                              Color.LIGHTSALMON,
-                                              Color.LIGHTYELLOW};
-                                              */
-  boolean done;
+  private int lastDrawnX = 0;
+  private int lastDrawnY = 0;
+  private Random random = new Random(Constants.RANDOM_SEED);
+  private int previousPuzzleWidth;
+  private int previousPuzzleHeight;
+  private boolean done;
+  private double[] doubles = null;
 
   public static double getScaledPieceSideLength(int puzzleWidth, int puzzleHeight,
                                                 double windowWidth, double windowHeight) {
@@ -134,7 +126,7 @@ public class PuzzleRenderer {
     gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
   }
 
-  private void reset(GraphicsContext gc) {
+  protected void reset(GraphicsContext gc) {
     clearCanvas(gc);
     lastDrawnX = 0;
     lastDrawnY = 0;
@@ -193,8 +185,6 @@ public class PuzzleRenderer {
       }
     }
   }
-
-  double[] doubles = null;
 
   public void drawPiece(GraphicsContext gc, Piece piece, int x, int y,
                         int puzzleWidth, int puzzleHeight) {
