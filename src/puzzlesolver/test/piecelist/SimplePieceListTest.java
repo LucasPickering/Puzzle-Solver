@@ -17,9 +17,9 @@ import static org.junit.Assert.assertTrue;
 public class SimplePieceListTest {
 
   private final PieceList empty = new SimplePieceList();
-  private final PieceList oneByOne = new SimplePieceList();
-  private final PieceList fourByFour = new SimplePieceList();
-  private final PieceList bigList = new SimplePieceList();
+  private final PieceList oneByOne = new SimplePieceList(1);
+  private final PieceList fourByFour = new SimplePieceList(16);
+  private final PieceList bigList = new SimplePieceList(900);
 
   @Before
   public void setUp() {
@@ -28,11 +28,6 @@ public class SimplePieceListTest {
     oneByOne.addAll(gen.generate(1, 1));
     fourByFour.addAll(gen.generate(4, 4));
     bigList.addAll(gen.generate(30, 30));
-  }
-
-  @Test(expected = IndexOutOfBoundsException.class)
-  public void testFirstOob() {
-    empty.first(Direction.NORTH);
   }
 
   @Test

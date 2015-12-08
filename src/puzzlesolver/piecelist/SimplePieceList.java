@@ -55,27 +55,6 @@ public class SimplePieceList implements PieceList {
     }
   }
 
-  /**
-   * Constructs a new {@code SimplePieceList} and adds all pieces in the given array.
-   *
-   * @param pieces the pieces to be added (non-null, does not contain null)
-   */
-  public SimplePieceList(@NotNull Piece[] pieces) {
-    this(pieces.length);
-    addAll(pieces);
-  }
-
-  /**
-   * Constructs a new {@code SimplePieceList} from the given array of 4 lists of pieces.
-   *
-   * @param pieceLists the lists to construct this list from; this array should satisfy all invariants
-   *                   for {@code this.pieceLists}
-   */
-  private SimplePieceList(@NotNull ArrayList<Piece>[] pieceLists) {
-    Objects.requireNonNull(pieceLists);
-    this.pieceLists = pieceLists;
-  }
-
   @Override
   public void add(Piece p) {
     for (int i = 0; i < pieceLists.length; i++) {
@@ -115,12 +94,6 @@ public class SimplePieceList implements PieceList {
       throw new IndexOutOfBoundsException("i is out of bounds");
     }
     return pieceLists[dir.ordinal()].get(i);
-  }
-
-  @Override
-  public Piece first(@NotNull Direction dir) {
-    Objects.requireNonNull(dir);
-    return get(dir, 0);
   }
 
   @Override

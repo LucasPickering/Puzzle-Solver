@@ -45,15 +45,6 @@ public interface PieceList {
   Piece get(@NotNull Direction dir, int i);
 
   /**
-   * Gets the first item in this list when sorted by the given direction.
-   *
-   * @param dir the direction to sort by (non-null)
-   * @return the first item in the list
-   * @throws IndexOutOfBoundsException if this list is empty
-   */
-  Piece first(@NotNull Direction dir);
-
-  /**
    * Is this list empty?
    *
    * @return true if this list has no elements, i.e. size() == 0, false otherwise
