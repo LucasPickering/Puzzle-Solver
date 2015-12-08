@@ -5,6 +5,12 @@ import com.sun.istack.internal.NotNull;
 import puzzlesolver.Piece;
 import puzzlesolver.enums.Direction;
 
+/**
+ * A list of pieces. All pieces stored in this list are "concrete" pieces, meaning they have no
+ * {@code null} sides, and are actual pieces in the puzzle being solved. The list can only be
+ * accessed by specifying a {@link Direction}. Whenever accessed, the list can be considered to be
+ * sorted by the specified Direction.
+ */
 public interface PieceList {
 
   /**
