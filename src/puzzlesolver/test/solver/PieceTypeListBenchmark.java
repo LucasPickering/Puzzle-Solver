@@ -29,12 +29,14 @@ public class PieceTypeListBenchmark {
   private Piece[] puzzle;
   private PieceList simpleList;
   private PieceList pieceTypeList;
+  private PieceList pieceTypeListOpt;
 
   @Setup
   public void setUp() {
     puzzle = new PolypointGenerator().generate(size, size);
     simpleList = new SimplePieceList(size * size);
     pieceTypeList = new PieceTypePieceList();
+    pieceTypeListOpt = new PieceTypePieceList(size * size);
   }
 
   @Benchmark
@@ -47,5 +49,11 @@ public class PieceTypeListBenchmark {
   public void measureAddPieceType() {
     pieceTypeList.addAll(puzzle);
     pieceTypeList.clear();
+  }
+
+  @Benchmark
+  public void measureAddPieceTypeOpt() {
+    pieceTypeListOpt.addAll(puzzle);
+    pieceTypeListOpt.clear();
   }
 }

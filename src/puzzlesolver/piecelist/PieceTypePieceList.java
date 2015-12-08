@@ -20,8 +20,13 @@ public class PieceTypePieceList extends SimplePieceList {
   private PieceList[] pieceLists = new PieceList[PieceType.values().length];
 
   public PieceTypePieceList() {
+    this(10);
+  }
+
+  public PieceTypePieceList(int initialCapacity) {
+    final int listSize = initialCapacity / PieceType.values().length;
     for (PieceType pieceType : PieceType.values()) {
-      pieceLists[pieceType.ordinal()] = new SimplePieceList();
+      pieceLists[pieceType.ordinal()] = new SimplePieceList(listSize);
     }
   }
 

@@ -8,7 +8,7 @@ public class PieceTypeRotationSolver extends RotationSolver {
 
   @Override
   public void init(Piece[] pieces) {
-    unplacedPieces = new PieceTypePieceList();
+    unplacedPieces = new PieceTypePieceList(pieces.length);
     int edges = 0;
     for (Piece piece : pieces) {
       if (piece.definitelyType(PieceType.EDGE)) {
