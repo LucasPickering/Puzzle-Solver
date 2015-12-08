@@ -5,11 +5,11 @@ import org.junit.Test;
 
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
-import puzzlesolver.Side;
+import puzzlesolver.side.Side;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
-import puzzlesolver.simple.SimpleSide;
+import puzzlesolver.side.SimpleSide;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

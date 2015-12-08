@@ -5,7 +5,7 @@ import com.sun.istack.internal.NotNull;
 import java.util.Objects;
 
 import puzzlesolver.Piece;
-import puzzlesolver.Solver;
+import puzzlesolver.solver.Solver;
 
 public class SimpleTextView implements TextView {
 

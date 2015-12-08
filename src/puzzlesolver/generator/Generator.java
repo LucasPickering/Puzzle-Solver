@@ -1,4 +1,7 @@
-package puzzlesolver;
+package puzzlesolver.generator;
+
+import puzzlesolver.Piece;
+import puzzlesolver.side.Side;
 
 /**
  * An interface to represent puzzle generators. These puzzles have the following properties: <ul>

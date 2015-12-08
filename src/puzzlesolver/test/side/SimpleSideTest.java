@@ -1,11 +1,11 @@
-package puzzlesolver.test.simple;
+package puzzlesolver.test.side;
 
 import org.junit.Test;
 
 import puzzlesolver.Point;
-import puzzlesolver.Side;
+import puzzlesolver.side.Side;
 import puzzlesolver.enums.SideType;
-import puzzlesolver.simple.SimpleSide;
+import puzzlesolver.side.SimpleSide;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

@@ -3,10 +3,10 @@ package puzzlesolver.test;
 import org.junit.Before;
 import org.junit.Test;
 
-import puzzlesolver.Generator;
+import puzzlesolver.generator.Generator;
 import puzzlesolver.Piece;
 import puzzlesolver.enums.Direction;
-import puzzlesolver.simple.SimpleGenerator;
+import puzzlesolver.generator.SimpleGenerator;
 
 import static org.junit.Assert.*;
 

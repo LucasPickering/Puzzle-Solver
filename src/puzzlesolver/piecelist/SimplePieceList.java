@@ -1,4 +1,4 @@
-package puzzlesolver.simple;
+package puzzlesolver.piecelist;
 
 import com.sun.istack.internal.NotNull;
 
@@ -10,7 +10,6 @@ import java.util.Objects;
 import puzzlesolver.Funcs;
 import puzzlesolver.Piece;
 import puzzlesolver.PieceComparator;
-import puzzlesolver.PieceList;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 

@@ -3,10 +3,10 @@ package puzzlesolver.ui.console;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-import puzzlesolver.Generator;
-import puzzlesolver.Solver;
-import puzzlesolver.polypoint.PolypointGenerator;
-import puzzlesolver.rotation.RotationSolver;
+import puzzlesolver.generator.Generator;
+import puzzlesolver.solver.Solver;
+import puzzlesolver.generator.PolypointGenerator;
+import puzzlesolver.solver.RotationSolver;
 
 public class ConsoleController {
 

@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import puzzlesolver.Piece;
-import puzzlesolver.Side;
-import puzzlesolver.Solver;
+import puzzlesolver.side.Side;
+import puzzlesolver.solver.Solver;
 import puzzlesolver.enums.Direction;
 
 public class AdvancedTextView implements TextView {

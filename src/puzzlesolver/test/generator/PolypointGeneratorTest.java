@@ -1,4 +1,4 @@
-package puzzlesolver.test.polypoint;
+package puzzlesolver.test.generator;
 
 import org.junit.Test;
 import org.openjdk.jmh.annotations.Benchmark;
@@ -13,8 +13,8 @@ import org.openjdk.jmh.annotations.Warmup;
 
 import java.util.concurrent.TimeUnit;
 
-import puzzlesolver.Generator;
-import puzzlesolver.polypoint.PolypointGenerator;
+import puzzlesolver.generator.Generator;
+import puzzlesolver.generator.PolypointGenerator;
 
 @State(Scope.Benchmark)
 @Threads(4)

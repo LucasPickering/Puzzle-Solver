@@ -1,14 +1,13 @@
-package puzzlesolver.polypoint;
+package puzzlesolver.generator;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import puzzlesolver.Funcs;
 import puzzlesolver.Point;
-import puzzlesolver.Side;
+import puzzlesolver.side.Side;
 import puzzlesolver.constants.Constants;
-import puzzlesolver.rotation.RotationGenerator;
-import puzzlesolver.simple.SimpleSide;
+import puzzlesolver.side.SimpleSide;
 
 public class PolypointGenerator extends RotationGenerator {
 

@@ -1,12 +1,13 @@
-package puzzlesolver.simple;
+package puzzlesolver.solver;
 
 import puzzlesolver.Piece;
-import puzzlesolver.PieceList;
+import puzzlesolver.piecelist.PieceList;
 import puzzlesolver.Point;
-import puzzlesolver.Solver;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
+import puzzlesolver.piecelist.SimplePieceList;
+import puzzlesolver.side.SimpleSide;
 
 public class SimpleSolver implements Solver {
 

@@ -1,4 +1,7 @@
-package puzzlesolver;
+package puzzlesolver.solver;
+
+import puzzlesolver.Piece;
+import puzzlesolver.piecelist.PieceList;
 
 public interface Solver {
 

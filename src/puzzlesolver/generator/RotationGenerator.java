@@ -1,9 +1,9 @@
-package puzzlesolver.rotation;
+package puzzlesolver.generator;
 
 import puzzlesolver.Piece;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
-import puzzlesolver.simple.SimpleGenerator;
+import puzzlesolver.generator.SimpleGenerator;
 
 public class RotationGenerator extends SimpleGenerator {
 

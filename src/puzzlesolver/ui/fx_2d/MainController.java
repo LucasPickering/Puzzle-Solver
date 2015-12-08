@@ -18,13 +18,13 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import puzzlesolver.Generator;
+import puzzlesolver.generator.Generator;
 import puzzlesolver.Piece;
-import puzzlesolver.Solver;
+import puzzlesolver.solver.Solver;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
-import puzzlesolver.polypoint.PolypointGenerator;
-import puzzlesolver.rotation.RotationSolver;
+import puzzlesolver.generator.PolypointGenerator;
+import puzzlesolver.solver.RotationSolver;
 
 public class MainController extends Application implements Initializable {
 

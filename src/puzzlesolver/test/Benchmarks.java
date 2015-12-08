@@ -8,8 +8,8 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.util.concurrent.TimeUnit;
 
-import puzzlesolver.test.polypoint.PolypointGeneratorTest;
-import puzzlesolver.test.simple.SimpleSolverTest;
+import puzzlesolver.test.generator.PolypointGeneratorTest;
+import puzzlesolver.test.solver.SimpleSolverTest;
 
 public class Benchmarks {
 

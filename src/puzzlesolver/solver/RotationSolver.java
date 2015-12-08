@@ -1,9 +1,9 @@
-package puzzlesolver.rotation;
+package puzzlesolver.solver;
 
 import puzzlesolver.Piece;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
-import puzzlesolver.simple.SimpleSolver;
+import puzzlesolver.solver.SimpleSolver;
 
 public class RotationSolver extends SimpleSolver {
 

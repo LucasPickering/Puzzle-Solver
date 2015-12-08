@@ -1,14 +1,14 @@
-package puzzlesolver.test.simple;
+package puzzlesolver.test.piecelist;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import puzzlesolver.Generator;
+import puzzlesolver.generator.Generator;
 import puzzlesolver.PieceComparator;
-import puzzlesolver.PieceList;
+import puzzlesolver.piecelist.PieceList;
 import puzzlesolver.enums.Direction;
-import puzzlesolver.simple.SimpleGenerator;
-import puzzlesolver.simple.SimplePieceList;
+import puzzlesolver.generator.SimpleGenerator;
+import puzzlesolver.piecelist.SimplePieceList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

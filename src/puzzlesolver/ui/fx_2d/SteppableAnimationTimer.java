@@ -2,7 +2,7 @@ package puzzlesolver.ui.fx_2d;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
-import puzzlesolver.Solver;
+import puzzlesolver.solver.Solver;
 
 public class SteppableAnimationTimer extends AnimationTimer {
 

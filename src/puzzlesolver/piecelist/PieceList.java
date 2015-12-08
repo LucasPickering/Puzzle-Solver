@@ -1,7 +1,8 @@
-package puzzlesolver;
+package puzzlesolver.piecelist;
 
 import com.sun.istack.internal.NotNull;
 
+import puzzlesolver.Piece;
 import puzzlesolver.enums.Direction;
 
 public interface PieceList {

@@ -7,6 +7,7 @@ import java.util.List;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
+import puzzlesolver.side.Side;
 
 /**
  * A class to represent a 4-sided puzzle piece.

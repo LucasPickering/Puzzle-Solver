@@ -1,4 +1,4 @@
-package puzzlesolver.test.simple;
+package puzzlesolver.test.solver;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -14,8 +14,8 @@ import org.openjdk.jmh.annotations.Warmup;
 import java.util.concurrent.TimeUnit;
 
 import puzzlesolver.Piece;
-import puzzlesolver.polypoint.PolypointGenerator;
-import puzzlesolver.simple.SimpleSolver;
+import puzzlesolver.generator.PolypointGenerator;
+import puzzlesolver.solver.SimpleSolver;
 
 @State(Scope.Benchmark)
 @Threads(4)

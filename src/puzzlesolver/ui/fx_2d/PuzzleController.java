@@ -13,11 +13,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import puzzlesolver.Point;
-import puzzlesolver.Solver;
+import puzzlesolver.solver.Solver;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
 import puzzlesolver.enums.Direction;
-import puzzlesolver.simple.SimpleSolver;
+import puzzlesolver.solver.SimpleSolver;
 
 public class PuzzleController {
 

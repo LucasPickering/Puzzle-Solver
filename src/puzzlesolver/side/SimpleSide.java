@@ -1,4 +1,4 @@
-package puzzlesolver.simple;
+package puzzlesolver.side;
 
 import com.sun.istack.internal.NotNull;
 
@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import puzzlesolver.Point;
-import puzzlesolver.Side;
 import puzzlesolver.enums.SideType;
 
 /**

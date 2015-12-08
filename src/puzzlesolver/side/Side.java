@@ -1,5 +1,6 @@
-package puzzlesolver;
+package puzzlesolver.side;
 
+import puzzlesolver.Point;
 import puzzlesolver.enums.SideType;
 
 /**

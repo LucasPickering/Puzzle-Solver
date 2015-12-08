@@ -5,10 +5,10 @@ import java.util.List;
 
 import puzzlesolver.Funcs;
 import puzzlesolver.Point;
-import puzzlesolver.Side;
+import puzzlesolver.side.Side;
 import puzzlesolver.constants.Constants;
-import puzzlesolver.rotation.RotationGenerator;
-import puzzlesolver.simple.SimpleSide;
+import puzzlesolver.generator.RotationGenerator;
+import puzzlesolver.side.SimpleSide;
 
 public class CurveGenerator extends RotationGenerator {
 

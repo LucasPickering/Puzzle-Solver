@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import puzzlesolver.Piece;
-import puzzlesolver.Solver;
+import puzzlesolver.solver.Solver;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.SideType;
 
