@@ -13,6 +13,11 @@ import puzzlesolver.PieceComparator;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 
+/**
+ * An implentation of {@link PieceList} where pieces are stored 4 times each. 4 internal {@link
+ * ArrayList}s store the pieces, each one with identical contents except for order. Each list is
+ * sorted by one of the directions in {@link Direction}.
+ */
 public class SimplePieceList implements PieceList {
 
   /*
