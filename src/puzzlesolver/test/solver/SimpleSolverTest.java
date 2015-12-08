@@ -28,12 +28,11 @@ public class SimpleSolverTest {
   private int sideLength;
   @Param({"0.2d", "0.1d", "0.05d", "0.01d"})
   private double complexity;
-  private Piece[] puzzle;
   private SimpleSolver solver;
 
   @Setup
   public void setupMeasureSimpleSolver() {
-    puzzle = new PolypointGenerator(complexity, complexity).generate(sideLength, sideLength);
+    Piece[] puzzle = new PolypointGenerator(complexity, complexity).generate(sideLength, sideLength);
     solver = new SimpleSolver();
     solver.init(puzzle);
   }
