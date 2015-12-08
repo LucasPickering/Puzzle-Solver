@@ -8,7 +8,6 @@ import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.annotations.Warmup;
 
 import java.util.concurrent.TimeUnit;
@@ -20,9 +19,8 @@ import puzzlesolver.piecelist.PieceTypePieceList;
 import puzzlesolver.piecelist.SimplePieceList;
 
 @State(Scope.Benchmark)
-@Threads(4)
 @Warmup(iterations = 3, time = 500, timeUnit = TimeUnit.MILLISECONDS)
-@Measurement(iterations = 3, time = 500, timeUnit = TimeUnit.MILLISECONDS)
+@Measurement(iterations = 10, time = 500, timeUnit = TimeUnit.MILLISECONDS)
 @BenchmarkMode(Mode.AverageTime)
 public class PieceTypeBenchmarkTest {
 
