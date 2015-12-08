@@ -16,13 +16,13 @@ public final class Funcs {
    * a change from matching to non-matching on the first step (1-element step), meaning it finds the
    * edge of the matching elements.
    *
+   * @param <E>        the type of element in the list
    * @param list       the sorted list to search (non-null, non-empty)
    * @param comparator a comparator to compare the elements in the list (non-null)
    * @param index      the index at which to start the search (in list bounds)
-   * @param left       true to searcg to the left, false to search to the right
-   * @param <E>        the type of element in the list
-   * @return the index of the last element in the list for which {@code comparator.compare(item,
-   * element) == 0}
+   * @param left       true to search to the left, false to search to the right
+   * @return the index of the last element in the list for which {@code comparator.compare(list[i],
+   * list[i + 1]) == 0}
    * @throws NullPointerException      if {@code list == null || comparator == null}
    * @throws IndexOutOfBoundsException if {@code index} is out of bounds for the list
    */
