@@ -10,14 +10,20 @@ import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
 
 /**
- * A {@link PieceList} where pieces are stored in a collection of other PieceLists. Pieces are
- * sorted into one of these PieceLists by their piece types, with one type per list. Access indices
- * start at 0 (inclusive) and end at the sum of all internal piece lists (exclusive). Indices
- * continue through each internal list in the order that piece types appear in {@link PieceType}.
+ * A {@link PieceList} where pieces are stored in a collection of other PieceLists. Pieces are sorted
+ * into one of these PieceLists by their piece types, with one type per list. Access indices start at
+ * 0 (inclusive) and end at the sum of all internal piece lists (exclusive). Indices continue through
+ * each internal list in the order that piece types appear in {@link PieceType}.
  */
 public class PieceTypePieceList extends SimplePieceList {
 
   private PieceList[] pieceLists = new PieceList[PieceType.values().length];
+
+  public PieceTypePieceList() {
+    for (PieceType pieceType : PieceType.values()) {
+      pieceLists[pieceType.ordinal()] = new SimplePieceList();
+    }
+  }
 
   @Override
   public void add(Piece p) {

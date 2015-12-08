@@ -87,7 +87,7 @@ public class SimpleSolver implements Solver {
    * @return the width of the puzzle, in pieces
    * @throws IllegalArgumentException if no width can be found for the given perimeter and area
    */
-  private int getWidth(int perimeter, int area) {
+  protected int getWidth(int perimeter, int area) {
     final int helper = (perimeter + 4) / 2; // This is used a lot
     final double width = (helper + Math.sqrt(helper * helper - 4 * area)) / 2; // From quadratic form.
     final int roundedWidth = (int) (width + 0.5D); // Cast with rounding
@@ -108,7 +108,7 @@ public class SimpleSolver implements Solver {
    * @throws IllegalArgumentException if no puzzle with the given area and width exists, i.e. {@code
    *                                  area} is not divisible by {@code width}
    */
-  private int getHeight(int width, int area) {
+  protected int getHeight(int width, int area) {
     if (area % width != 0) {
       throw new IllegalArgumentException(String.format("Area (%d) is not divisible by width (%d)",
                                                        area, width));

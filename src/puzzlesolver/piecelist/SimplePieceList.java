@@ -48,14 +48,14 @@ public class SimplePieceList implements PieceList {
   /**
    * Constructs a new {@code SimplePieceList} with the given initial capacity.
    *
-   * @param capacity the initial capacity of the list (non-negative)
+   * @param initialCapacity the initial capacity of the list (non-negative)
    * @throws IllegalArgumentException if capacity is negative
    */
   @SuppressWarnings("unchecked")
-  public SimplePieceList(int capacity) {
+  public SimplePieceList(int initialCapacity) {
     pieceLists = new ArrayList[4];
     for (int i = 0; i < pieceLists.length; i++) {
-      pieceLists[i] = new ArrayList<>(capacity);
+      pieceLists[i] = new ArrayList<>(initialCapacity);
       comparators[i] = new PieceComparator(Direction.values()[i]);
     }
   }
