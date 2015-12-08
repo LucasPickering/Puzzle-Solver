@@ -93,10 +93,12 @@ public class SimplePieceList implements PieceList {
   }
 
   @Override
-  public void remove(Piece p) {
+  public boolean remove(Piece p) {
+    boolean removed = false;
     for (ArrayList<Piece> pieceList : pieceLists) {
-      pieceList.remove(p);
+      removed = pieceList.remove(p);
     }
+    return removed;
   }
 
   @Override

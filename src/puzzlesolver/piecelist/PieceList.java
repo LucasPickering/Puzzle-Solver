@@ -25,8 +25,9 @@ public interface PieceList {
    * Removes the given piece from this list, if it exists in the list.
    *
    * @param p the piece to be removed
+   * @return true if something was removed, false otherwise
    */
-  void remove(Piece p);
+  boolean remove(Piece p);
 
   /**
    * Clears this list.
