@@ -14,36 +14,38 @@ import java.util.concurrent.TimeUnit;
 
 import puzzlesolver.Piece;
 import puzzlesolver.generator.PolypointGenerator;
-import puzzlesolver.piecelist.PieceList;
-import puzzlesolver.piecelist.PieceTypePieceList;
-import puzzlesolver.piecelist.SimplePieceList;
+import puzzlesolver.solver.PieceTypeRotationSolver;
+import puzzlesolver.solver.SimpleSolver;
+import puzzlesolver.solver.Solver;
 
 @State(Scope.Benchmark)
-@Warmup(iterations = 3, time = 500, timeUnit = TimeUnit.MILLISECONDS)
+@Warmup(iterations = 10, time = 500, timeUnit = TimeUnit.MILLISECONDS)
 @Measurement(iterations = 10, time = 500, timeUnit = TimeUnit.MILLISECONDS)
 @BenchmarkMode(Mode.AverageTime)
-public class PieceTypeBenchmarkTest {
+public class PieceTypeSolverBenchmark {
 
   @Param({"10", "50", "100", "200"})
   private int size;
   private Piece[] puzzle;
-  private PieceList simpleList;
-  private PieceList pieceTypeList;
+  private Solver simpleSolver;
+  private Solver pieceTypeSolver;
 
   @Setup
   public void setUp() {
     puzzle = new PolypointGenerator().generate(size, size);
-    simpleList = new SimplePieceList(size * size);
-    pieceTypeList = new PieceTypePieceList();
   }
 
   @Benchmark
-  public void measureAddSimple() {
-    simpleList.addAll(puzzle);
+  public void measureSolveSimple() {
+    simpleSolver = new SimpleSolver();
+    simpleSolver.init(puzzle);
+    while(simpleSolver.nextStep());
   }
 
   @Benchmark
-  public void measureAddPieceType() {
-    pieceTypeList.addAll(puzzle);
+  public void measureSolvePieceType() {
+    pieceTypeSolver = new PieceTypeRotationSolver();
+    pieceTypeSolver.init(puzzle);
+    while(pieceTypeSolver.nextStep());
   }
 }
