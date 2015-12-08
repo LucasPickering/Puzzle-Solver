@@ -1,4 +1,4 @@
-package puzzlesolver.curve;
+package puzzlesolver.generator;
 
 import java.util.LinkedList;
 import java.util.List;
