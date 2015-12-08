@@ -3,25 +3,23 @@ package puzzlesolver.test;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
-import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.ChainedOptionsBuilder;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.util.concurrent.TimeUnit;
 
-import puzzlesolver.test.generator.PolypointGeneratorTest;
-import puzzlesolver.test.solver.SimpleSolverTest;
-
 public class Benchmarks {
 
   public static void main(String[] args) throws RunnerException {
-    Options opt = new OptionsBuilder()
-      .include(PolypointGeneratorTest.class.getSimpleName())
-      .include(SimpleSolverTest.class.getSimpleName())
-      .forks(1)
-      .mode(Mode.AverageTime)
-      .timeUnit(TimeUnit.MILLISECONDS)
-      .build();
+    ChainedOptionsBuilder builder = new OptionsBuilder()
+        .forks(1)
+        .mode(Mode.AverageTime)
+        .timeUnit(TimeUnit.MILLISECONDS);
 
-    new Runner(opt).run();
+    for (String arg : args) {
+      builder.include(arg);
+    }
+
+    new Runner(builder.build()).run();
   }
 }
