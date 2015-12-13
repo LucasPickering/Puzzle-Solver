@@ -18,13 +18,13 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import puzzlesolver.generator.Generator;
 import puzzlesolver.Piece;
-import puzzlesolver.solver.Solver;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
+import puzzlesolver.generator.Generator;
 import puzzlesolver.generator.PolypointGenerator;
 import puzzlesolver.solver.RotationSolver;
+import puzzlesolver.solver.Solver;
 
 public class MainController extends Application implements Initializable {
 
@@ -84,6 +84,7 @@ public class MainController extends Application implements Initializable {
         if (timer != null) {
           timer.cancel();
         }
+        solveButton.setText(UIConstants.BUTTON_SOLVE);
         // Falls through to the next case
       case UIConstants.BUTTON_GENERATE:
         Constants.LOGGER.println(1, "Generating new puzzle.");
@@ -100,7 +101,7 @@ public class MainController extends Application implements Initializable {
         }
 
         try {
-          puzzle = generator.generate(Integer.parseInt(widthField.getText()),
+          puzzle = generator.generate                                        (Integer.parseInt(widthField.getText()),
                                       Integer.parseInt(heightField.getText()));
           solver.init(puzzle);
           puzzleController.init(solver);
@@ -125,9 +126,11 @@ public class MainController extends Application implements Initializable {
     switch (solveButton.getText()) {
       case UIConstants.BUTTON_SOLVE:
         if (stopSolve) {
+          solveButton.setText(UIConstants.BUTTON_SOLVE);
           stopSolve = false;
+        } else {
+          solveButton.setText(UIConstants.BUTTON_STOP);
         }
-        solveButton.setText(UIConstants.BUTTON_STOP);
 
         if (timer != null) {
           timer.cancel();
@@ -190,6 +193,7 @@ public class MainController extends Application implements Initializable {
       if (!newValue.equals(oldValue) && timer != null) {
         stopSolve = true;
       }
+      solveButton.setText(UIConstants.BUTTON_SOLVE);
     });
 
     seedField.setText(Long.toString(Constants.RANDOM_SEED));
