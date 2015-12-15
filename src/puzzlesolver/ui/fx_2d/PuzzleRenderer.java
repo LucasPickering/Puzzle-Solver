@@ -11,12 +11,12 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
-import puzzlesolver.side.Side;
-import puzzlesolver.solver.Solver;
 import puzzlesolver.arrays.PointsBuilder;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
 import puzzlesolver.enums.Direction;
+import puzzlesolver.side.Side;
+import puzzlesolver.solver.Solver;
 
 public class PuzzleRenderer {
 
@@ -28,6 +28,15 @@ public class PuzzleRenderer {
   private boolean done;
   private double[] doubles = null;
 
+  /**
+   * Get the side length of a piece, according to the puzzle and window dimensions;
+   *
+   * @param puzzleWidth  width of puzzle, in pieces
+   * @param puzzleHeight height of puzzle, in pieces
+   * @param windowWidth  width of window, in pixels
+   * @param windowHeight height of window, in pixels
+   * @return side length
+   */
   public static double getScaledPieceSideLength(int puzzleWidth, int puzzleHeight,
                                                 double windowWidth, double windowHeight) {
     final double scaledPadding = UIConstants.VISUAL_PIECE_PADDING;
@@ -114,6 +123,14 @@ public class PuzzleRenderer {
     random.setSeed(seed);
   }
 
+  /**
+   * Reset the scene and draw a fresh puzzle.
+   *
+   * Should only be called on window resize, etc.
+   *
+   * @param gc     {@link GraphicsContext} on which to draw
+   * @param solver to draw
+   */
   public void draw(GraphicsContext gc, Solver solver) {
     reset(gc);
     previousPuzzleWidth = 0;
@@ -122,10 +139,20 @@ public class PuzzleRenderer {
     update(gc, solver);
   }
 
+  /**
+   * Clears the canvas.
+   *
+   * @param gc canvas to clear
+   */
   private void clearCanvas(GraphicsContext gc) {
     gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
   }
 
+  /**
+   * Reset {@link this} to a clear canvas. Calling {@link #update(GraphicsContext, Solver)} or {@link #drawPuzzle(GraphicsContext, Solver)} after
+   * this will redraw the entire puzzle.
+   * @param gc {@link GraphicsContext} on which to draw
+   */
   protected void reset(GraphicsContext gc) {
     clearCanvas(gc);
     lastDrawnX = 0;
@@ -133,6 +160,12 @@ public class PuzzleRenderer {
     done = false;
   }
 
+  /**
+   * Redraws the puzzle, resetting it if the puzzle has changed (rotation, etc).
+   *
+   * @param gc {@link GraphicsContext} on which to draw
+   * @param solver to draw
+   */
   public void update(GraphicsContext gc, Solver solver) {
     Piece[][] solution = solver.getSolution();
 
