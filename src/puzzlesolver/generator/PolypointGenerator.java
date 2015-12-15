@@ -11,8 +11,8 @@ import puzzlesolver.side.SimpleSide;
 
 public class PolypointGenerator extends RotationGenerator {
 
-  private double minXDiff = Constants.SIDE_LENGTH;
-  private double maxXDiff = Constants.SIDE_LENGTH;
+  private final double minXDiff;
+  private final double maxXDiff;
 
   private static final double MIN_Y_DEVIATION = Constants.SIDE_LENGTH * 0.02d;
   private static final double MAX_Y_DEVIATION = Constants.SIDE_LENGTH * 0.1d;
@@ -42,8 +42,8 @@ public class PolypointGenerator extends RotationGenerator {
     if (minXDiffFactor > maxXDiffFactor) {
       throw new IllegalArgumentException("min X factor must be <= max X factor");
     }
-    minXDiff *= minXDiffFactor;
-    maxXDiff *= maxXDiffFactor;
+    minXDiff = Constants.SIDE_LENGTH * minXDiffFactor;
+    maxXDiff = Constants.SIDE_LENGTH * maxXDiffFactor;
   }
 
   @Override
