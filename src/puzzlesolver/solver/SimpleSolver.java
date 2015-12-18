@@ -88,7 +88,7 @@ public class SimpleSolver implements Solver {
    * @throws IllegalArgumentException if no width can be found for the given perimeter and area
    */
   protected int getWidth(int perimeter, int area) {
-    final int helper = (perimeter + 4) / 2; // This is used a lot
+    final int helper = (perimeter + 4) / 2; // This is twice1
     final double width = (helper + Math.sqrt(helper * helper - 4 * area)) / 2; // From quadratic form.
     final int roundedWidth = (int) (width + 0.5D); // Cast with rounding
     final double error = Math.abs(width - roundedWidth); // Check error, should be minimal
