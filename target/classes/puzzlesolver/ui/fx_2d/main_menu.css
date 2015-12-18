@@ -3,8 +3,9 @@
 }
 
 .label.title {
-    -fx-font-size: 2em;
+    -fx-font-size: 1.8em;
     -fx-font-style: oblique;
+    -fx-alignment: center;
 }
 
 .label.text-field {

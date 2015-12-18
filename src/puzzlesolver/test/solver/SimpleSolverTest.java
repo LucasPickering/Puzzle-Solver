@@ -6,7 +6,6 @@ import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.annotations.Warmup;
@@ -18,9 +17,9 @@ import puzzlesolver.generator.PolypointGenerator;
 import puzzlesolver.solver.SimpleSolver;
 
 @State(Scope.Benchmark)
-@Threads(4)
-@Warmup(iterations = 3, time = 500, timeUnit = TimeUnit.MILLISECONDS)
-@Measurement(iterations = 3, time = 500, timeUnit = TimeUnit.MILLISECONDS)
+@Threads(1)
+@Warmup(iterations = 10, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
+@Measurement(iterations = 10, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
 @BenchmarkMode(Mode.AverageTime)
 public class SimpleSolverTest {
 
@@ -28,17 +27,13 @@ public class SimpleSolverTest {
   private int sideLength;
   @Param({"0.2d", "0.1d", "0.05d", "0.01d"})
   private double complexity;
-  private SimpleSolver solver;
-
-  @Setup
-  public void setupMeasureSimpleSolver() {
-    Piece[] puzzle = new PolypointGenerator(complexity, complexity).generate(sideLength, sideLength);
-    solver = new SimpleSolver();
-    solver.init(puzzle);
-  }
 
   @Benchmark
-  public void measureSimpleSolver() {
+  public void measureFull() {
+    Piece[] puzzle = new PolypointGenerator(complexity, complexity).generate(sideLength, sideLength);
+    SimpleSolver solver = new SimpleSolver();
+    solver.init(puzzle);
+
     //noinspection StatementWithEmptyBody
     while (solver.nextStep()) {
     }
