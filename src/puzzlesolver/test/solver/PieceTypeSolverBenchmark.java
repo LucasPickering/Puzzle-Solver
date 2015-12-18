@@ -19,8 +19,8 @@ import puzzlesolver.solver.SimpleSolver;
 import puzzlesolver.solver.Solver;
 
 @State(Scope.Benchmark)
-@Warmup(iterations = 10, time = 500, timeUnit = TimeUnit.MILLISECONDS)
-@Measurement(iterations = 10, time = 500, timeUnit = TimeUnit.MILLISECONDS)
+@Warmup(iterations = 10, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
+@Measurement(iterations = 10, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
 @BenchmarkMode(Mode.AverageTime)
 public class PieceTypeSolverBenchmark {
 

@@ -17,9 +17,9 @@ import puzzlesolver.generator.Generator;
 import puzzlesolver.generator.PolypointGenerator;
 
 @State(Scope.Benchmark)
-@Threads(4)
-@Warmup(iterations = 3, time = 500, timeUnit = TimeUnit.MILLISECONDS)
-@Measurement(iterations = 3, time = 500, timeUnit = TimeUnit.MILLISECONDS)
+@Threads(1)
+@Warmup(iterations = 10, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
+@Measurement(iterations = 10, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
 @BenchmarkMode(Mode.AverageTime)
 public class PolypointGeneratorTest {
 
