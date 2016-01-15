@@ -60,7 +60,7 @@ public class MainController extends Application implements Initializable {
     getParameters();
     // TODO check for seed
     Parent root = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
-    primaryStage.setTitle("Puzzle-O-Matic!");
+    primaryStage.setTitle("Puzzleopolis!");
     primaryStage.setResizable(false);
     Scene scene = new Scene(root, root.prefWidth(400), root.prefHeight(300));
     primaryStage.setScene(scene);
