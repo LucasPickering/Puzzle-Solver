@@ -87,7 +87,7 @@ public class MainController extends Application implements Initializable {
         solveButton.setText(UIConstants.BUTTON_SOLVE);
         // Falls through to the next case
       case UIConstants.BUTTON_GENERATE:
-        Constants.LOGGER.println(1, "Generating new puzzle.");
+        Constants.LOGGER.println(1, "Generating new puzzle");
 
         Generator generator = new PolypointGenerator();
         if (puzzle == null) {
@@ -101,7 +101,7 @@ public class MainController extends Application implements Initializable {
         }
 
         try {
-          puzzle = generator.generate                                        (Integer.parseInt(widthField.getText()),
+          puzzle = generator.generate(Integer.parseInt(widthField.getText()),
                                       Integer.parseInt(heightField.getText()));
           solver.init(puzzle);
           puzzleController.init(solver);
@@ -140,12 +140,8 @@ public class MainController extends Application implements Initializable {
           @Override
           public void run() {
             try {
-              if (stopSolve) {
+              if (stopSolve || puzzleController.nextStep()) {
                 this.cancel();
-              } else {
-                if (puzzleController.nextStep()) {
-                  this.cancel();
-                }
               }
             } catch (Exception e) {
               e.printStackTrace();
@@ -182,8 +178,8 @@ public class MainController extends Application implements Initializable {
 
     // Set up renderTypeChoiceBox
     renderTypeChoiceBox.getSelectionModel()
-                       .selectedItemProperty()
-                       .addListener(this::changeRenderMode);
+        .selectedItemProperty()
+        .addListener(this::changeRenderMode);
     renderTypeChoiceBox.getSelectionModel().select(UIConstants.RENDER_VISUAL_FANCY);
     renderTypeChoiceBox.show();
 
