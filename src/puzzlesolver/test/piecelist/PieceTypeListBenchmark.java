@@ -1,4 +1,4 @@
-package puzzlesolver.test.solver;
+package puzzlesolver.test.piecelist;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
