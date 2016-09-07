@@ -10,7 +10,8 @@ public class RotationSolver extends SimpleSolver {
   /**
    * Keeps track of whether the puzzle has been rotated once.
    */
-  private boolean rotated;
+  boolean rotated;
+  private int x, y;
 
   @Override
   public boolean nextStep() {
@@ -47,7 +48,7 @@ public class RotationSolver extends SimpleSolver {
        * when we can't find a specific piece, that it's because we're looking for an edge piece
        * that shouldn't actually be an edge piece. This means we've reached the end of the array
        * before we should've, and that the puzzle is rotated 90 degrees. Re-allocate the array with
-        * reversed dimensions, and we're good to go.
+       * reversed dimensions, and we're good to go.
        */
       if (foundPiece == null) { // If it didn't find a piece
         // If the puzzle hasn't been rotated yet
@@ -74,7 +75,7 @@ public class RotationSolver extends SimpleSolver {
    * Re-allocates the solution array with reversed dimensions. The old width is the new height, and
    * vice versa. Puts all the old pieces in the new array without changing their positions at all.
    */
-  private void rotateSolution() {
+  protected void rotateSolution() {
     // Swap width and height
     int temp = width;
     width = height;

@@ -11,12 +11,10 @@ import puzzlesolver.side.SimpleSide;
 
 public class SimpleSolver implements Solver {
 
-  protected int width;
-  protected int height;
+  protected int width, height;
   protected PieceList unplacedPieces;
   protected Piece[][] solution;
-  protected int x;
-  protected int y;
+  private int x, y;
 
   @Override
   public void init(Piece[] pieces) {
