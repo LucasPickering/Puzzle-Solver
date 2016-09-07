@@ -21,7 +21,7 @@ import puzzlesolver.solver.SimpleSolver;
 @Warmup(iterations = 100, time = 10000, timeUnit = TimeUnit.MILLISECONDS)
 @Measurement(iterations = 100, time = 10000, timeUnit = TimeUnit.MILLISECONDS)
 @BenchmarkMode(Mode.AverageTime)
-public class SimpleSolverTest {
+public class SimpleSolverBenchmark {
 
   @Param({"50", "100", "200", "300"})
   private int sideLength;
