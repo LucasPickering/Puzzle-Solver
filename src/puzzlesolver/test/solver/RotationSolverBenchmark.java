@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import puzzlesolver.Piece;
 import puzzlesolver.generator.PolypointGenerator;
-import puzzlesolver.solver.PieceTypeRotationSolver;
+import puzzlesolver.solver.RotationSolver;
 import puzzlesolver.solver.Solver;
 
 @State(Scope.Benchmark)
@@ -23,7 +23,7 @@ import puzzlesolver.solver.Solver;
 @Warmup(iterations = 10, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
 @Measurement(iterations = 10, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
 @BenchmarkMode(Mode.AverageTime)
-public class PieceTypeSolverBenchmark {
+public class RotationSolverBenchmark {
 
   @Param({"10", "50", "100", "200"})
   private int size;
@@ -38,7 +38,7 @@ public class PieceTypeSolverBenchmark {
 
   @Benchmark
   public void measureFull() {
-    Solver solver = new PieceTypeRotationSolver();
+    Solver solver = new RotationSolver();
     solver.init(puzzle);
 
     //noinspection StatementWithEmptyBody

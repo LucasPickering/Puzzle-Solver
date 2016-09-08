@@ -6,6 +6,7 @@ import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.annotations.Warmup;
@@ -13,7 +14,7 @@ import org.openjdk.jmh.annotations.Warmup;
 import java.util.concurrent.TimeUnit;
 
 import puzzlesolver.Piece;
-import puzzlesolver.generator.PolypointGenerator;
+import puzzlesolver.generator.SimpleGenerator;
 import puzzlesolver.solver.SimpleSolver;
 
 @State(Scope.Benchmark)
@@ -24,18 +25,20 @@ import puzzlesolver.solver.SimpleSolver;
 public class SimpleSolverBenchmark {
 
   @Param({"50", "100", "200", "300"})
-  private int sideLength;
-  @Param({"0.2d", "0.1d", "0.05d", "0.01d"})
-  private double complexity;
+  private int size;
+  private Piece[] puzzle;
+
+  @Setup
+  public void setUp() {
+    puzzle = new SimpleGenerator().generate(size, size);
+  }
 
   @Benchmark
   public void measureFull() {
-    Piece[] puzzle = new PolypointGenerator(complexity, complexity).generate(sideLength, sideLength);
     SimpleSolver solver = new SimpleSolver();
     solver.init(puzzle);
 
     //noinspection StatementWithEmptyBody
-    while (solver.nextStep()) {
-    }
+    while (solver.nextStep());
   }
 }
