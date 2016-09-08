@@ -7,7 +7,7 @@ import puzzlesolver.Piece;
 import puzzlesolver.enums.Direction;
 
 /**
- * A lazy solver is one that tries to put in easiest piece next, rather than by simply placing
+ * A greedy solver is one that tries to put in easiest piece next, rather than by simply placing
  * the next piece in line. The idea is that, by using a relatively quick method to
  * determine which piece is easiest, you can fill out the puzzle as quickly as possible.
  *
@@ -22,7 +22,7 @@ import puzzlesolver.enums.Direction;
  * to look for a piece that's easy to find, so that you can cut down on the amount of pieces you
  * have to look for.
  */
-public class LazySolver extends PieceTypeRotationSolver {
+public class GreedySolver extends PieceTypeRotationSolver {
 
   private Map<Piece, Float> pieceCache = new HashMap<>();
 
