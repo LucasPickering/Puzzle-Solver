@@ -25,7 +25,7 @@ import puzzlesolver.solver.Solver;
 @BenchmarkMode(Mode.AverageTime)
 public class RotationSolverBenchmark {
 
-  @Param({"10", "50", "100", "200"})
+  @Param({"50", "100", "200"})
   private int size;
   @Param({"0.2d", "0.1d", "0.05d", "0.01d"})
   private double complexity;
