@@ -2,13 +2,14 @@ package puzzlesolver.solver;
 
 import puzzlesolver.Piece;
 import puzzlesolver.enums.PieceType;
+import puzzlesolver.piecelist.PieceList;
 import puzzlesolver.piecelist.PieceTypePieceList;
 
 public class PieceTypeRotationSolver extends RotationSolver {
 
   @Override
   public void init(Piece[] pieces) {
-    unplacedPieces = new PieceTypePieceList(pieces.length);
+    PieceList unplacedPieces = new PieceTypePieceList(pieces.length);
     int edges = 0;
     for (Piece piece : pieces) {
       if (piece.definitelyType(PieceType.EDGE)) {
@@ -17,8 +18,8 @@ public class PieceTypeRotationSolver extends RotationSolver {
       unplacedPieces.add(piece);
     }
 
-    width = getWidth(edges + 4, pieces.length);
-    height = getHeight(width, pieces.length);
-    solution = new Piece[width][height];
+    int width = getWidth(edges + 4, pieces.length);
+    int height = getHeight(width, pieces.length);
+    state = new State(width, height, getUnplacedPieces());
   }
 }
