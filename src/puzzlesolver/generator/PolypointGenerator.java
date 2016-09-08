@@ -37,7 +37,8 @@ public class PolypointGenerator extends RotationGenerator {
    */
   public PolypointGenerator(double minXDiffFactor, double maxXDiffFactor) {
     if (minXDiffFactor <= 0 || minXDiffFactor > 1 || maxXDiffFactor <= 0 || maxXDiffFactor > 1) {
-      throw new IllegalArgumentException("Diff factors must be (0, 1]");
+      throw new IllegalArgumentException(String.format(
+          "Diff factors must be (0, 1], were min: %f, max: %f", minXDiffFactor, maxXDiffFactor));
     }
     if (minXDiffFactor > maxXDiffFactor) {
       throw new IllegalArgumentException("min X factor must be <= max X factor");

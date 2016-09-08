@@ -20,6 +20,6 @@ public class PieceTypeRotationSolver extends RotationSolver {
 
     int width = getWidth(edges + 4, pieces.length);
     int height = getHeight(width, pieces.length);
-    state = new State(width, height, getUnplacedPieces());
+    state = new State(width, height, unplacedPieces);
   }
 }
