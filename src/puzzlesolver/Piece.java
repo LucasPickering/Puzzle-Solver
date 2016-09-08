@@ -50,7 +50,7 @@ public class Piece {
    * Gets the {@link PieceType} type of this piece. This was calculated upon construction of the
    * object. The order of this array is GUARANTEED to match the order of {@link PieceType}.
    *
-   * @return the type of this piece
+   * @return all possibly types for this piece
    */
   public PieceType[] getPieceTypes() {
     if (pieceTypes == null) {
@@ -91,7 +91,8 @@ public class Piece {
    * @return true if the given type is the <i>only</i> type that this piece can be, false otherwise
    */
   public boolean definitelyType(PieceType pieceType) {
-    return getPieceTypes().length == 1 && getPieceTypes()[0] == pieceType;
+    PieceType[] types = getPieceTypes();
+    return types.length == 1 && types[0] == pieceType;
   }
 
   /**
