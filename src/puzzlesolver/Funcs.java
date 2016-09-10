@@ -9,7 +9,7 @@ public final class Funcs {
 
   /**
    * Exponentially searches for the last element in the given sorted list that matches the element at
-   * {@param index}. The giv3en liStarts the search at {@param index}, and moves left or right
+   * {@param index}. The given list starts the search at {@param index}, and moves left or right
    * according to {@param left}. Exponential searching means that the first step looks 1 element
    * ahead, then 2 elements ahead of that, then 4, 8, ..., until an element is found that does not
    * match the element at {@param index}. The search then starts back at 0 and repeats until it finds
@@ -71,5 +71,18 @@ public final class Funcs {
    */
   public static double randomInRangeNegate(Random random, double min, double max) {
     return randomInRange(random, min, max) * (random.nextInt(2) == 0 ? -1 : 1);
+  }
+
+  /**
+   * Check if the given (x, y) coordinate is in bounds for the given width and height.
+   *
+   * @param width  the width of the bound
+   * @param height the height of the bound
+   * @param x      the x-coordinate
+   * @param y      the y-coordinate
+   * @return true if (x, y) falls within width, height, false otherwise
+   */
+  public static boolean coordsInBounds(int width, int height, int x, int y) {
+    return 0 <= x && x < width && 0 <= y && y < height;
   }
 }

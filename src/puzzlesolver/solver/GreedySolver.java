@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import puzzlesolver.Coord;
+import puzzlesolver.Funcs;
 import puzzlesolver.Piece;
 import puzzlesolver.enums.Direction;
 
@@ -26,42 +27,21 @@ import puzzlesolver.enums.Direction;
  */
 public class GreedySolver extends PieceTypeRotationSolver {
 
-  private Map<Coord, PieceScore> pieceCache = new HashMap<>();
-
-  private class PieceScore {
+  private class ScoredPiece {
     private Piece piece;
     private float score;
 
-    public PieceScore(Piece piece, float score) {
+    private ScoredPiece(Piece piece, float score) {
       Objects.requireNonNull(piece);
-      if (score < 0f || score > 1f) {
+      if (score < 0 || score > 1) {
         throw new IllegalArgumentException("Score must be in range [0, 1], was " + score);
       }
-
       this.piece = piece;
       this.score = score;
     }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-
-      PieceScore that = (PieceScore) o;
-
-      return piece.equals(that.piece);
-
-    }
-
-    @Override
-    public int hashCode() {
-      return piece.hashCode();
-    }
   }
+
+  private Map<Coord, ScoredPiece> pieceCache = new HashMap<>();
 
   /**
    * {@inheritDoc}
@@ -74,12 +54,14 @@ public class GreedySolver extends PieceTypeRotationSolver {
         if (state.solution[x][y] == null && adjacentCount(state, x, y) > 0) {
           // Calculate the potential piece for this spot
           final Piece madePiece = makePiece(state, x, y);
-          pieceCache.put(madePiece, difficultyScore(madePiece, state));
+          pieceCache.put(new Coord(x, y), new ScoredPiece(madePiece, difficultyScore(madePiece,
+                                                                                   state)));
         }
       }
     }
 
-    final Piece easiestPiece = getEasiestPiece();
+    final Map.Entry<Coord, ScoredPiece> easiestPieceEntry = getEasiestPiece();
+    final Piece easiestPiece = easiestPieceEntry.getValue().piece;
     Piece foundPiece = state.unplacedPieces.find(easiestPiece);
     int rotations;
     // Look for matches, and rotates the piece up to 3 times if no matches are found
@@ -111,26 +93,36 @@ public class GreedySolver extends PieceTypeRotationSolver {
     foundPiece.rotate(Direction.values()[rotations], Direction.NORTH); // Rotate it back
     state.placePiece(foundPiece); // Put it in the solution
     state.unplacedPieces.remove(foundPiece); // Remove it from the list of unplaced pieces
-    pieceCache.clear(); // TODO: Only evict pieces whose adjacent pieces changed
+
+    // Evict pieces from the cache that are adjacent to the piece that changed
+    final Coord changedCoord = easiestPieceEntry.getKey();
+    for (Direction dir : Direction.values()) {
+      final int dirX = changedCoord.x + dir.x;
+      final int dirY = changedCoord.y + dir.y;
+      pieceCache.remove(new Coord(dirX, dirY)); // No need to bounds-check or check for membership
+    }
   }
 
   private int adjacentCount(State state, int x, int y) {
     int count = 0;
     for (Direction dir : Direction.values()) {
-      if (state.solution[x + dir.x][y + dir.y] != null) {
+      final int dirX = x + dir.x;
+      final int dirY = y + dir.y;
+      if (Funcs.coordsInBounds(state.width(), state.height(), dirX, dirY)
+          && state.solution[dirX][dirY] != null) {
         count++;
       }
     }
     return count;
   }
 
-  private Piece getEasiestPiece() {
-    Piece easiestPiece = null;
+  private Map.Entry<Coord, ScoredPiece> getEasiestPiece() {
+    Map.Entry<Coord, ScoredPiece> easiestPiece = null;
     float minScore = Float.MAX_VALUE;
-    for (Map.Entry<Piece, Float> entry : pieceCache.entrySet()) {
-      final float score = entry.getValue();
-      if (entry.getValue() < minScore) {
-        easiestPiece = entry.getKey();
+    for (Map.Entry<Coord, ScoredPiece> entry : pieceCache.entrySet()) {
+      final float score = entry.getValue().score;
+      if (score < minScore) {
+        easiestPiece = entry;
         minScore = score;
       }
     }
