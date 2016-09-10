@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 
 import puzzlesolver.Piece;
 import puzzlesolver.enums.Direction;
+import puzzlesolver.enums.PieceType;
 
 /**
  * A list of pieces. All pieces stored in this list are "concrete" pieces, meaning they have no
@@ -73,4 +74,12 @@ public interface PieceList {
    * @throws NullPointerException if p is {@code null}
    */
   Piece find(@NotNull Piece p);
+
+  /**
+   * Get a sorted list of all pieces in this list that are of the given type.
+   *
+   * @param pieceType the type to filter by
+   * @return a sublist containing all (and only) the pieces of the given type
+   */
+  PieceList sublistByType(PieceType pieceType);
 }

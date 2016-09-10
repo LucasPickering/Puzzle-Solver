@@ -31,10 +31,6 @@ public class GreedySolver extends PieceTypeRotationSolver {
 
   private Map<Coord, Pair<Piece, Float>> madePieceCache = new HashMap<>();
 
-
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean nextStep() throws PieceNotFoundException {
     // If this is the first piece, find the first corner in the list and place it
@@ -64,9 +60,6 @@ public class GreedySolver extends PieceTypeRotationSolver {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void placeNextPiece(State state) throws PieceNotFoundException {
     final Map.Entry<Coord, Pair<Piece, Float>> easiestPieceEntry = getEasiestPiece();
@@ -94,9 +87,6 @@ public class GreedySolver extends PieceTypeRotationSolver {
     placePiece(state, foundPiece);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected boolean done(State state) {
     return state.unplacedPieces.size() == 0;

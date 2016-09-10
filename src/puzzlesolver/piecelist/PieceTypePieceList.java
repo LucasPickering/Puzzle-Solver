@@ -79,4 +79,10 @@ public class PieceTypePieceList extends SimplePieceList {
     }
     return null;
   }
+
+  @Override
+  public PieceList sublistByType(PieceType pieceType) {
+    Objects.requireNonNull(pieceType);
+    return pieceLists[pieceType.ordinal()];
+  }
 }

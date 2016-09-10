@@ -12,6 +12,7 @@ import puzzlesolver.Piece;
 import puzzlesolver.PieceComparator;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
+import puzzlesolver.enums.PieceType;
 
 /**
  * An implementation of {@link PieceList} where pieces are stored 4 times each. 4 internal {@link
@@ -128,7 +129,8 @@ public class SimplePieceList implements PieceList {
                                                  midIndex, false);
           for (int i = leftIndex; i <= rightIndex; i++) {
             final Piece p2 = pieceLists[dirOrd].get(i);
-            if (Arrays.binarySearch(p.getPieceTypes(), p2.getPieceType()) >= 0 && p.maybeEquals(p2)) {
+            if (Arrays.binarySearch(p.getPieceTypes(), p2.getPieceType()) >= 0 && p
+                .maybeEquals(p2)) {
               return p2;
             }
           }
@@ -136,5 +138,10 @@ public class SimplePieceList implements PieceList {
       }
     }
     return null;
+  }
+
+  @Override
+  public PieceList sublistByType(PieceType pieceType) {
+    throw new IllegalStateException("SimplePieceList does not support sub-listing by type!");
   }
 }

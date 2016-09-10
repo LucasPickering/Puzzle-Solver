@@ -12,9 +12,6 @@ public class RotationSolver extends SimpleSolver {
 	 */
 	boolean rotated;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void placeCorner(State state) throws PieceNotFoundException {
 		for (int i = 0; i < state.unplacedPieces.size(); i++) {
@@ -34,9 +31,6 @@ public class RotationSolver extends SimpleSolver {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void placeNextPiece(State state) throws PieceNotFoundException {
 		final Piece madePiece = makePiece(state);
