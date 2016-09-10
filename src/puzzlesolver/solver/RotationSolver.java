@@ -48,29 +48,38 @@ public class RotationSolver extends SimpleSolver {
 			madePiece.rotate(Direction.NORTH, Direction.EAST); // If no matches were found, rotate once
 		}
 
-		/*
-		 * There's a chance that the "wrong" first corner was placed, and the puzzles is rotated 90
-		 * degrees from what it should be. If the puzzle is non-square, it won't fit. We assume that
-		 * when we can't find a specific piece, that it's because we're looking for an edge piece
-		 * that shouldn't actually be an edge piece. This means we've reached the end of the array
-		 * before we should've, and that the puzzle is rotated 90 degrees. Re-allocate the array with
-		 * reversed dimensions, and we're good to go.
-		 */
 		if (foundPiece == null) { // If it didn't find a piece
-			// If the puzzle hasn't been rotated yet
-			if (!rotated) {
-				rotated = true;
-				rotateSolution(state);
+			if (rotateSolutionIfHelpful(state)) {
 				placeNextPiece(state); // Call again with the newly-rotated solution
 				return;
 			}
-			throw new IllegalStateException(String.format("No piece found to go at (%d, %d)",
-																										state.x, state.y));
+			throw new PieceNotFoundException(state.x, state.y);
 		}
 
 		foundPiece.rotate(Direction.values()[rotations], Direction.NORTH); // Rotate it back
 		state.placePiece(foundPiece); // Put it in the solution
 		state.unplacedPieces.remove(foundPiece); // Remove it from the list of unplaced pieces
+	}
+
+	/**
+	 * There's a chance that the "wrong" first corner was placed, and the puzzles is rotated 90
+	 * degrees from what it should be. If the puzzle is non-square, it won't fit. We assume that
+	 * when we can't find a specific piece, that it's because we're looking for an edge piece
+	 * that shouldn't actually be an edge piece. This means we've reached the end of the array
+	 * before we should've, and that the puzzle is rotated 90 degrees. Re-allocate the array with
+	 * reversed dimensions, and we're good to go.
+	 *
+	 * @param state the current state of the puzzle
+	 * @return true if the puzzle was rotated, false if it was not
+	 */
+	protected boolean rotateSolutionIfHelpful(State state) {
+		// If the puzzle hasn't been rotated yet
+		if (!rotated) {
+			rotated = true;
+			rotateSolution(state);
+			return true;
+		}
+		return false;
 	}
 
 	/**

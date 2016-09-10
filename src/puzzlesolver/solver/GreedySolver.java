@@ -97,19 +97,8 @@ public class GreedySolver extends PieceTypeRotationSolver {
       foundPiece = state.unplacedPieces.find(easiestPiece); // Try again
     }
 
-		/*
-     * There's a chance that the "wrong" first corner was placed, and the puzzles is rotated 90
-		 * degrees from what it should be. If the puzzle is non-square, it won't fit. We assume that
-		 * when we can't find a specific piece, that it's because we're looking for an edge piece
-		 * that shouldn't actually be an edge piece. This means we've reached the end of the array
-		 * before we should've, and that the puzzle is rotated 90 degrees. Re-allocate the array with
-		 * reversed dimensions, and we're good to go.
-		 */
     if (foundPiece == null) { // If it didn't find a piece
-      // If the puzzle hasn't been rotated yet
-      if (!rotated) {
-        rotated = true;
-        rotateSolution(state); // Rotate the puzzle (see comment above)
+      if (rotateSolutionIfHelpful(state)) {
         placeNextPiece(state); // Call again with the newly-rotated solution
         return;
       }
@@ -145,27 +134,11 @@ public class GreedySolver extends PieceTypeRotationSolver {
     }
   }
 
-  private int adjacentCount(State state, int x, int y) {
-    int count = 0;
-    for (Direction dir : Direction.values()) {
-      final int dirX = x + dir.x;
-      final int dirY = y + dir.y;
-      if (Funcs.coordsInBounds(state.width(), state.height(), dirX, dirY)
-          && state.solution[dirX][dirY] != null) {
-        count++;
-      }
-    }
-    return count;
-  }
-
   private Map.Entry<Coord, ScoredPiece> getEasiestPiece() {
     Map.Entry<Coord, ScoredPiece> easiestPiece = null;
-    float minScore = Float.MAX_VALUE;
     for (Map.Entry<Coord, ScoredPiece> entry : madePieceCache.entrySet()) {
-      final float score = entry.getValue().score;
-      if (score < minScore) {
+      if (easiestPiece == null || entry.getValue().score < easiestPiece.getValue().score) {
         easiestPiece = entry;
-        minScore = score;
       }
     }
     return easiestPiece;

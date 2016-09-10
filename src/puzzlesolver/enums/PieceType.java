@@ -87,8 +87,6 @@ public enum PieceType {
   }
 
   private boolean sidesEqualXorNull(SideType s1, SideType s2) {
-    return (s1 == null)
-           ? s2 != null
-           : s2 == null || s1 == s2;
+    return s1 == null || s2 == null || s1 == s2;
   }
 }
