@@ -14,6 +14,8 @@ import puzzlesolver.constants.Constants;
 
 public class Benchmarks {
 
+	public static final String GENERATOR_SEED = "LOGAN PROBABLY DOESN'T CARE";
+
 	public static void main(String[] args) throws RunnerException {
 		Date date = new Date();
 		ChainedOptionsBuilder builder = new OptionsBuilder().forks(1).mode(Mode.AverageTime)

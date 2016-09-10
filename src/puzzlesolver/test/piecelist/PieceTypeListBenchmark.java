@@ -13,10 +13,12 @@ import org.openjdk.jmh.annotations.Warmup;
 import java.util.concurrent.TimeUnit;
 
 import puzzlesolver.Piece;
+import puzzlesolver.generator.Generator;
 import puzzlesolver.generator.PolypointGenerator;
 import puzzlesolver.piecelist.PieceList;
 import puzzlesolver.piecelist.PieceTypePieceList;
 import puzzlesolver.piecelist.SimplePieceList;
+import puzzlesolver.test.Benchmarks;
 
 @State(Scope.Benchmark)
 @Warmup(iterations = 10, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
@@ -33,7 +35,9 @@ public class PieceTypeListBenchmark {
 
   @Setup
   public void setUp() {
-    puzzle = new PolypointGenerator().generate(size, size);
+    final Generator generator = new PolypointGenerator();
+    generator.setSeed(Benchmarks.GENERATOR_SEED);
+    puzzle = generator.generate(size, size);
     simpleList = new SimplePieceList(size * size);
     pieceTypeList = new PieceTypePieceList();
     pieceTypeListOpt = new PieceTypePieceList(size * size);

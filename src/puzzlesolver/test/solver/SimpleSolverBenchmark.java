@@ -15,8 +15,10 @@ import java.util.concurrent.TimeUnit;
 
 import puzzlesolver.Piece;
 import puzzlesolver.PieceNotFoundException;
+import puzzlesolver.generator.Generator;
 import puzzlesolver.generator.SimpleGenerator;
 import puzzlesolver.solver.SimpleSolver;
+import puzzlesolver.test.Benchmarks;
 
 @State(Scope.Benchmark)
 @Threads(1)
@@ -31,7 +33,9 @@ public class SimpleSolverBenchmark {
 
   @Setup
   public void setUp() {
-    puzzle = new SimpleGenerator().generate(size, size);
+    final Generator generator = new SimpleGenerator();
+    generator.setSeed(Benchmarks.GENERATOR_SEED);
+    puzzle = generator.generate(size, size);
   }
 
   @Benchmark

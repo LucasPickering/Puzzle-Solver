@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import puzzlesolver.generator.Generator;
 import puzzlesolver.generator.PolypointGenerator;
+import puzzlesolver.test.Benchmarks;
 
 
 @State(Scope.Benchmark)
@@ -31,6 +32,7 @@ public class PolypointGeneratorBenchmark {
     @Benchmark
     public void measureGenerate() {
         Generator generator = new PolypointGenerator(complexity, complexity);
+        generator.setSeed(Benchmarks.GENERATOR_SEED);
         generator.generate(sideLength, sideLength);
     }
 }

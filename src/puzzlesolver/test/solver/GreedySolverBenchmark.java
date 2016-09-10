@@ -15,9 +15,11 @@ import java.util.concurrent.TimeUnit;
 
 import puzzlesolver.Piece;
 import puzzlesolver.PieceNotFoundException;
+import puzzlesolver.generator.Generator;
 import puzzlesolver.generator.PolypointGenerator;
 import puzzlesolver.solver.GreedySolver;
 import puzzlesolver.solver.Solver;
+import puzzlesolver.test.Benchmarks;
 
 @State(Scope.Benchmark)
 @Threads(1)
@@ -34,7 +36,9 @@ public class GreedySolverBenchmark {
 
   @Setup
   public void setUp() {
-    puzzle = new PolypointGenerator(complexity, complexity).generate(size, size);
+    final Generator generator = new PolypointGenerator(complexity, complexity);
+    generator.setSeed(Benchmarks.GENERATOR_SEED);
+    puzzle = generator.generate(size, size);
   }
 
   @Benchmark
