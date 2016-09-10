@@ -14,6 +14,7 @@ import org.openjdk.jmh.annotations.Warmup;
 import java.util.concurrent.TimeUnit;
 
 import puzzlesolver.Piece;
+import puzzlesolver.PieceNotFoundException;
 import puzzlesolver.generator.SimpleGenerator;
 import puzzlesolver.solver.SimpleSolver;
 
@@ -38,7 +39,11 @@ public class SimpleSolverBenchmark {
     SimpleSolver solver = new SimpleSolver();
     solver.init(puzzle);
 
-    //noinspection StatementWithEmptyBody
-    while (solver.nextStep());
+    try {
+      //noinspection StatementWithEmptyBody
+      while (solver.nextStep());
+    } catch (PieceNotFoundException e) {
+      e.printStackTrace();
+    }
   }
 }

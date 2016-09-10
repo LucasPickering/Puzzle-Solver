@@ -7,7 +7,9 @@ import java.util.Objects;
 import puzzlesolver.Coord;
 import puzzlesolver.Funcs;
 import puzzlesolver.Piece;
+import puzzlesolver.PieceNotFoundException;
 import puzzlesolver.enums.Direction;
+import puzzlesolver.enums.PieceType;
 
 /**
  * A greedy solver is one that tries to put in easiest piece next, rather than by simply placing
@@ -28,6 +30,7 @@ import puzzlesolver.enums.Direction;
 public class GreedySolver extends PieceTypeRotationSolver {
 
   private class ScoredPiece {
+
     private Piece piece;
     private float score;
 
@@ -41,33 +44,57 @@ public class GreedySolver extends PieceTypeRotationSolver {
     }
   }
 
-  private Map<Coord, ScoredPiece> pieceCache = new HashMap<>();
+  private Map<Coord, ScoredPiece> madePieceCache = new HashMap<>();
+
 
   /**
    * {@inheritDoc}
    */
   @Override
-  protected void placeNextPiece(State state) {
-    for (int x = 0; x < state.width(); x++) {
-      for (int y = 0; y < state.height(); y++) {
-        // If there is no piece here, but there's an adjacent piece...
-        if (state.solution[x][y] == null && adjacentCount(state, x, y) > 0) {
-          // Calculate the potential piece for this spot
-          final Piece madePiece = makePiece(state, x, y);
-          pieceCache.put(new Coord(x, y), new ScoredPiece(madePiece, difficultyScore(madePiece,
-                                                                                   state)));
+  public boolean nextStep() throws PieceNotFoundException {
+    // If this is the first piece, find the first corner in the list and place it
+    if (state.solution[0][0] == null) {
+      placeCorner(state); // Place the first piece in the puzzle
+    } else {
+      placeNextPiece(state); // Place the next piece in the puzzle
+    }
+    return done(state); // Return false if we need to keep going, true if we're done
+  }
+
+  @Override
+  protected void placeCorner(State state) {
+    for (int i = 0; i < state.unplacedPieces.size(); i++) {
+      Piece piece = state.unplacedPieces.get(Direction.NORTH, i);
+
+      // For the first corner piece found
+      if (piece.definitelyType(PieceType.CORNER)) {
+        // Rotate it until it fits in the top-left corner
+        while (!piece.getSide(Direction.NORTH).isFlat()
+               || !piece.getSide(Direction.WEST).isFlat()) {
+          piece.rotate(Direction.NORTH, Direction.EAST);
         }
+        placePiece(state, piece);
+        return; // We placed it, done!
       }
     }
+  }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected void placeNextPiece(State state) throws PieceNotFoundException {
     final Map.Entry<Coord, ScoredPiece> easiestPieceEntry = getEasiestPiece();
+    state.x = easiestPieceEntry.getKey().x;
+    state.y = easiestPieceEntry.getKey().y;
     final Piece easiestPiece = easiestPieceEntry.getValue().piece;
     Piece foundPiece = state.unplacedPieces.find(easiestPiece);
     int rotations;
-    // Look for matches, and rotates the piece up to 3 times if no matches are found
+    // Look for matches, and rotat the piece up to 3 times if no matches are found
     for (rotations = 0; foundPiece == null && rotations < Direction.values().length - 1;
-         rotations++, foundPiece = state.unplacedPieces.find(easiestPiece)) {
+         rotations++) {
       easiestPiece.rotate(Direction.NORTH, Direction.EAST); // If no matches were found, rotate once
+      foundPiece = state.unplacedPieces.find(easiestPiece); // Try again
     }
 
 		/*
@@ -86,20 +113,35 @@ public class GreedySolver extends PieceTypeRotationSolver {
         placeNextPiece(state); // Call again with the newly-rotated solution
         return;
       }
-      throw new IllegalStateException(String.format("No piece found to go at (%d, %d)",
-                                                    state.x, state.y));
+      throw new PieceNotFoundException(state.x, state.y);
     }
 
     foundPiece.rotate(Direction.values()[rotations], Direction.NORTH); // Rotate it back
-    state.placePiece(foundPiece); // Put it in the solution
-    state.unplacedPieces.remove(foundPiece); // Remove it from the list of unplaced pieces
+    placePiece(state, foundPiece);
+  }
 
-    // Evict pieces from the cache that are adjacent to the piece that changed
-    final Coord changedCoord = easiestPieceEntry.getKey();
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected boolean done(State state) {
+    return state.unplacedPieces.size() == 0;
+  }
+
+  private void placePiece(State state, Piece piece) {
+    state.placePiece(piece); // Put the piece in the solution
+    state.unplacedPieces.remove(piece);
+    // Evict the piece that changed, then re-cache the adjacent pieces
+    madePieceCache.remove(new Coord(state.x, state.y));
     for (Direction dir : Direction.values()) {
-      final int dirX = changedCoord.x + dir.x;
-      final int dirY = changedCoord.y + dir.y;
-      pieceCache.remove(new Coord(dirX, dirY)); // No need to bounds-check or check for membership
+      final Coord dirCoord = new Coord(state.x + dir.x, state.y + dir.y);
+      madePieceCache.remove(dirCoord); // No need to check for bounds or membership
+      // Cache the adjacent piece, if it's in bounds
+      if (Funcs.coordsInBounds(state.width(), state.height(), dirCoord.x, dirCoord.y)
+          && state.solution[dirCoord.x][dirCoord.y] == null) {
+        final Piece newPiece = makePiece(state, dirCoord.x, dirCoord.y); // Re-make the piece
+        madePieceCache.put(dirCoord, new ScoredPiece(newPiece, difficultyScore(newPiece, state)));
+      }
     }
   }
 
@@ -119,7 +161,7 @@ public class GreedySolver extends PieceTypeRotationSolver {
   private Map.Entry<Coord, ScoredPiece> getEasiestPiece() {
     Map.Entry<Coord, ScoredPiece> easiestPiece = null;
     float minScore = Float.MAX_VALUE;
-    for (Map.Entry<Coord, ScoredPiece> entry : pieceCache.entrySet()) {
+    for (Map.Entry<Coord, ScoredPiece> entry : madePieceCache.entrySet()) {
       final float score = entry.getValue().score;
       if (score < minScore) {
         easiestPiece = entry;

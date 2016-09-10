@@ -1,6 +1,7 @@
 package puzzlesolver.solver;
 
 import puzzlesolver.Piece;
+import puzzlesolver.PieceNotFoundException;
 import puzzlesolver.Point;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
@@ -40,10 +41,6 @@ public class SimpleSolver implements Solver {
         y++;
       }
     }
-
-    protected boolean done() {
-      return state.y >= state.height(); // If we're past the last row, we're done
-    }
   }
 
   protected State state;
@@ -65,7 +62,7 @@ public class SimpleSolver implements Solver {
   }
 
   @Override
-  public boolean nextStep() {
+  public boolean nextStep() throws PieceNotFoundException {
     // If this is the first piece, find the first corner in the list and place it
     if (state.x == 0 && state.y == 0) {
       placeCorner(state); // Place the first piece in the puzzle
@@ -73,7 +70,7 @@ public class SimpleSolver implements Solver {
       placeNextPiece(state); // Place the next piece in the puzzle
     }
     state.incr(); // Increment up to the next piece
-    return state.done(); // Return false if we need to keep going, true if we're done
+    return done(state); // Return false if we need to keep going, true if we're done
   }
 
   @Override
@@ -177,7 +174,7 @@ public class SimpleSolver implements Solver {
    *
    * @param state the current state of the puzzle/solver
    */
-  protected void placeCorner(State state) {
+  protected void placeCorner(State state) throws PieceNotFoundException {
     for (int i = 0; i < state.unplacedPieces.size(); i++) {
       Piece piece = state.unplacedPieces.get(Direction.NORTH, i);
       if (piece.definitelyType(PieceType.CORNER) && piece.getSide(Direction.NORTH).isFlat() &&
@@ -195,9 +192,19 @@ public class SimpleSolver implements Solver {
    *
    * @param state the current state of the puzzle/solver
    */
-  protected void placeNextPiece(State state) {
+  protected void placeNextPiece(State state) throws PieceNotFoundException {
     final Piece piece = state.unplacedPieces.find(makePiece(state));
     state.placePiece(piece); // Put the piece in the solution
     state.unplacedPieces.remove(piece); // Take it out of the bag of unused pieces
+  }
+
+  /**
+   * Is the puzzle done?
+   *
+   * @param state the current state of the puzzle
+   * @return true if the puzzle is done, false if it needs more work
+   */
+  protected boolean done(State state) {
+    return state.y >= state.height(); // If we're past the last row, we're done
   }
 }

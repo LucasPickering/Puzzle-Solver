@@ -1,6 +1,7 @@
 package puzzlesolver.solver;
 
 import puzzlesolver.Piece;
+import puzzlesolver.PieceNotFoundException;
 import puzzlesolver.piecelist.PieceList;
 
 public interface Solver {
@@ -17,7 +18,7 @@ public interface Solver {
    *
    * @return false if more steps are needed to solve the puzzle, true if the solution is complete
    */
-  boolean nextStep();
+  boolean nextStep() throws PieceNotFoundException;
 
   /**
    * Gets the list of pieces that have not yet been placed into the solution. No copying is done, so

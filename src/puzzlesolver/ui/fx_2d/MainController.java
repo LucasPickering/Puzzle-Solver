@@ -23,7 +23,7 @@ import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
 import puzzlesolver.generator.Generator;
 import puzzlesolver.generator.PolypointGenerator;
-import puzzlesolver.solver.RotationSolver;
+import puzzlesolver.solver.GreedySolver;
 import puzzlesolver.solver.Solver;
 
 public class MainController extends Application implements Initializable {
@@ -172,7 +172,7 @@ public class MainController extends Application implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     puzzleController = new PuzzleController();
     if (solver == null) {
-      solver = new RotationSolver();
+      solver = new GreedySolver();
     }
     puzzleController.init(solver);
 

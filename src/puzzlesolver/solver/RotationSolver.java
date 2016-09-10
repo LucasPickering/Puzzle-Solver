@@ -1,6 +1,7 @@
 package puzzlesolver.solver;
 
 import puzzlesolver.Piece;
+import puzzlesolver.PieceNotFoundException;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.enums.PieceType;
 
@@ -15,7 +16,7 @@ public class RotationSolver extends SimpleSolver {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void placeCorner(State state) {
+	protected void placeCorner(State state) throws PieceNotFoundException {
 		for (int i = 0; i < state.unplacedPieces.size(); i++) {
 			Piece piece = state.unplacedPieces.get(Direction.NORTH, i);
 
@@ -37,7 +38,7 @@ public class RotationSolver extends SimpleSolver {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void placeNextPiece(State state) {
+	protected void placeNextPiece(State state) throws PieceNotFoundException {
 		final Piece madePiece = makePiece(state);
 		Piece foundPiece = state.unplacedPieces.find(madePiece);
 		int rotations;

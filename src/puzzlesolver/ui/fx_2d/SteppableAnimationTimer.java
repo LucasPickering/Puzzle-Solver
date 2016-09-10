@@ -2,6 +2,7 @@ package puzzlesolver.ui.fx_2d;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
+import puzzlesolver.PieceNotFoundException;
 import puzzlesolver.solver.Solver;
 
 public class SteppableAnimationTimer extends AnimationTimer {
@@ -17,7 +18,12 @@ public class SteppableAnimationTimer extends AnimationTimer {
   }
 
   public boolean nextStep() {
-    return solver.nextStep();
+    try {
+      return solver.nextStep();
+    } catch (PieceNotFoundException e) {
+      e.printStackTrace();
+      return true;
+    }
   }
 
   @Override

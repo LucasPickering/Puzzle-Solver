@@ -14,6 +14,7 @@ import org.openjdk.jmh.annotations.Warmup;
 import java.util.concurrent.TimeUnit;
 
 import puzzlesolver.Piece;
+import puzzlesolver.PieceNotFoundException;
 import puzzlesolver.generator.PolypointGenerator;
 import puzzlesolver.solver.PieceTypeRotationSolver;
 import puzzlesolver.solver.Solver;
@@ -41,7 +42,11 @@ public class PieceTypeSolverBenchmark {
     Solver solver = new PieceTypeRotationSolver();
     solver.init(puzzle);
 
-    //noinspection StatementWithEmptyBody
-    while (solver.nextStep());
+    try {
+      //noinspection StatementWithEmptyBody
+      while (solver.nextStep());
+    } catch (PieceNotFoundException e) {
+      e.printStackTrace();
+    }
   }
 }

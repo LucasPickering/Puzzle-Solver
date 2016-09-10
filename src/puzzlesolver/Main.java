@@ -32,15 +32,12 @@ public class Main {
 
     // Find how many v's are in a -v[v[v[...]]] argument if one exists
     // I apologize sincerely for how disgusting this is, but I wanted to do it in one line.
-
-    // This throws a compiler error if not explicitly cast (see: http://stackoverflow.com/q/32891632)
-    // noinspection RedundantCast
-    Constants.LOGGER.setVerbosity((int) Arrays.asList(args)
-        .stream()
-        .reduce(0, (integer, s) -> (s.matches("-(v)+"))
-                                   ? integer + s.length() - 1
-                                   : integer,
-                (i1, i2) -> i1 + i2));
+    // "One line" is a bit of a stretch but w/e - very serious code reviewer
+    Constants.LOGGER.setVerbosity(Arrays.stream(args)
+                                      .reduce(0, (verbLevel, s) -> (s.matches("-(v)+"))
+                                                                   ? verbLevel + s.length() - 1
+                                                                   : verbLevel,
+                                              (i1, i2) -> i1 + i2));
 
     Constants.LOGGER.printf(1, "Verbose Level: %d%n", Constants.LOGGER.getGlobalVerbosity());
     Constants.LOGGER.printf(1, "Random Seed: %d%n", Constants.RANDOM_SEED);
@@ -50,7 +47,6 @@ public class Main {
     try {
       // parse the command line arguments
       line = parser.parse(ConsoleConstants.options, args);
-
     } catch (ParseException exp) {
       System.err.println("Parsing failed.  Reason: " + exp.getMessage());
       System.exit(1);
@@ -65,7 +61,7 @@ public class Main {
     if (line.hasOption(HELP)) {
       HelpFormatter formatter = new HelpFormatter();
       formatter.printHelp("puzzlesolver", ConsoleConstants.options, true);
-    } else if (line.hasOption(EXIT_CODES)){
+    } else if (line.hasOption(EXIT_CODES)) {
       ExitCode.printAll(System.out);
     } else if (line.hasOption(CLI)) {
       ConsoleController.start(line.hasOption(CLI_FANCY));
