@@ -2,10 +2,10 @@ package puzzlesolver.solver;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import puzzlesolver.Coord;
 import puzzlesolver.Funcs;
+import puzzlesolver.Pair;
 import puzzlesolver.Piece;
 import puzzlesolver.PieceNotFoundException;
 import puzzlesolver.enums.Direction;
@@ -29,22 +29,7 @@ import puzzlesolver.enums.PieceType;
  */
 public class GreedySolver extends PieceTypeRotationSolver {
 
-  private class ScoredPiece {
-
-    private Piece piece;
-    private float score;
-
-    private ScoredPiece(Piece piece, float score) {
-      Objects.requireNonNull(piece);
-      if (score < 0 || score > 1) {
-        throw new IllegalArgumentException("Score must be in range [0, 1], was " + score);
-      }
-      this.piece = piece;
-      this.score = score;
-    }
-  }
-
-  private Map<Coord, ScoredPiece> madePieceCache = new HashMap<>();
+  private Map<Coord, Pair<Piece, Float>> madePieceCache = new HashMap<>();
 
 
   /**
@@ -84,10 +69,10 @@ public class GreedySolver extends PieceTypeRotationSolver {
    */
   @Override
   protected void placeNextPiece(State state) throws PieceNotFoundException {
-    final Map.Entry<Coord, ScoredPiece> easiestPieceEntry = getEasiestPiece();
+    final Map.Entry<Coord, Pair<Piece, Float>> easiestPieceEntry = getEasiestPiece();
     state.x = easiestPieceEntry.getKey().x;
     state.y = easiestPieceEntry.getKey().y;
-    final Piece easiestPiece = easiestPieceEntry.getValue().piece;
+    final Piece easiestPiece = easiestPieceEntry.getValue().left;
     Piece foundPiece = state.unplacedPieces.find(easiestPiece);
     int rotations;
     // Look for matches, and rotat the piece up to 3 times if no matches are found
@@ -129,15 +114,15 @@ public class GreedySolver extends PieceTypeRotationSolver {
       if (Funcs.coordsInBounds(state.width(), state.height(), dirCoord.x, dirCoord.y)
           && state.solution[dirCoord.x][dirCoord.y] == null) {
         final Piece newPiece = makePiece(state, dirCoord.x, dirCoord.y); // Re-make the piece
-        madePieceCache.put(dirCoord, new ScoredPiece(newPiece, difficultyScore(newPiece, state)));
+        madePieceCache.put(dirCoord, new Pair<>(newPiece, scorePiece(newPiece, state)));
       }
     }
   }
 
-  private Map.Entry<Coord, ScoredPiece> getEasiestPiece() {
-    Map.Entry<Coord, ScoredPiece> easiestPiece = null;
-    for (Map.Entry<Coord, ScoredPiece> entry : madePieceCache.entrySet()) {
-      if (easiestPiece == null || entry.getValue().score < easiestPiece.getValue().score) {
+  private Map.Entry<Coord, Pair<Piece, Float>> getEasiestPiece() {
+    Map.Entry<Coord, Pair<Piece, Float>> easiestPiece = null;
+    for (Map.Entry<Coord, Pair<Piece, Float>> entry : madePieceCache.entrySet()) {
+      if (easiestPiece == null || entry.getValue().right < easiestPiece.getValue().right) {
         easiestPiece = entry;
       }
     }
@@ -152,7 +137,7 @@ public class GreedySolver extends PieceTypeRotationSolver {
    * @param state      the current state of the puzzle/solver
    * @return the difficulty score [0, 1]
    */
-  protected float difficultyScore(Piece foundPiece, State state) {
+  protected float scorePiece(Piece foundPiece, State state) {
     return 1f / foundPiece.getPieceTypes().length; // TODO: Better metric
   }
 }
