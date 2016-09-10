@@ -2,7 +2,9 @@ package puzzlesolver.solver;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
+import puzzlesolver.Coord;
 import puzzlesolver.Piece;
 import puzzlesolver.enums.Direction;
 
@@ -24,7 +26,42 @@ import puzzlesolver.enums.Direction;
  */
 public class GreedySolver extends PieceTypeRotationSolver {
 
-  private Map<Piece, Float> pieceCache = new HashMap<>();
+  private Map<Coord, PieceScore> pieceCache = new HashMap<>();
+
+  private class PieceScore {
+    private Piece piece;
+    private float score;
+
+    public PieceScore(Piece piece, float score) {
+      Objects.requireNonNull(piece);
+      if (score < 0f || score > 1f) {
+        throw new IllegalArgumentException("Score must be in range [0, 1], was " + score);
+      }
+
+      this.piece = piece;
+      this.score = score;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+
+      PieceScore that = (PieceScore) o;
+
+      return piece.equals(that.piece);
+
+    }
+
+    @Override
+    public int hashCode() {
+      return piece.hashCode();
+    }
+  }
 
   /**
    * {@inheritDoc}
@@ -109,6 +146,6 @@ public class GreedySolver extends PieceTypeRotationSolver {
    * @return the difficulty score [0, 1]
    */
   protected float difficultyScore(Piece foundPiece, State state) {
-    return 1f / foundPiece.getPieceTypes().length; // More possible types, harder it is
+    return 1f / foundPiece.getPieceTypes().length; // TODO: Better metric
   }
 }

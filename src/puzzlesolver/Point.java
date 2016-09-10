@@ -4,7 +4,8 @@ import java.util.Comparator;
 import java.util.Objects;
 
 /**
- * A class to represent immutable points, with x and y values.
+ * A class to represent immutable points, with non-integer x and y values. Similar to
+ * {@link Coord}, except Coord holds doubles and this holds ints.
  *
  * Origin is at the top-left.
  */
