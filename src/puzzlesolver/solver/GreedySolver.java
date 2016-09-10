@@ -128,6 +128,10 @@ public class GreedySolver extends PieceTypeRotationSolver {
    * @return the difficulty score [0, 1]
    */
   protected float scorePiece(Piece foundPiece, State state) {
-    return 1f / foundPiece.getPieceTypes().length; // TODO: Better metric
+    int totalPotentialMatches = 0;
+    for (PieceType pieceType : foundPiece.getPieceTypes()) {
+      totalPotentialMatches += state.unplacedPieces.sublistByType(pieceType).size();
+    }
+    return 1f / totalPotentialMatches;
   }
 }
