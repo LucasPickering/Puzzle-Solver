@@ -23,6 +23,6 @@ public class Constants {
 
   public static long RANDOM_SEED = new Random().nextLong();
 
-  public static String BENCHMARK_LOCATION = "benchmarks/%tF_%tH.%tM.%tS.txt";
+  public static String BENCHMARK_LOCATION = "benchmarks/results/%tF_%tH.%tM.%tS.txt";
 
 }
