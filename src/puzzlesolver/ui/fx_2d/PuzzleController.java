@@ -29,18 +29,14 @@ public class PuzzleController {
   private Canvas puzzleCanvas;
   private Stage stage;
   private SteppableAnimationTimer animationTimer;
-  private long seed = Constants.RANDOM_SEED;
+  private Random random = new Random(Constants.RANDOM_SEED);
+
 
   public static Point getGlobalPoint(Point localPoint, Direction orientation, int pieceX,
                                      int pieceY, int puzzleWidth, int puzzleHeight,
                                      double windowWidth, double windowHeight) {
     return PuzzleRenderer.getGlobalPoint(localPoint, orientation, pieceX, pieceY,
                                          puzzleWidth, puzzleHeight, windowWidth, windowHeight);
-  }
-
-  public void setSeed(long seed) {
-    this.seed = seed;
-    puzzleRenderer.setSeed(seed);
   }
 
   public void init(Solver solver) {
@@ -80,16 +76,13 @@ public class PuzzleController {
     stage.setOnCloseRequest(event -> animationTimer.stop());
     stage.setOnShowing(event -> animationTimer.start());
     stage.getScene().setOnMouseClicked(new MouseEventHandler(animationTimer));
-    Random random = new Random(seed);
     stage.getScene().setFill(new Color(0.3 * random.nextDouble(),
                                        0.3 * random.nextDouble(),
                                        0.3 * random.nextDouble(), 1.0));
-    stage.getScene().widthProperty().addListener((observable, oldValue, newValue) -> {
-      puzzleRenderer.draw(gc, solver);
-    });
-    stage.getScene().heightProperty().addListener((observable, oldValue, newValue) -> {
-      puzzleRenderer.draw(gc, solver);
-    });
+    stage.getScene().widthProperty().addListener(
+        (observable, oldValue, newValue) -> puzzleRenderer.draw(gc, solver));
+    stage.getScene().heightProperty().addListener(
+        (observable, oldValue, newValue) -> puzzleRenderer.draw(gc, solver));
 
     if (puzzleRenderer == null) {
       puzzleRenderer = new PuzzleRenderer();

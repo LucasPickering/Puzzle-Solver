@@ -30,8 +30,6 @@ public class MainController extends Application implements Initializable {
 
   Timer timer = null;
   @FXML
-  private TextField seedField;
-  @FXML
   private Button generateButton;
   @FXML
   private Button solveButton = new Button(UIConstants.BUTTON_SHOW);
@@ -88,18 +86,7 @@ public class MainController extends Application implements Initializable {
         // Falls through to the next case
       case UIConstants.BUTTON_GENERATE:
         Constants.LOGGER.println(1, "Generating new puzzle");
-
         Generator generator = new PolypointGenerator();
-        if (puzzle == null) {
-          if (seedField.getText() != null && !seedField.getText().equals("")) {
-            try {
-              generator.setSeed(Long.parseLong(seedField.getText()));
-            } catch (NumberFormatException e) {
-              generator.setSeed(seedField.getText().hashCode());
-            }
-          }
-        }
-
         try {
           puzzle = generator.generate(Integer.parseInt(widthField.getText()),
                                       Integer.parseInt(heightField.getText()));
@@ -191,7 +178,5 @@ public class MainController extends Application implements Initializable {
       }
       solveButton.setText(UIConstants.BUTTON_SOLVE);
     });
-
-    seedField.setText(Long.toString(Constants.RANDOM_SEED));
   }
 }

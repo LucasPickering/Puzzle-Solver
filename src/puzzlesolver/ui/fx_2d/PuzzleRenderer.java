@@ -119,10 +119,6 @@ public class PuzzleRenderer {
     return new Point(pointGlobalX, pointGlobalY);
   }
 
-  public void setSeed(long seed) {
-    random.setSeed(seed);
-  }
-
   /**
    * Reset the scene and draw a fresh puzzle.
    *

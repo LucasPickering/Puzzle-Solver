@@ -39,9 +39,6 @@ public class Main {
                                                                    : verbLevel,
                                               (i1, i2) -> i1 + i2));
 
-    Constants.LOGGER.printf(1, "Verbose Level: %d%n", Constants.LOGGER.getGlobalVerbosity());
-    Constants.LOGGER.printf(1, "Random Seed: %d%n", Constants.RANDOM_SEED);
-
     CommandLineParser parser = new DefaultParser();
     CommandLine line;
     try {
@@ -69,5 +66,8 @@ public class Main {
     } else {
       MainController.main(args);
     }
+
+    Constants.LOGGER.printf(1, "Verbose Level: %d%n", Constants.LOGGER.getGlobalVerbosity());
+    Constants.LOGGER.printf(1, "Random Seed: %d%n", Constants.RANDOM_SEED);
   }
 }
