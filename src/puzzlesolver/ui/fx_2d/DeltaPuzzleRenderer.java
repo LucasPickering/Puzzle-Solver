@@ -9,72 +9,59 @@ import puzzlesolver.solver.Solver;
  * advantage of not requiring that the puzzle be solved linearly.
  */
 public class DeltaPuzzleRenderer extends PuzzleRenderer {
-    private boolean reset = true;
-    private Piece[][] lastSolution = null;
 
-    private boolean[][] needsRedraw(Piece[][] solution) {
-        int xSize = solution.length;
-        int ySize = solution[0].length;
+  private boolean reset = true;
+  private Piece[][] lastSolution = null;
 
-        if (reset) {
-            reset = false;
-            return all(xSize, ySize, true);
+  private boolean[][] needsRedraw(Piece[][] solution) {
+    final int width = solution.length;
+    final int height = solution[0].length;
+    final boolean[][] result = new boolean[width][height];
+
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        // Re-draw a piece if it's not null and either it was null before, or we're
+        // force re-drawing everything. Maybe we should compare hashcodes between each
+        // piece? Slower, but if in the future a piece will every change after being
+        // placed, it will support that.
+        if (solution[x][y] != null && (reset || lastSolution[x][y] == null)) {
+          result[x][y] = true;
         }
-
-        boolean[][] result = new boolean[xSize][ySize];
-
-        for (int x = 0; x < xSize; x++) {
-            for (int y = 0; y < ySize; y++) {
-                if (lastSolution[x][y] == null && solution[x][y] != null) {
-                    result[x][y] = true;
-                }
-            }
-        }
-
-        return result;
+      }
     }
 
-    private boolean[][] all(int xSize, int ySize, boolean state) {
-        boolean[][] result = new boolean[xSize][ySize];
-        if (!state) {
-            return result;
-        }
-        for (int x = 0; x < xSize; x++) {
-            for (int y = 0; y < ySize; y++) {
-                result[x][y] = true;
-            }
-        }
-        return result;
+    return result;
+  }
+
+  protected void reset(GraphicsContext gc) {
+    super.reset(gc);
+    reset = true;
+  }
+
+  @Override
+  protected void drawPuzzle(GraphicsContext gc, Solver solver) {
+    if (done) {
+      return;
     }
 
-    protected void reset(GraphicsContext gc) {
-        super.reset(gc);
-        reset = true;
+    final Piece[][] solution = solver.getSolution();
+    final int width = solution.length;
+    final int height = solution[0].length;
+
+    // If this is the first draw, or the puzzle was rotated, re-draw everything.
+    if (lastSolution == null || lastSolution.length != solution.length) {
+      reset = true;
+    }
+    final boolean[][] needsRedraw = needsRedraw(solution);
+
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        if (needsRedraw[x][y]) {
+          drawPiece(gc, solution[x][y], x, y, width, height);
+        }
+      }
     }
 
-    @Override
-    protected void drawPuzzle(GraphicsContext gc, Solver solver) {
-        if (done) {
-            return;
-        }
-
-        Piece[][] solution = solver.getSolution();
-        int xSize = solution.length;
-        int ySize = solution[0].length;
-        boolean[][] needsRedraw = (lastSolution == null)
-                || lastSolution.length != solution.length
-                || lastSolution[0].length != solution[0].length
-                ? all(xSize, ySize, true)
-                : needsRedraw(solution);
-
-        for (int x = 0; x < xSize; x++) {
-            for (int y = 0; y < ySize; y++) {
-                if (needsRedraw[x][y]) {
-                    drawPiece(gc, solution[x][y], x, y, xSize, ySize);
-                }
-            }
-        }
-
-        lastSolution = solution.clone();
-    }
+    lastSolution = solution.clone();
+  }
 }
