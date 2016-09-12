@@ -76,7 +76,10 @@ public class GreedySolver extends PieceTypeRotationSolver {
     }
 
     if (foundPiece == null) { // If it didn't find a piece
+      final int oldWidth = state.solution.length; // Might need these later
+      final int oldHeight = state.solution[0].length;
       if (rotateSolutionIfHelpful(state)) {
+        rebuildCacheAfterRotation(state, oldWidth, oldHeight); // Replace now-invalid cached pieces
         placeNextPiece(state); // Call again with the newly-rotated solution
         return;
       }
@@ -98,13 +101,11 @@ public class GreedySolver extends PieceTypeRotationSolver {
     // Evict the piece that changed, then re-cache the adjacent pieces
     madePieceCache.remove(new Coord(state.x, state.y));
     for (Direction dir : Direction.values()) {
-      final Coord dirCoord = new Coord(state.x + dir.x, state.y + dir.y);
-      madePieceCache.remove(dirCoord); // No need to check for bounds or membership
+      final Coord coord = new Coord(state.x + dir.x, state.y + dir.y);
       // Cache the adjacent piece, if it's in bounds
-      if (Funcs.coordsInBounds(state.width(), state.height(), dirCoord.x, dirCoord.y)
-          && state.solution[dirCoord.x][dirCoord.y] == null) {
-        final Piece newPiece = makePiece(state, dirCoord.x, dirCoord.y); // Re-make the piece
-        madePieceCache.put(dirCoord, new Pair<>(newPiece, scorePiece(newPiece, state)));
+      if (Funcs.coordsInBounds(state.width(), state.height(), coord.x, coord.y)
+          && state.solution[coord.x][coord.y] == null) {
+        cachePiece(state, coord);
       }
     }
   }
@@ -120,14 +121,46 @@ public class GreedySolver extends PieceTypeRotationSolver {
   }
 
   /**
-   * Gets a score [0, 1] representing how difficult the given piece will be to place in the
-   * solution. A lower score means it will be easier, higher score means it will be more difficult.
+   * After the puzzle has been rotated, replace some invalid cached pieces. Invalid pieces (ones
+   * that were on the edge and aren't now, or vice versa) are evicted, then new values are
+   * inserted for all the pieces that were evicted.
+   *
+   * @param state     the current state of the puzzle
+   * @param oldWidth  the width of the puzzle before the rotation
+   * @param oldHeight the height of the puzzle before the rotation
+   */
+  private void rebuildCacheAfterRotation(State state, int oldWidth, int oldHeight) {
+    final int newWidth = state.solution.length;
+    final int newHeight = state.solution[0].length;
+    for (Map.Entry<Coord, Pair<Piece, Float>> entry : madePieceCache.entrySet()) {
+      final Coord coord = entry.getKey();
+      if (coord.x == oldWidth - 1 || coord.x == newWidth - 1
+          || coord.y == oldHeight - 1 || coord.y == newHeight - 1) {
+        cachePiece(state, coord);
+      }
+    }
+  }
+
+  /**
+   * Cache a potential piece for the given (x, y).
+   *
+   * @param state the current state of the puzzle
+   * @param coord the coord of the piece to be cached
+   */
+  private void cachePiece(State state, Coord coord) {
+    final Piece piece = makePiece(state, coord.x, coord.y); // Re-make the piece
+    madePieceCache.put(coord, new Pair<>(piece, scorePiece(state, piece)));
+  }
+
+  /**
+   * Gets a score representing how difficult the given piece will be to place in the solution. A
+   * lower score means it will be easier, higher score means it will be more difficult.
    *
    * @param foundPiece the piece trying to be placed
    * @param state      the current state of the puzzle/solver
-   * @return the difficulty score [0, 1]
+   * @return the difficulty score
    */
-  protected float scorePiece(Piece foundPiece, State state) {
+  protected float scorePiece(State state, Piece foundPiece) {
     int totalPotentialMatches = 0;
     for (PieceType pieceType : foundPiece.getPieceTypes()) {
       totalPotentialMatches += state.unplacedPieces.sublistByType(pieceType).size();
