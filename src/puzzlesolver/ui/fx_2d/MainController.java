@@ -18,6 +18,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import puzzlesolver.Logger;
 import puzzlesolver.Piece;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
@@ -85,7 +86,7 @@ public class MainController extends Application implements Initializable {
         solveButton.setText(UIConstants.BUTTON_SOLVE);
         // Falls through to the next case
       case UIConstants.BUTTON_GENERATE:
-        Constants.LOGGER.println(1, "Generating new puzzle");
+        Constants.LOGGER.println(Logger.INFO, "Generating new puzzle");
         Generator generator = new PolypointGenerator();
         try {
           puzzle = generator.generate(Integer.parseInt(widthField.getText()),

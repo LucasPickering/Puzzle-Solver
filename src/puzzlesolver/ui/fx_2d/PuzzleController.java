@@ -12,6 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import puzzlesolver.Logger;
 import puzzlesolver.Point;
 import puzzlesolver.solver.Solver;
 import puzzlesolver.constants.Constants;
@@ -113,11 +114,11 @@ public class PuzzleController {
         break;
       case UIConstants.RENDER_VISUAL_SIMPLE:
         puzzleRenderer = new PuzzleRenderer();
-        Constants.LOGGER.printf(1, "Changed render method to %s\n", renderMethod);
+        Constants.LOGGER.printf(Logger.INFO, "Changed render method to %s\n", renderMethod);
         break;
       case UIConstants.RENDER_VISUAL_FANCY:
         puzzleRenderer = new PuzzleRenderer();
-        Constants.LOGGER.printf(1, "Changed render method to %s\n", renderMethod);
+        Constants.LOGGER.printf(Logger.INFO, "Changed render method to %s\n", renderMethod);
         break;
       default:
         throw new IllegalArgumentException(renderMethod + " is not a valid render method");

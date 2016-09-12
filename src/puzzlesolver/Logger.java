@@ -6,6 +6,10 @@ import java.util.Locale;
 
 public class Logger extends FilterOutputStream {
 
+  public static final int ERROR = 0;
+  public static final int WARNING = 1;
+  public static final int INFO = 2;
+
   private final PrintStream delegate;
   private int globalVerbosity;
 

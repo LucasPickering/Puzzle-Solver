@@ -55,6 +55,10 @@ public class Main {
       Constants.RANDOM_SEED = line.getOptionValue(RANDOM_SEED).hashCode();
     }
 
+    Constants.LOGGER.printf(Logger.INFO, "Verbose Level: %d%n",
+                            Constants.LOGGER.getGlobalVerbosity());
+    Constants.LOGGER.printf(Logger.INFO, "Random Seed: %d%n", Constants.RANDOM_SEED);
+
     if (line.hasOption(HELP)) {
       HelpFormatter formatter = new HelpFormatter();
       formatter.printHelp("puzzlesolver", ConsoleConstants.options, true);
@@ -66,8 +70,5 @@ public class Main {
     } else {
       MainController.main(args);
     }
-
-    Constants.LOGGER.printf(1, "Verbose Level: %d%n", Constants.LOGGER.getGlobalVerbosity());
-    Constants.LOGGER.printf(1, "Random Seed: %d%n", Constants.RANDOM_SEED);
   }
 }
