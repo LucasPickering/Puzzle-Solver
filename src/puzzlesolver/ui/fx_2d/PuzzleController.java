@@ -25,7 +25,7 @@ public class PuzzleController {
   @FXML
   private AnchorPane puzzlePane;
   private Solver solver = new SimpleSolver();
-  private PuzzleRenderer puzzleRenderer = new PuzzleRenderer();
+  private PuzzleRenderer puzzleRenderer = new DeltaPuzzleRenderer();
   @FXML
   private Canvas puzzleCanvas;
   private Stage stage;
@@ -46,11 +46,11 @@ public class PuzzleController {
     this.solver = solver;
     stage = null;
     if (puzzleRenderer == null) {
-      puzzleRenderer = new PuzzleRenderer();
+      puzzleRenderer = new DeltaPuzzleRenderer();
     }
   }
 
-  public void openPuzzleWindow(ActionEvent event) {
+  void openPuzzleWindow(ActionEvent event) {
     if (stage == null) {
       setupPuzzleWindow();
     }
@@ -69,9 +69,13 @@ public class PuzzleController {
 
     GraphicsContext gc = puzzleCanvas.getGraphicsContext2D();
     root.getChildren().add(puzzleCanvas);
+
     stage.setScene(new Scene(root));
+
+    // Keep dimensions synchronised between canvas and stage
     puzzleCanvas.widthProperty().bind(stage.getScene().widthProperty());
     puzzleCanvas.heightProperty().bind(stage.getScene().heightProperty());
+
     stage.setTitle("Puzzle!");
     animationTimer = new SteppableAnimationTimer(solver, gc, puzzleRenderer);
     stage.setOnCloseRequest(event -> animationTimer.stop());
@@ -117,8 +121,8 @@ public class PuzzleController {
         Constants.LOGGER.printf(Logger.INFO, "Changed render method to %s\n", renderMethod);
         break;
       case UIConstants.RENDER_VISUAL_FANCY:
-        puzzleRenderer = new PuzzleRenderer();
-        Constants.LOGGER.printf(Logger.INFO, "Changed render method to %s\n", renderMethod);
+        puzzleRenderer = new DeltaPuzzleRenderer();
+        Constants.LOGGER.printf(1, "Changed render method to %s\n", renderMethod);
         break;
       default:
         throw new IllegalArgumentException(renderMethod + " is not a valid render method");

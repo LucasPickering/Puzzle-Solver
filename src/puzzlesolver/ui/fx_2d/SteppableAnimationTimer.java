@@ -5,13 +5,13 @@ import javafx.scene.canvas.GraphicsContext;
 import puzzlesolver.PieceNotFoundException;
 import puzzlesolver.solver.Solver;
 
-public class SteppableAnimationTimer extends AnimationTimer {
+class SteppableAnimationTimer extends AnimationTimer {
 
   private final Solver solver;
   private final GraphicsContext gc;
   private final PuzzleRenderer puzzleRenderer;
 
-  public SteppableAnimationTimer(Solver solver, GraphicsContext gc, PuzzleRenderer puzzleRenderer) {
+  SteppableAnimationTimer(Solver solver, GraphicsContext gc, PuzzleRenderer puzzleRenderer) {
     this.solver = solver;
     this.gc = gc;
     this.puzzleRenderer = puzzleRenderer;

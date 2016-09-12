@@ -1,5 +1,6 @@
 package puzzlesolver.ui.fx_2d;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -29,7 +30,7 @@ import puzzlesolver.solver.Solver;
 
 public class MainController extends Application implements Initializable {
 
-  Timer timer = null;
+  private Timer timer = null;
   @FXML
   private Button generateButton;
   @FXML
@@ -58,7 +59,11 @@ public class MainController extends Application implements Initializable {
   public void start(Stage primaryStage) throws Exception {
     getParameters();
     // TODO check for seed
-    Parent root = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
+    URL thing = Thread.currentThread().getContextClassLoader().getResource("main_menu.fxml");
+    if (thing == null)
+      throw new FileNotFoundException("Could not load resource main_menu.fxml");
+
+    Parent root = FXMLLoader.load(thing);
     primaryStage.setTitle("Puzzleopolis!");
     primaryStage.setResizable(false);
     Scene scene = new Scene(root, root.prefWidth(400), root.prefHeight(300));
@@ -135,7 +140,7 @@ public class MainController extends Application implements Initializable {
               e.printStackTrace();
             }
           }
-        }, 0, (long) rateSlider.getValue());
+        }, 0, (long) (100 /  rateSlider.getValue()));
 
         break;
       case UIConstants.BUTTON_STOP:

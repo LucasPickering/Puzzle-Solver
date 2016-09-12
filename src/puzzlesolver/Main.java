@@ -31,13 +31,11 @@ public class Main {
     System.setProperty("sun.java2d.opengl", "true");
 
     // Find how many v's are in a -v[v[v[...]]] argument if one exists
-    // I apologize sincerely for how disgusting this is, but I wanted to do it in one line.
-    // "One line" is a bit of a stretch but w/e - very serious code reviewer
     Constants.LOGGER.setVerbosity(Arrays.stream(args)
-                                      .reduce(0, (verbLevel, s) -> (s.matches("-(v)+"))
-                                                                   ? verbLevel + s.length() - 1
-                                                                   : verbLevel,
-                                              (i1, i2) -> i1 + i2));
+        .reduce(0, (integer, s) -> (s.matches("^-(v)+"))
+                                   ? integer + s.length() - 1
+                                   : integer,
+                (i1, i2) -> i1 + i2));
 
     CommandLineParser parser = new DefaultParser();
     CommandLine line;
@@ -60,8 +58,7 @@ public class Main {
     Constants.LOGGER.printf(Logger.INFO, "Random Seed: %d%n", Constants.RANDOM_SEED);
 
     if (line.hasOption(HELP)) {
-      HelpFormatter formatter = new HelpFormatter();
-      formatter.printHelp("puzzlesolver", ConsoleConstants.options, true);
+      new HelpFormatter().printHelp("puzzlesolver", ConsoleConstants.options, true);
     } else if (line.hasOption(EXIT_CODES)) {
       ExitCode.printAll(System.out);
     } else if (line.hasOption(CLI)) {
