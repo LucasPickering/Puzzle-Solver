@@ -18,14 +18,14 @@ import puzzlesolver.enums.Direction;
 import puzzlesolver.side.Side;
 import puzzlesolver.solver.Solver;
 
-public class PuzzleRenderer {
+class PuzzleRenderer {
 
   private int lastDrawnX = 0;
   private int lastDrawnY = 0;
   private Random random = new Random(Constants.RANDOM_SEED);
   private int previousPuzzleWidth;
   private int previousPuzzleHeight;
-  private boolean done;
+  protected boolean done;
   private double[] doubles = null;
 
   /**
@@ -61,9 +61,9 @@ public class PuzzleRenderer {
    * @param windowHeight width of window to render in
    * @return global point
    */
-  public static Point getGlobalPoint(Point localPoint, Direction orientation, int pieceX,
-                                     int pieceY, int puzzleWidth, int puzzleHeight,
-                                     double windowWidth, double windowHeight) {
+  static Point getGlobalPoint(Point localPoint, Direction orientation, int pieceX,
+                              int pieceY, int puzzleWidth, int puzzleHeight,
+                              double windowWidth, double windowHeight) {
     Objects.requireNonNull(localPoint);
     // May have to scale. For now, made a placeholder.
     final double scaledPadding = UIConstants.VISUAL_PIECE_PADDING;
@@ -119,7 +119,7 @@ public class PuzzleRenderer {
     return new Point(pointGlobalX, pointGlobalY);
   }
 
-  public void setSeed(long seed) {
+  void setSeed(long seed) {
     random.setSeed(seed);
   }
 
@@ -131,7 +131,7 @@ public class PuzzleRenderer {
    * @param gc     {@link GraphicsContext} on which to draw
    * @param solver to draw
    */
-  public void draw(GraphicsContext gc, Solver solver) {
+  void draw(GraphicsContext gc, Solver solver) {
     reset(gc);
     previousPuzzleWidth = 0;
     previousPuzzleHeight = 0;
@@ -166,7 +166,7 @@ public class PuzzleRenderer {
    * @param gc {@link GraphicsContext} on which to draw
    * @param solver to draw
    */
-  public void update(GraphicsContext gc, Solver solver) {
+  void update(GraphicsContext gc, Solver solver) {
     Piece[][] solution = solver.getSolution();
 
     if (solution.length != previousPuzzleWidth || solution[0].length != previousPuzzleHeight) {
@@ -176,10 +176,9 @@ public class PuzzleRenderer {
     }
 
     drawPuzzle(gc, solver);
-    // drawNextPiece(gc, solver);
   }
 
-  public void drawPuzzle(GraphicsContext gc, Solver solver) {
+  protected void drawPuzzle(GraphicsContext gc, Solver solver) {
     if (done) {
       return;
     }
@@ -219,8 +218,8 @@ public class PuzzleRenderer {
     }
   }
 
-  public void drawPiece(GraphicsContext gc, Piece piece, int x, int y,
-                        int puzzleWidth, int puzzleHeight) {
+  void drawPiece(GraphicsContext gc, Piece piece, int x, int y,
+                         int puzzleWidth, int puzzleHeight) {
     if (doubles == null) {
       doubles = random.doubles(puzzleWidth * puzzleHeight).toArray();
     }
@@ -259,40 +258,16 @@ public class PuzzleRenderer {
           Point globalPoint = getGlobalPoint(point, direction, x, y,
                                              puzzleWidth, puzzleHeight,
                                              windowWidth, windowHeight);
-
           xs.add(globalPoint.x);
           ys.add(globalPoint.y);
         }
       }
     }
 
-    double[] primitiveXs = ArrayUtils.toPrimitive(xs.toPoints());
-    double[] primitiveYs = ArrayUtils.toPrimitive(ys.toPoints());
+    final double[] primitiveXs = ArrayUtils.toPrimitive(xs.toPoints());
+    final double[] primitiveYs = ArrayUtils.toPrimitive(ys.toPoints());
     gc.setGlobalAlpha(1.0d);
     gc.fillPolygon(primitiveXs, primitiveYs, xs.size());
     gc.strokePolygon(primitiveXs, primitiveYs, xs.size());
-  }
-
-  public void drawNextPiece(GraphicsContext gc, Solver solver) {
-    gc.setFill(Color.PALEVIOLETRED);
-    gc.setStroke(Color.INDIANRED);
-
-    Piece[][] solution = solver.getSolution();
-
-    final double width = gc.getCanvas().getWidth();
-    final double height = gc.getCanvas().getHeight();
-
-    final int puzzleWidth = solution.length;
-    final int puzzleHeight = solution[0].length;
-
-    gc.fillRect(width * (puzzleWidth - 1) / puzzleWidth, height * (puzzleWidth - 1) / puzzleHeight,
-                width / puzzleWidth, height / puzzleHeight);
-
-    if (solver.getX() < puzzleWidth && solver.getY() < puzzleHeight) {
-      Piece next = solution[solver.getX()][solver.getY()];
-      if (next != null) {
-        drawPiece(gc, next, puzzleWidth - 1, puzzleHeight - 1, puzzleWidth, puzzleHeight);
-      }
-    }
   }
 }

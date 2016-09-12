@@ -70,7 +70,7 @@
     </Button>
     <Line endX="100.0" startX="-100.0" GridPane.columnSpan="2" GridPane.halignment="CENTER"
           GridPane.rowIndex="1" GridPane.valignment="TOP"/>
-    <Slider fx:id="rateSlider" blockIncrement="10.0" majorTickUnit="10.0" min="1.0" max="100.0"
+    <Slider fx:id="rateSlider" majorTickUnit="10.0" min="1.0" max="100.0"
             minorTickCount="10" orientation="VERTICAL" prefHeight="73.0" prefWidth="22.0"
             value="50.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT"
             GridPane.rowIndex="3"/>
