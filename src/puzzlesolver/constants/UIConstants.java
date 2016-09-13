@@ -14,7 +14,7 @@ public final class UIConstants {
   public static final String WIDTH_FIELD = "Width", HEIGHT_FIELD = "Height";
 
   public static final String BUTTON_SOLVE = "Solve", BUTTON_STOP = "Stop",
-    BUTTON_SHOW = "Show", BUTTON_GENERATE = "Generate", BUTTON_REGENERATE = "Regenerate";
+    BUTTON_SHOW = "Show", BUTTON_GENERATE = "Generate New";
 
   @SuppressWarnings("SuspiciousNameCombination")
   public static final double VISUAL_PIECE_WIDTH = Constants.SIDE_LENGTH,

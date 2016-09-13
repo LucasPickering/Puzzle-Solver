@@ -4,6 +4,12 @@ import puzzlesolver.Piece;
 import puzzlesolver.PieceNotFoundException;
 import puzzlesolver.piecelist.PieceList;
 
+/**
+ * A Solver solves a puzzle. A Solver must first be initialized using the {@link #init} method to
+ * give it a set of pieces to work with. Then, you can call {@link #nextStep} until
+ * {@link #done} returns true. Solvers support multiple solutions over multiple different
+ * puzzles! Just call {@link #init} again to solve another puzzle.
+ */
 public interface Solver {
 
   /**
@@ -14,7 +20,8 @@ public interface Solver {
   void init(Piece[] pieces);
 
   /**
-   * Executes the next step in the solver, placing exactly one piece.
+   * Executes the next step in the solver, placing exactly one piece. If {@link #done} returns
+   * true, this does nothing.
    */
   void nextStep() throws PieceNotFoundException;
 

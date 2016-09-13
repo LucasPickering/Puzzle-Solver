@@ -82,31 +82,26 @@ public class MainController extends Application implements Initializable {
     solveButton.setDisable(true);
     showButton.setDisable(true);
 
-    switch (generateButton.getText()) {
-      case UIConstants.BUTTON_REGENERATE:
-        if (timer != null) {
-          timer.cancel();
-        }
-        solveButton.setText(UIConstants.BUTTON_SOLVE);
-        // Falls through to the next case
-      case UIConstants.BUTTON_GENERATE:
-        Constants.LOGGER.println(Logger.INFO, "Generating new puzzle. . .");
-        Generator generator = new PolypointGenerator();
-        try {
-          final Piece[] puzzle = generator.generate(Integer.parseInt(widthField.getText()),
-                                                    Integer.parseInt(heightField.getText()));
-          solver.init(puzzle);
-          puzzleController.init(solver);
-          puzzleController.openPuzzleWindow(event);
-          generateButton.setText(UIConstants.BUTTON_REGENERATE);
-        } catch (NumberFormatException e) {
-          throw new IllegalArgumentException("Bad number input");
-        } finally {
-          solveButton.setDisable(false);
-          generateButton.setDisable(false);
-          showButton.setDisable(false);
-        }
-        break;
+    Constants.LOGGER.println(Logger.INFO, "Generating new puzzle. . .");
+
+    // If the timer is already on from a previous puzzle, turn it off
+    if (timer != null) {
+      timer.cancel();
+    }
+
+    Generator generator = new PolypointGenerator();
+    try {
+      final Piece[] puzzle = generator.generate(Integer.parseInt(widthField.getText()),
+                                                Integer.parseInt(heightField.getText()));
+      solver.init(puzzle);
+      puzzleController.init(solver);
+      puzzleController.openPuzzleWindow(event);
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException("Bad number input");
+    } finally {
+      solveButton.setDisable(false);
+      generateButton.setDisable(false);
+      showButton.setDisable(false);
     }
   }
 
@@ -161,7 +156,7 @@ public class MainController extends Application implements Initializable {
 
   @FXML
   @Override
-  public void initialize(URL location, ResourceBundle resources) {
+  public void initialize(URL location, ResourceBundle resourcfes) {
     puzzleController = new PuzzleController();
     if (solver == null) {
       solver = new GreedySolver();

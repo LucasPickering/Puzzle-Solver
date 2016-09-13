@@ -34,11 +34,13 @@ public class GreedySolver extends PieceTypeRotationSolver {
 
   @Override
   public void nextStep() throws PieceNotFoundException {
-    // If this is the first piece, find the first corner in the list and place it
-    if (state.solution[0][0] == null) {
-      placeCorner(state); // Place the first piece in the puzzle
-    } else {
-      placeNextPiece(state); // Place the next piece in the puzzle
+    if (!done()) {
+      // If this is the first piece, find the first corner in the list and place it
+      if (state.solution[0][0] == null) {
+        placeCorner(state); // Place the first piece in the puzzle
+      } else {
+        placeNextPiece(state); // Place the next piece in the puzzle
+      }
     }
   }
 

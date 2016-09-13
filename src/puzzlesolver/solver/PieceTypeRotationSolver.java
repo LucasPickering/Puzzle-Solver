@@ -21,5 +21,6 @@ public class PieceTypeRotationSolver extends RotationSolver {
     int width = getWidth(edges + 4, pieces.length);
     int height = getHeight(width, pieces.length);
     state = new State(width, height, unplacedPieces);
+    rotated = false; // Might have been true from a previous run
   }
 }

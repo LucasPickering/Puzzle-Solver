@@ -13,6 +13,12 @@ public class RotationSolver extends SimpleSolver {
 	boolean rotated;
 
 	@Override
+	public void init(Piece[] pieces) {
+		super.init(pieces);
+		rotated = false;
+	}
+
+	@Override
 	protected void placeCorner(State state) throws PieceNotFoundException {
 		for (int i = 0; i < state.unplacedPieces.size(); i++) {
 			Piece piece = state.unplacedPieces.get(Direction.NORTH, i);

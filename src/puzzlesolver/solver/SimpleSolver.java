@@ -63,13 +63,15 @@ public class SimpleSolver implements Solver {
 
   @Override
   public void nextStep() throws PieceNotFoundException {
-    // If this is the first piece, find the first corner in the list and place it
-    if (state.x == 0 && state.y == 0) {
-      placeCorner(state); // Place the first piece in the puzzle
-    } else if (state.x < state.width() && state.y < state.height()) {
-      placeNextPiece(state); // Place the next piece in the puzzle
+    if (!done()) {
+      // If this is the first piece, find the first corner in the list and place it
+      if (state.x == 0 && state.y == 0) {
+        placeCorner(state); // Place the first piece in the puzzle
+      } else if (state.x < state.width() && state.y < state.height()) {
+        placeNextPiece(state); // Place the next piece in the puzzle
+      }
+      state.incr(); // Increment up to the next piece
     }
-    state.incr(); // Increment up to the next piece
   }
 
   @Override
