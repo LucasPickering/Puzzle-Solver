@@ -2,6 +2,7 @@ package puzzlesolver.ui.fx_2d;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -75,7 +76,7 @@ public class MainController extends Application implements Initializable {
   /**
    * Responds to {@link #generateButton} being pressed by generating a new puzzle.
    *
-   * Uses {@link Constants#RANDOM_SEED} to generate a new puzzle.
+   * Uses {@link Constants#RANDOM} to generate a new puzzle.
    */
   @FXML
   private void generate(ActionEvent event) {
