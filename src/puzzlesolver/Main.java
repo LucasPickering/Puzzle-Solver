@@ -7,6 +7,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.ParseException;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import puzzlesolver.constants.ConsoleConstants;
 import puzzlesolver.constants.Constants;
@@ -49,14 +50,13 @@ public class Main {
     }
 
     // TODO add behaviour for the rest of the arguments
-    String seed = "Not set";
+    long seed = new Random().nextLong();
     if (line.hasOption(RANDOM_SEED)) {
-      seed = line.getOptionValue(RANDOM_SEED);
-      Constants.RANDOM.setSeed(seed.hashCode());
+      seed = line.getOptionValue(RANDOM_SEED).hashCode();
     }
+    Constants.RANDOM.setSeed(seed);
 
-    Constants.LOGGER.printf(Logger.INFO, "Verbose Level: %d%n",
-                            Constants.LOGGER.getGlobalVerbosity());
+    Constants.LOGGER.printf(Logger.INFO, "Verbosity: %d%n", Constants.LOGGER.getGlobalVerbosity());
     Constants.LOGGER.printf(Logger.INFO, "Random Seed: %s%n", seed);
 
     if (line.hasOption(HELP)) {
