@@ -57,7 +57,6 @@ public class MainController extends Application implements Initializable {
   @Override
   public void start(Stage primaryStage) throws Exception {
     getParameters();
-    // TODO check for seed
     URL thing = Thread.currentThread().getContextClassLoader().getResource("main_menu.fxml");
     if (thing == null) {
       throw new FileNotFoundException("Could not load resource main_menu.fxml");
