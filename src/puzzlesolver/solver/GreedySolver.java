@@ -1,6 +1,7 @@
 package puzzlesolver.solver;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import puzzlesolver.Coord;
@@ -29,7 +30,7 @@ import puzzlesolver.enums.PieceType;
  */
 public class GreedySolver extends PieceTypeRotationSolver {
 
-  private Map<Coord, Pair<Piece, Float>> madePieceCache = new HashMap<>();
+  private final Map<Coord, Pair<Piece, Float>> madePieceCache = new HashMap<>();
 
   @Override
   public boolean nextStep() throws PieceNotFoundException {
@@ -76,10 +77,8 @@ public class GreedySolver extends PieceTypeRotationSolver {
     }
 
     if (foundPiece == null) { // If it didn't find a piece
-      final int oldWidth = state.solution.length; // Might need these later
-      final int oldHeight = state.solution[0].length;
       if (rotateSolutionIfHelpful(state)) {
-        rebuildCacheAfterRotation(state, oldWidth, oldHeight); // Replace now-invalid cached pieces
+        rebuildCacheAfterRotation(state); // Replace now-invalid cached pieces
         placeNextPiece(state); // Call again with the newly-rotated solution
         return;
       }
@@ -125,17 +124,20 @@ public class GreedySolver extends PieceTypeRotationSolver {
    * that were on the edge and aren't now, or vice versa) are evicted, then new values are
    * inserted for all the pieces that were evicted.
    *
-   * @param state     the current state of the puzzle
-   * @param oldWidth  the width of the puzzle before the rotation
-   * @param oldHeight the height of the puzzle before the rotation
+   * @param state the current state of the puzzle
    */
-  private void rebuildCacheAfterRotation(State state, int oldWidth, int oldHeight) {
+  private void rebuildCacheAfterRotation(State state) {
     final int newWidth = state.solution.length;
     final int newHeight = state.solution[0].length;
-    for (Map.Entry<Coord, Pair<Piece, Float>> entry : madePieceCache.entrySet()) {
-      final Coord coord = entry.getKey();
-      if (coord.x == oldWidth - 1 || coord.x == newWidth - 1
-          || coord.y == oldHeight - 1 || coord.y == newHeight - 1) {
+    // Sorry about the iterator. Concurrency issues and such. Apparently you can't remove from a
+    // map while iterating over it with a standard foreach loop.
+    for (Iterator<Coord> it = madePieceCache.keySet().iterator(); it.hasNext(); ) {
+      final Coord coord = it.next();
+      if (!Funcs.coordsInBounds(newWidth, newHeight, coord.x, coord.y)) {
+        // This piece is no longer in bounds. Get rid of it.
+        it.remove();
+      } else if (coord.x == newWidth - 1 || coord.x == newHeight - 1
+                 || coord.y == newHeight - 1 || coord.y == newWidth - 1) {
         cachePiece(state, coord);
       }
     }
