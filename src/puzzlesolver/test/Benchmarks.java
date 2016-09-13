@@ -14,7 +14,7 @@ import puzzlesolver.constants.Constants;
 
 public class Benchmarks {
 
-	public static final String GENERATOR_SEED = "LOGAN PROBABLY DOESN'T CARE";
+	public static final long GENERATOR_SEED = "LOGAN PROBABLY DOESN'T CARE".hashCode();
 
 	public static void main(String[] args) throws RunnerException {
 		Date date = new Date();
@@ -26,6 +26,7 @@ public class Benchmarks {
 			builder.include(arg);
 		}
 
+		Constants.RANDOM.setSeed(GENERATOR_SEED);
 		new Runner(builder.build()).run();
 	}
 }

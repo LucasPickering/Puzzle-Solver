@@ -32,7 +32,6 @@ public class PolypointGeneratorBenchmark {
     @Benchmark
     public void measureGenerate() {
         Generator generator = new PolypointGenerator(complexity, complexity);
-        generator.setSeed(Benchmarks.GENERATOR_SEED);
         generator.generate(sideLength, sideLength);
     }
 }

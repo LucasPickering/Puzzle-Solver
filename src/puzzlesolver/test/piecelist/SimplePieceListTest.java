@@ -3,6 +3,7 @@ package puzzlesolver.test.piecelist;
 import org.junit.Before;
 import org.junit.Test;
 
+import puzzlesolver.constants.Constants;
 import puzzlesolver.generator.Generator;
 import puzzlesolver.PieceComparator;
 import puzzlesolver.piecelist.PieceList;
@@ -23,8 +24,8 @@ public class SimplePieceListTest {
 
   @Before
   public void setUp() {
+    Constants.RANDOM.setSeed("SimplePieceListTest".hashCode());
     Generator gen = new SimpleGenerator();
-    gen.setSeed("SimplePieceListTest");
     oneByOne.addAll(gen.generate(1, 1));
     fourByFour.addAll(gen.generate(4, 4));
     bigList.addAll(gen.generate(30, 30));

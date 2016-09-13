@@ -83,7 +83,7 @@ public class GreedySolver extends PieceTypeRotationSolver {
         placeNextPiece(state); // Call again with the newly-rotated solution
         return;
       }
-      throw new PieceNotFoundException(state.x, state.y);
+      throw new PieceNotFoundException(state.x, state.y); // Solution wasn't rotated. GG BOYS.
     }
 
     foundPiece.rotate(Direction.values()[rotations], Direction.NORTH); // Rotate it back

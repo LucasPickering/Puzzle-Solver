@@ -3,7 +3,6 @@ package puzzlesolver.ui.fx_2d;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Objects;
-import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -22,7 +21,6 @@ class PuzzleRenderer {
 
   private int lastDrawnX = 0;
   private int lastDrawnY = 0;
-  private Random random = new Random(Constants.RANDOM_SEED);
   private int previousPuzzleWidth;
   private int previousPuzzleHeight;
   protected boolean done;
@@ -217,7 +215,7 @@ class PuzzleRenderer {
   void drawPiece(GraphicsContext gc, Piece piece, int x, int y,
                          int puzzleWidth, int puzzleHeight) {
     if (doubles == null) {
-      doubles = random.doubles(puzzleWidth * puzzleHeight).toArray();
+      doubles = Constants.RANDOM.doubles(puzzleWidth * puzzleHeight).toArray();
     }
     /*
     gc.setFill(

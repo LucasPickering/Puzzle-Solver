@@ -19,7 +19,6 @@ import puzzlesolver.generator.Generator;
 import puzzlesolver.generator.PolypointGenerator;
 import puzzlesolver.solver.PieceTypeRotationSolver;
 import puzzlesolver.solver.Solver;
-import puzzlesolver.test.Benchmarks;
 
 @State(Scope.Benchmark)
 @Threads(1)
@@ -37,7 +36,6 @@ public class PieceTypeSolverBenchmark {
   @Setup
   public void setUp() {
     final Generator generator = new PolypointGenerator(complexity, complexity);
-    generator.setSeed(Benchmarks.GENERATOR_SEED);
     puzzle = generator.generate(size, size);
   }
 

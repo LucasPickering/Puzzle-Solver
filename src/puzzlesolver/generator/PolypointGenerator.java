@@ -5,8 +5,8 @@ import java.util.List;
 
 import puzzlesolver.Funcs;
 import puzzlesolver.Point;
-import puzzlesolver.side.Side;
 import puzzlesolver.constants.Constants;
+import puzzlesolver.side.Side;
 import puzzlesolver.side.SimpleSide;
 
 public class PolypointGenerator extends RotationGenerator {
@@ -32,8 +32,8 @@ public class PolypointGenerator extends RotationGenerator {
    *                       minimum x spacing between points, (0, 1], <= {@param maxXDiffFactor}
    * @param maxXDiffFactor the factor to multiply {@link Constants#SIDE_LENGTH} by to create the
    *                       maximum x spacing between points,  (0, 1], >= {@param minXDiffFactor}
-   * @throws IllegalArgumentException if either parameter is out of bounds, or {@code minXDiffFactor >
-   *                                  maxXDiffFactor}
+   * @throws IllegalArgumentException if either parameter is out of bounds, or {@code minXDiffFactor
+   *                                  > maxXDiffFactor}
    */
   public PolypointGenerator(double minXDiffFactor, double maxXDiffFactor) {
     if (minXDiffFactor <= 0 || minXDiffFactor > 1 || maxXDiffFactor <= 0 || maxXDiffFactor > 1) {
@@ -54,10 +54,11 @@ public class PolypointGenerator extends RotationGenerator {
 
     if (!flat) {
       // Add midpoints
-      for (double x = Funcs.randomInRange(random, minXDiff, maxXDiff);
+      for (double x = Funcs.randomInRange(random(), minXDiff, maxXDiff);
            x < Constants.SIDE_LENGTH - minXDiff;
-           x += Funcs.randomInRange(random, maxXDiff, maxXDiff)) {
-        points.add(new Point(x, Funcs.randomInRangeNegate(random, MIN_Y_DEVIATION, MAX_Y_DEVIATION)));
+           x += Funcs.randomInRange(random(), maxXDiff, maxXDiff)) {
+        points.add(new Point(x, Funcs.randomInRangeNegate(random(),
+                                                          MIN_Y_DEVIATION, MAX_Y_DEVIATION)));
       }
     }
 

@@ -5,9 +5,8 @@ import java.util.List;
 
 import puzzlesolver.Funcs;
 import puzzlesolver.Point;
-import puzzlesolver.side.Side;
 import puzzlesolver.constants.Constants;
-import puzzlesolver.generator.RotationGenerator;
+import puzzlesolver.side.Side;
 import puzzlesolver.side.SimpleSide;
 
 public class CurveGenerator extends RotationGenerator {
@@ -30,11 +29,11 @@ public class CurveGenerator extends RotationGenerator {
   /**
    * Constructs a new PolypointGenerator with the given factors for x point spacing.
    *
-   * @param minInputXDiffFactor the factor to multiply {@link Constants#SIDE_LENGTH} by to create the
-   *                            minimum x spacing between the points used to generate the spline
+   * @param minInputXDiffFactor the factor to multiply {@link Constants#SIDE_LENGTH} by to create
+   *                            the minimum x spacing between the points used to generate the spline
    *                            curve, (0, 1], <= {@param maxXDiffFactor}
-   * @param maxInputXDiffFactor the factor to multiply {@link Constants#SIDE_LENGTH} by to create the
-   *                            maximum x spacing between the points used to generate the spline
+   * @param maxInputXDiffFactor the factor to multiply {@link Constants#SIDE_LENGTH} by to create
+   *                            the maximum x spacing between the points used to generate the spline
    *                            curve, (0, 1], <= {@param maxXDiffFactor}
    * @param outputXDiffFactor   the factor to multiply {@link Constants#SIDE_LENGTH} by to create
    *                            the x spacing between points taken from the spline curve. (0, 1]
@@ -61,10 +60,11 @@ public class CurveGenerator extends RotationGenerator {
 
     if (!flat) {
       // Add midpoints
-      for (double x = Funcs.randomInRange(random, minInputXDiff, maxInputXDiff);
+      for (double x = Funcs.randomInRange(random(), minInputXDiff, maxInputXDiff);
            x < Constants.SIDE_LENGTH - minInputXDiff;
-           x += Funcs.randomInRange(random, maxInputXDiff, maxInputXDiff)) {
-        points.add(new Point(x, Funcs.randomInRangeNegate(random, MIN_Y_DEVIATION, MAX_Y_DEVIATION)));
+           x += Funcs.randomInRange(random(), maxInputXDiff, maxInputXDiff)) {
+        points.add(new Point(x, Funcs.randomInRangeNegate(random(),
+                                                          MIN_Y_DEVIATION, MAX_Y_DEVIATION)));
       }
     }
 

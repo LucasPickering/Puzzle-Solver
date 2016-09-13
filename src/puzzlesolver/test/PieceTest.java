@@ -3,6 +3,7 @@ package puzzlesolver.test;
 import org.junit.Before;
 import org.junit.Test;
 
+import puzzlesolver.constants.Constants;
 import puzzlesolver.generator.Generator;
 import puzzlesolver.Piece;
 import puzzlesolver.enums.Direction;
@@ -16,8 +17,8 @@ public class PieceTest {
 
   @Before
   public void setUp() {
+    Constants.RANDOM.setSeed("test1".hashCode());
     Generator gen = new SimpleGenerator();
-    gen.setSeed("test1".hashCode());
     p1 = gen.generate(3, 3)[4];
   }
 

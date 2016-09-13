@@ -8,9 +8,9 @@ import java.util.Random;
 import puzzlesolver.Funcs;
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
-import puzzlesolver.side.Side;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
+import puzzlesolver.side.Side;
 import puzzlesolver.side.SimpleSide;
 
 /**
@@ -22,18 +22,6 @@ public class SimpleGenerator implements Generator {
   private static final double MAX_X_DEVIATION = Constants.SIDE_LENGTH * 0.7d;
   private static final double MIN_Y_DEVIATION = Constants.SIDE_LENGTH * 0.01d;
   private static final double MAX_Y_DEVIATION = Constants.SIDE_LENGTH * 0.1d;
-
-  protected Random random = new Random();
-
-  @Override
-  public void setSeed(long seed) {
-    random.setSeed(seed);
-  }
-
-  @Override
-  public void setSeed(Object o) {
-    setSeed(o.hashCode());
-  }
 
   @Override
   public Piece[] generate(int width, int height) {
@@ -82,7 +70,7 @@ public class SimpleGenerator implements Generator {
         toReturn.add(pieces[i][j]);
       }
     }
-    Collections.shuffle(toReturn, random); // Shuffle the list to "unsolve" it
+    Collections.shuffle(toReturn, random()); // Shuffle the list to "unsolve" it
     return toReturn.toArray(new Piece[width * height]);
   }
 
@@ -93,8 +81,12 @@ public class SimpleGenerator implements Generator {
     if (flat) {
       return new SimpleSide(corner1, corner2);
     }
-    final double midX = Funcs.randomInRange(random, MIN_X_DEVIATION, MAX_X_DEVIATION);
-    final double midY = Funcs.randomInRangeNegate(random, MIN_Y_DEVIATION, MAX_Y_DEVIATION);
+    final double midX = Funcs.randomInRange(random(), MIN_X_DEVIATION, MAX_X_DEVIATION);
+    final double midY = Funcs.randomInRangeNegate(random(), MIN_Y_DEVIATION, MAX_Y_DEVIATION);
     return new SimpleSide(corner1, new Point(midX, midY), corner2);
+  }
+
+  protected final Random random() {
+    return Constants.RANDOM;
   }
 }

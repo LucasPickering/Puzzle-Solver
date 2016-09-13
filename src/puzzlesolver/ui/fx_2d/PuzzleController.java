@@ -1,7 +1,6 @@
 package puzzlesolver.ui.fx_2d;
 
 import java.util.Objects;
-import java.util.Random;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,11 +13,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import puzzlesolver.Logger;
 import puzzlesolver.Point;
-import puzzlesolver.solver.Solver;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.solver.SimpleSolver;
+import puzzlesolver.solver.Solver;
 
 public class PuzzleController {
 
@@ -30,7 +29,6 @@ public class PuzzleController {
   private Canvas puzzleCanvas;
   private Stage stage;
   private SteppableAnimationTimer animationTimer;
-  private Random random = new Random(Constants.RANDOM_SEED);
 
 
   public static Point getGlobalPoint(Point localPoint, Direction orientation, int pieceX,
@@ -81,9 +79,9 @@ public class PuzzleController {
     stage.setOnCloseRequest(event -> animationTimer.stop());
     stage.setOnShowing(event -> animationTimer.start());
     stage.getScene().setOnMouseClicked(new MouseEventHandler(animationTimer));
-    stage.getScene().setFill(new Color(0.3 * random.nextDouble(),
-                                       0.3 * random.nextDouble(),
-                                       0.3 * random.nextDouble(), 1.0));
+    stage.getScene().setFill(new Color(0.3 * Constants.RANDOM.nextDouble(),
+                                       0.3 * Constants.RANDOM.nextDouble(),
+                                       0.3 * Constants.RANDOM.nextDouble(), 1.0));
     stage.getScene().widthProperty().addListener(
         (observable, oldValue, newValue) -> puzzleRenderer.draw(gc, solver));
     stage.getScene().heightProperty().addListener(

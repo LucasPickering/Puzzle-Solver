@@ -37,7 +37,6 @@ public class RotationSolverBenchmark {
   @Setup
   public void setUp() {
     final Generator generator = new PolypointGenerator(complexity, complexity);
-    generator.setSeed(Benchmarks.GENERATOR_SEED);
     puzzle = generator.generate(size, size);
   }
 

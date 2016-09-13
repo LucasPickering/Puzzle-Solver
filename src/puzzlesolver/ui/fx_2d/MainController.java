@@ -91,7 +91,7 @@ public class MainController extends Application implements Initializable {
         solveButton.setText(UIConstants.BUTTON_SOLVE);
         // Falls through to the next case
       case UIConstants.BUTTON_GENERATE:
-        Constants.LOGGER.println(Logger.INFO, "Generating new puzzle");
+        Constants.LOGGER.println(Logger.INFO, "Generating new puzzle. . .");
         Generator generator = new PolypointGenerator();
         try {
           puzzle = generator.generate(Integer.parseInt(widthField.getText()),

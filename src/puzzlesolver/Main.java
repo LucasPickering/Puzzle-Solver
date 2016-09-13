@@ -49,13 +49,15 @@ public class Main {
     }
 
     // TODO add behaviour for the rest of the arguments
+    String seed = "Not set";
     if (line.hasOption(RANDOM_SEED)) {
-      Constants.RANDOM_SEED = line.getOptionValue(RANDOM_SEED).hashCode();
+      seed = line.getOptionValue(RANDOM_SEED);
+      Constants.RANDOM.setSeed(seed.hashCode());
     }
 
     Constants.LOGGER.printf(Logger.INFO, "Verbose Level: %d%n",
                             Constants.LOGGER.getGlobalVerbosity());
-    Constants.LOGGER.printf(Logger.INFO, "Random Seed: %d%n", Constants.RANDOM_SEED);
+    Constants.LOGGER.printf(Logger.INFO, "Random Seed: %s%n", seed);
 
     if (line.hasOption(HELP)) {
       new HelpFormatter().printHelp("puzzlesolver", ConsoleConstants.options, true);

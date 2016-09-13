@@ -21,7 +21,7 @@ public class Constants {
 
   public static final Logger LOGGER = new Logger(System.out);
 
-  public static long RANDOM_SEED = new Random().nextLong();
+  public static final Random RANDOM = new Random();
 
   public static String BENCHMARK_LOCATION = "benchmarks/%tF_%tH.%tM.%tS.txt";
 
