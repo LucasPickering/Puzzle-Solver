@@ -19,7 +19,10 @@ class SteppableAnimationTimer extends AnimationTimer {
 
   public boolean nextStep() {
     try {
-      return solver.nextStep();
+      if (!solver.done()) {
+        solver.nextStep();
+      }
+      return solver.done();
     } catch (PieceNotFoundException e) {
       e.printStackTrace();
       return true;

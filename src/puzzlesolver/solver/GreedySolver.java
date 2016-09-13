@@ -33,14 +33,13 @@ public class GreedySolver extends PieceTypeRotationSolver {
   private final Map<Coord, Pair<Piece, Float>> madePieceCache = new HashMap<>();
 
   @Override
-  public boolean nextStep() throws PieceNotFoundException {
+  public void nextStep() throws PieceNotFoundException {
     // If this is the first piece, find the first corner in the list and place it
     if (state.solution[0][0] == null) {
       placeCorner(state); // Place the first piece in the puzzle
     } else {
       placeNextPiece(state); // Place the next piece in the puzzle
     }
-    return done(state); // Return false if we need to keep going, true if we're done
   }
 
   @Override

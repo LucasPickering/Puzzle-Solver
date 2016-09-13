@@ -19,7 +19,6 @@ import puzzlesolver.generator.Generator;
 import puzzlesolver.generator.PolypointGenerator;
 import puzzlesolver.solver.RotationSolver;
 import puzzlesolver.solver.Solver;
-import puzzlesolver.test.Benchmarks;
 
 @State(Scope.Benchmark)
 @Threads(1)
@@ -46,8 +45,9 @@ public class RotationSolverBenchmark {
     solver.init(puzzle);
 
     try {
-      //noinspection StatementWithEmptyBody
-      while (solver.nextStep());
+      while (!solver.done()) {
+        solver.nextStep();
+      }
     } catch (PieceNotFoundException e) {
       e.printStackTrace();
     }

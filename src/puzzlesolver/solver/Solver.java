@@ -15,10 +15,15 @@ public interface Solver {
 
   /**
    * Executes the next step in the solver, placing exactly one piece.
-   *
-   * @return false if more steps are needed to solve the puzzle, true if the solution is complete
    */
-  boolean nextStep() throws PieceNotFoundException;
+  void nextStep() throws PieceNotFoundException;
+
+  /**
+   * Are we done solving the puzzle?
+   *
+   * @return true if the puzzle is complete, false otherwise
+   */
+  boolean done();
 
   /**
    * Gets the list of pieces that have not yet been placed into the solution. No copying is done, so
@@ -39,12 +44,14 @@ public interface Solver {
 
   /**
    * Gets the x-value of the piece that this solver will work on next.
+   *
    * @return the x-value of the next spot to fill
    */
   int getX();
 
   /**
    * Gets the y-value of the piece that this solver will work on next.
+   *
    * @return the y-value of the next spot to fill
    */
   int getY();

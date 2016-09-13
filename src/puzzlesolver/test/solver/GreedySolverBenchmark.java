@@ -45,8 +45,9 @@ public class GreedySolverBenchmark {
     solver.init(puzzle);
 
     try {
-      //noinspection StatementWithEmptyBody
-      while (solver.nextStep());
+      while (!solver.done()) {
+        solver.nextStep();
+      }
     } catch (PieceNotFoundException e) {
       e.printStackTrace();
     }

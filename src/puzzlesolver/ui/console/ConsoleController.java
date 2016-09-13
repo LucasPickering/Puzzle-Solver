@@ -62,7 +62,8 @@ public class ConsoleController {
         Thread.sleep(timeInterval);
       }
       out.println("Solvin' away!");
-    } while (!solver.nextStep());
+      solver.nextStep();
+    } while (!solver.done());
 
     out.println("Done!");
     print(out, textView.draw());
