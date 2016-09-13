@@ -2,7 +2,6 @@ package puzzlesolver.ui.fx_2d;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -49,7 +48,6 @@ public class MainController extends Application implements Initializable {
   @FXML
   private Solver solver;
   private PuzzleController puzzleController;
-  private Piece[] puzzle;
   private boolean stopSolve;
 
   public static void main(String[] args) {
@@ -61,8 +59,9 @@ public class MainController extends Application implements Initializable {
     getParameters();
     // TODO check for seed
     URL thing = Thread.currentThread().getContextClassLoader().getResource("main_menu.fxml");
-    if (thing == null)
+    if (thing == null) {
       throw new FileNotFoundException("Could not load resource main_menu.fxml");
+    }
 
     Parent root = FXMLLoader.load(thing);
     primaryStage.setTitle("Puzzleopolis!");
@@ -95,8 +94,8 @@ public class MainController extends Application implements Initializable {
         Constants.LOGGER.println(Logger.INFO, "Generating new puzzle. . .");
         Generator generator = new PolypointGenerator();
         try {
-          puzzle = generator.generate(Integer.parseInt(widthField.getText()),
-                                      Integer.parseInt(heightField.getText()));
+          final Piece[] puzzle = generator.generate(Integer.parseInt(widthField.getText()),
+                                                    Integer.parseInt(heightField.getText()));
           solver.init(puzzle);
           puzzleController.init(solver);
           puzzleController.openPuzzleWindow(event);
@@ -141,7 +140,7 @@ public class MainController extends Application implements Initializable {
               e.printStackTrace();
             }
           }
-        }, 0, (long) (100 /  rateSlider.getValue()));
+        }, 0, (long) (100 / rateSlider.getValue()));
 
         break;
       case UIConstants.BUTTON_STOP:
