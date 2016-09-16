@@ -8,6 +8,7 @@ import java.util.TimerTask;
 
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,7 +49,9 @@ public class MainController extends Application implements Initializable {
   @FXML
   private Solver solver;
   private PuzzleController puzzleController;
+  private Task puzzleStepperTask;
   private boolean stopSolve;
+  private boolean solving;
 
   public static void main(String[] args) {
     launch(args);
@@ -113,7 +116,6 @@ public class MainController extends Application implements Initializable {
     switch (solveButton.getText()) {
       case UIConstants.BUTTON_SOLVE:
         if (stopSolve) {
-          solveButton.setText(UIConstants.BUTTON_SOLVE);
           stopSolve = false;
         } else {
           solveButton.setText(UIConstants.BUTTON_STOP);
@@ -127,7 +129,13 @@ public class MainController extends Application implements Initializable {
           @Override
           public void run() {
             try {
-              if (stopSolve || puzzleController.nextStep()) {
+              // It's structured this way because of the iteraction between threads. This makes
+              // sure stopSolve gets set to true when the solve finishes on its own, so the
+              // button can be disabled.
+              if (puzzleController.nextStep()) {
+                stopSolve = true;
+              }
+              if (stopSolve) {
                 this.cancel();
               }
             } catch (Exception e) {
@@ -156,12 +164,13 @@ public class MainController extends Application implements Initializable {
 
   @FXML
   @Override
-  public void initialize(URL location, ResourceBundle resourcfes) {
+  public void initialize(URL location, ResourceBundle resources) {
     puzzleController = new PuzzleController();
     if (solver == null) {
       solver = new GreedySolver();
     }
     puzzleController.init(solver);
+    puzzleStepperTask = new PuzzleStepperTask(solver);
 
     // Set up renderTypeChoiceBox
     renderTypeChoiceBox.getSelectionModel()
@@ -178,5 +187,10 @@ public class MainController extends Application implements Initializable {
       }
       solveButton.setText(UIConstants.BUTTON_SOLVE);
     });
+  }
+
+  private void solveOver() {
+    solveButton.setText(UIConstants.BUTTON_SOLVE);
+    solveButton.setDisable(true);
   }
 }

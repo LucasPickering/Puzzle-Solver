@@ -50,16 +50,15 @@ public interface Solver {
   Piece[][] getSolution();
 
   /**
-   * Gets the x-value of the piece that this solver will work on next.
-   *
-   * @return the x-value of the next spot to fill
+   * Gets the total amount of pieces (both placed and unplaced).
+   * @return the total number of pieces in this solver's puzzle
    */
-  int getX();
+  int getTotalPieces();
 
   /**
-   * Gets the y-value of the piece that this solver will work on next.
-   *
-   * @return the y-value of the next spot to fill
+   * Gets the amount of pieces that have been placed in the puzzle so far.
+   * @return the total number of pieces placed
    */
-  int getY();
+  int getPiecesPlaced();
+
 }

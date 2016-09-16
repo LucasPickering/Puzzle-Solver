@@ -30,7 +30,7 @@ public class RotationSolver extends SimpleSolver {
 							 || !piece.getSide(Direction.WEST).isFlat()) {
 					piece.rotate(Direction.NORTH, Direction.EAST);
 				}
-				state.placePiece(piece);
+				placePiece(state, piece);
 				state.unplacedPieces.remove(piece);
 				return; // We placed it, done!
 			}
@@ -57,7 +57,7 @@ public class RotationSolver extends SimpleSolver {
 		}
 
 		foundPiece.rotate(Direction.values()[rotations], Direction.NORTH); // Rotate it back
-		state.placePiece(foundPiece); // Put it in the solution
+		placePiece(state, foundPiece); // Put it in the solution
 		state.unplacedPieces.remove(foundPiece); // Remove it from the list of unplaced pieces
 	}
 

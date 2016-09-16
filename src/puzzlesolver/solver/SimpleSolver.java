@@ -31,10 +31,6 @@ public class SimpleSolver implements Solver {
       return solution[0].length;
     }
 
-    protected void placePiece(Piece piece) {
-      solution[x][y] = piece;
-    }
-
     protected void incr() {
       if (++x >= width()) { // Increment x, if the row is done, go to the next row
         x = 0;
@@ -44,10 +40,13 @@ public class SimpleSolver implements Solver {
   }
 
   protected State state;
+  private int totalPieces;
+  private int placedPieces;
 
   @Override
   public void init(Piece[] pieces) {
     PieceList unplacedPieces = new SimplePieceList(pieces.length);
+    totalPieces = unplacedPieces.size(); // Keep this for later
     int edges = 0;
     for (Piece piece : pieces) {
       if (piece.definitelyType(PieceType.EDGE)) {
@@ -71,6 +70,7 @@ public class SimpleSolver implements Solver {
         placeNextPiece(state); // Place the next piece in the puzzle
       }
       state.incr(); // Increment up to the next piece
+      placedPieces++;
     }
   }
 
@@ -90,13 +90,13 @@ public class SimpleSolver implements Solver {
   }
 
   @Override
-  public int getX() {
-    return state.x;
+  public int getTotalPieces() {
+    return totalPieces;
   }
 
   @Override
-  public int getY() {
-    return state.y;
+  public int getPiecesPlaced() {
+    return placedPieces;
   }
 
   /**
@@ -185,8 +185,7 @@ public class SimpleSolver implements Solver {
       Piece piece = state.unplacedPieces.get(Direction.NORTH, i);
       if (piece.definitelyType(PieceType.CORNER) && piece.getSide(Direction.NORTH).isFlat() &&
           piece.getSide(Direction.WEST).isFlat()) {
-        state.placePiece(piece); // Put the piece in the solution
-        state.unplacedPieces.remove(piece); // Take it out of the bag of unused pieces
+        placePiece(state, piece); // Put the piece in the solution
         break;
       }
     }
@@ -200,8 +199,13 @@ public class SimpleSolver implements Solver {
    */
   protected void placeNextPiece(State state) throws PieceNotFoundException {
     final Piece piece = state.unplacedPieces.find(makePiece(state));
-    state.placePiece(piece); // Put the piece in the solution
-    state.unplacedPieces.remove(piece); // Take it out of the bag of unused pieces
+    placePiece(state, piece); // Put the piece in the solution
+  }
+
+  protected void placePiece(State state, Piece piece) {
+    state.solution[state.x][state.y] = piece; // Put the piece in the solution
+    state.unplacedPieces.remove(piece); // Remove the piece from the bag of unplaced ones
+    placedPieces++; // Keep track of how many we've placed
   }
 
   /**

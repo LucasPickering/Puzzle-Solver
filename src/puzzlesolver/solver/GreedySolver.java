@@ -30,7 +30,7 @@ import puzzlesolver.enums.PieceType;
  */
 public class GreedySolver extends PieceTypeRotationSolver {
 
-  private final Map<Coord, Pair<Piece, Float>> madePieceCache = new HashMap<>();
+  private final Map<Coord, Pair<Piece, Float>> pieceCache = new HashMap<>();
 
   @Override
   public void nextStep() throws PieceNotFoundException {
@@ -95,11 +95,12 @@ public class GreedySolver extends PieceTypeRotationSolver {
     return state.unplacedPieces.size() == 0;
   }
 
-  private void placePiece(State state, Piece piece) {
-    state.placePiece(piece); // Put the piece in the solution
-    state.unplacedPieces.remove(piece);
-    // Evict the piece that changed, then re-cache the adjacent pieces
-    madePieceCache.remove(new Coord(state.x, state.y));
+  @Override
+  protected void placePiece(State state, Piece piece) {
+    super.placePiece(state, piece); // Put the piece in the solution
+    pieceCache.remove(new Coord(state.x, state.y)); // Evict the piece that changed from the cache
+
+    // Re-cache all pieces adjacent to the one that changed
     for (Direction dir : Direction.values()) {
       final Coord coord = new Coord(state.x + dir.x, state.y + dir.y);
       // Cache the adjacent piece, if it's in bounds
@@ -112,7 +113,7 @@ public class GreedySolver extends PieceTypeRotationSolver {
 
   private Map.Entry<Coord, Pair<Piece, Float>> getEasiestPiece() {
     Map.Entry<Coord, Pair<Piece, Float>> easiestPiece = null;
-    for (Map.Entry<Coord, Pair<Piece, Float>> entry : madePieceCache.entrySet()) {
+    for (Map.Entry<Coord, Pair<Piece, Float>> entry : pieceCache.entrySet()) {
       if (easiestPiece == null || entry.getValue().right < easiestPiece.getValue().right) {
         easiestPiece = entry;
       }
@@ -132,7 +133,7 @@ public class GreedySolver extends PieceTypeRotationSolver {
     final int newHeight = state.solution[0].length;
     // Sorry about the iterator. Concurrency issues and such. Apparently you can't remove from a
     // map while iterating over it with a standard foreach loop.
-    for (Iterator<Coord> it = madePieceCache.keySet().iterator(); it.hasNext(); ) {
+    for (Iterator<Coord> it = pieceCache.keySet().iterator(); it.hasNext(); ) {
       final Coord coord = it.next();
       if (!Funcs.coordsInBounds(newWidth, newHeight, coord.x, coord.y)) {
         // This piece is no longer in bounds. Get rid of it.
@@ -152,7 +153,7 @@ public class GreedySolver extends PieceTypeRotationSolver {
    */
   private void cachePiece(State state, Coord coord) {
     final Piece piece = makePiece(state, coord.x, coord.y); // Re-make the piece
-    madePieceCache.put(coord, new Pair<>(piece, scorePiece(state, piece)));
+    pieceCache.put(coord, new Pair<>(piece, scorePiece(state, piece)));
   }
 
   /**
