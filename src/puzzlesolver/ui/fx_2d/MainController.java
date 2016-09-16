@@ -4,11 +4,10 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -49,9 +48,8 @@ public class MainController extends Application implements Initializable {
   @FXML
   private Solver solver;
   private PuzzleController puzzleController;
-  private Task puzzleStepperTask;
+  private PuzzleStepperService puzzleStepperService;
   private boolean stopSolve;
-  private boolean solving;
 
   public static void main(String[] args) {
     launch(args);
@@ -109,45 +107,34 @@ public class MainController extends Application implements Initializable {
   }
 
   /**
-   * Solves the puzzle stepwise, at a speed specified by {@link #rateSlider}.
+   * Starts/stops the solving process.
    */
   @FXML
   private void solve() {
     switch (solveButton.getText()) {
       case UIConstants.BUTTON_SOLVE:
-        if (stopSolve) {
-          stopSolve = false;
-        } else {
-          solveButton.setText(UIConstants.BUTTON_STOP);
-        }
-
-        if (timer != null) {
-          timer.cancel();
-        }
-        timer = new Timer("Solve and Render", true);
-        timer.scheduleAtFixedRate(new TimerTask() {
-          @Override
-          public void run() {
-            try {
-              // It's structured this way because of the iteraction between threads. This makes
-              // sure stopSolve gets set to true when the solve finishes on its own, so the
-              // button can be disabled.
-              if (puzzleController.nextStep()) {
-                stopSolve = true;
-              }
-              if (stopSolve) {
-                this.cancel();
-              }
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-          }
-        }, 0, (long) (100 / rateSlider.getValue()));
-
+        puzzleStepperService.start(); // Start the solver service
         break;
       case UIConstants.BUTTON_STOP:
-        stopSolve = true;
-        solveButton.setText(UIConstants.BUTTON_SOLVE);
+        puzzleStepperService.cancel(); // Stop the solver (it will do it gracefully I promise)
+        puzzleStepperService.reset(); // Reset the service we can start it again
+    }
+  }
+
+  private void onSolveStarted() {
+    // Set all relevant button text/disability
+    solveButton.setText(UIConstants.BUTTON_STOP);
+    generateButton.setDisable(true);
+  }
+
+  private void onSolveStopped() {
+    // Set all relevant button text/disability
+    solveButton.setText(UIConstants.BUTTON_SOLVE); // Set text back to solve
+    generateButton.setDisable(false);
+
+    // If the solver finished, disable the solve button
+    if (puzzleStepperService.getState() == Worker.State.SUCCEEDED) {
+      solveButton.setDisable(true);
     }
   }
 
@@ -170,7 +157,12 @@ public class MainController extends Application implements Initializable {
       solver = new GreedySolver();
     }
     puzzleController.init(solver);
-    puzzleStepperTask = new PuzzleStepperTask(solver);
+
+    // Initialize the service that actually runs the solver
+    puzzleStepperService = new PuzzleStepperService(solver);
+    puzzleStepperService.setOnRunning(event -> onSolveStarted()); // Called when the solve starts
+    puzzleStepperService.setOnCancelled(event -> onSolveStopped()); // Called when the solve pauses
+    puzzleStepperService.setOnSucceeded(event -> onSolveStopped()); // Called when the solve ends
 
     // Set up renderTypeChoiceBox
     renderTypeChoiceBox.getSelectionModel()
