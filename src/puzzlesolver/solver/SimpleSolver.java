@@ -47,6 +47,7 @@ public class SimpleSolver implements Solver {
   public void init(Piece[] pieces) {
     PieceList unplacedPieces = new SimplePieceList(pieces.length);
     totalPieces = unplacedPieces.size(); // Keep this for later
+    placedPieces = 0; // Make sure this gets reset
     int edges = 0;
     for (Piece piece : pieces) {
       if (piece.definitelyType(PieceType.EDGE)) {

@@ -79,7 +79,7 @@
       <UIConstants fx:constant="BUTTON_GENERATE"/>
     </Button>
 
-    <Button fx:id="resetButton" disable="true" mnemonicParsing="false"
+    <Button fx:id="resetButton" disable="true" mnemonicParsing="false" onAction="#reset"
             GridPane.columnIndex="0" GridPane.rowIndex="4"
             GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
       <UIConstants fx:constant="BUTTON_RESET"/>

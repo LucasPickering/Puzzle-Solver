@@ -3,12 +3,10 @@ package puzzlesolver.ui.fx_2d;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
 
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,7 +28,6 @@ import puzzlesolver.solver.Solver;
 
 public class MainController extends Application implements Initializable {
 
-  private Timer timer = null;
   @FXML
   private Button generateButton;
   @FXML
@@ -48,6 +45,7 @@ public class MainController extends Application implements Initializable {
   @FXML
   private Slider rateSlider = new Slider();
   private Solver solver;
+  private Piece[] lastPieces;
   private PuzzleController puzzleController;
   private PuzzleStepperService puzzleStepperService;
 
@@ -78,7 +76,7 @@ public class MainController extends Application implements Initializable {
    * Uses {@link Constants#RANDOM} to generate a new puzzle.
    */
   @FXML
-  private void generate(ActionEvent event) {
+  private void generate() {
     generateButton.setDisable(true);
     resetButton.setDisable(true);
     solveButton.setDisable(true);
@@ -86,18 +84,11 @@ public class MainController extends Application implements Initializable {
 
     Constants.LOGGER.println(Logger.INFO, "Generating new puzzle. . .");
 
-    // If the timer is already on from a previous puzzle, turn it off
-    if (timer != null) {
-      timer.cancel();
-    }
-
     Generator generator = new PolypointGenerator();
     try {
-      final Piece[] puzzle = generator.generate(Integer.parseInt(widthField.getText()),
-                                                Integer.parseInt(heightField.getText()));
-      solver.init(puzzle);
-      puzzleController.init(solver);
-      puzzleController.openPuzzleWindow(event);
+      final int width = Integer.parseInt(widthField.getText());
+      final int height = Integer.parseInt(heightField.getText());
+      initSolver(generator.generate(width, height));
     } catch (NumberFormatException e) {
       throw new IllegalArgumentException("Bad number input");
     } finally {
@@ -106,6 +97,18 @@ public class MainController extends Application implements Initializable {
       solveButton.setDisable(false);
       showButton.setDisable(false);
     }
+  }
+
+  @FXML
+  private void reset() {
+    initSolver(lastPieces);
+  }
+
+  private void initSolver(Piece[] pieces) {
+    lastPieces = pieces;
+    solver.init(pieces);
+    puzzleController.init(solver);
+    puzzleController.openPuzzleWindow();
   }
 
   /**

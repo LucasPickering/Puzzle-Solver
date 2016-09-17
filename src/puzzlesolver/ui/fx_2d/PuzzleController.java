@@ -49,6 +49,10 @@ public class PuzzleController {
   }
 
   void openPuzzleWindow(ActionEvent event) {
+    openPuzzleWindow();
+  }
+
+  void openPuzzleWindow() {
     if (stage == null) {
       setupPuzzleWindow();
     }
