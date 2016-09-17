@@ -10,7 +10,7 @@ public class RotationSolver extends SimpleSolver {
 	/**
 	 * Keeps track of whether the puzzle has been rotated once.
 	 */
-	boolean rotated;
+	private boolean rotated;
 
 	@Override
 	public void init(Piece[] pieces) {

@@ -91,11 +91,6 @@ public class GreedySolver extends PieceTypeRotationSolver {
   }
 
   @Override
-  protected boolean done(State state) {
-    return state.unplacedPieces.size() == 0;
-  }
-
-  @Override
   protected void placePiece(State state, Piece piece) {
     super.placePiece(state, piece); // Put the piece in the solution
     pieceCache.remove(new Coord(state.x, state.y)); // Evict the piece that changed from the cache

@@ -8,13 +8,13 @@ import java.util.Random;
 public final class Funcs {
 
   /**
-   * Exponentially searches for the last element in the given sorted list that matches the element at
-   * {@param index}. The given list starts the search at {@param index}, and moves left or right
+   * Exponentially searches for the last element in the given sorted list that matches the element
+   * at {@param index}. The given list starts the search at {@param index}, and moves left or right
    * according to {@param left}. Exponential searching means that the first step looks 1 element
    * ahead, then 2 elements ahead of that, then 4, 8, ..., until an element is found that does not
-   * match the element at {@param index}. The search then starts back at 0 and repeats until it finds
-   * a change from matching to non-matching on the first step (1-element step), meaning it finds the
-   * edge of the matching elements.
+   * match the element at {@param index}. The search then starts back at 0 and repeats until it
+   * finds a change from matching to non-matching on the first step (1-element step), meaning it
+   * finds the edge of the matching elements.
    *
    * @param <E>        the type of element in the list
    * @param list       the sorted list to search (non-null, non-empty)
@@ -84,5 +84,28 @@ public final class Funcs {
    */
   public static boolean coordsInBounds(int width, int height, int x, int y) {
     return 0 <= x && x < width && 0 <= y && y < height;
+  }
+
+  /**
+   * Gets the dimensions of a rectangle given its perimeter and area. This is useful for puzzles
+   * because you can find the total amount of pieces in a puzzle given its amount of edges and
+   * total pieces.
+   *
+   * @param perimeter the perimeter of the rectangle
+   * @param area      the area of the rectangle
+   * @return the dimensions of the rectangle, with {@code left >= right}
+   */
+  public static Pair<Integer, Integer> getDimensions(int perimeter, int area) {
+    final int helper = (perimeter + 4) / 2; // This is used a bunch
+    final double doubleWidth = (helper + Math.sqrt(helper * helper - 4 * area)) / 2; // Quad. form.
+    final int width = (int) (doubleWidth + 0.5D); // Round to the nearest int using casting
+
+    if (area % width != 0) {
+      throw new IllegalArgumentException(String.format("Area (%d) is not divisible by width (%d)",
+                                                       area, width));
+    }
+    final int height = area / width;
+    // Make sure the left side is always >= the right
+    return width >= height ? new Pair<>(width, height) : new Pair<>(height, width);
   }
 }
