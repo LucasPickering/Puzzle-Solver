@@ -43,39 +43,58 @@
       -->
       <UIConstants fx:constant="RENDER_VISUAL_FANCY"/>
     </ChoiceBox>
-    <TextField id="text-label" fx:id="widthField" GridPane.halignment="CENTER"
-               GridPane.rowIndex="2" GridPane.valignment="CENTER">
+    <Line endX="100.0" startX="-100.0"
+          GridPane.columnSpan="2" GridPane.rowIndex="1"
+          GridPane.halignment="CENTER" GridPane.valignment="TOP"/>
+
+    <TextField id="text-label" fx:id="widthField"
+               GridPane.columnIndex="0" GridPane.rowIndex="2"
+               GridPane.halignment="CENTER" GridPane.valignment="CENTER">
       <!-- Default text -->
       <UIConstants fx:constant="DEFAULT_PUZZLE_WIDTH"/>
       <promptText>
         <UIConstants fx:constant="WIDTH_FIELD"/>
       </promptText>
     </TextField>
-    <TextField id="text-label" fx:id="heightField" GridPane.columnIndex="1"
-               GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+
+    <TextField id="text-label" fx:id="heightField"
+               GridPane.columnIndex="1" GridPane.rowIndex="2"
+               GridPane.halignment="CENTER" GridPane.valignment="CENTER">
       <!-- Default text -->
       <UIConstants fx:constant="DEFAULT_PUZZLE_HEIGHT"/>
       <promptText>
         <UIConstants fx:constant="HEIGHT_FIELD"/>
       </promptText>
     </TextField>
+
+    <Slider fx:id="rateSlider" majorTickUnit="10.0" minorTickCount="10" value="50.0"
+            prefHeight="73.0" prefWidth="22.0"
+            GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2"
+            GridPane.halignment="CENTER" GridPane.valignment="TOP"/>
+
+    <!-- Left column -->
     <Button fx:id="generateButton" mnemonicParsing="false" onAction="#generate"
-            GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
+            GridPane.columnIndex="0" GridPane.rowIndex="4"
+            GridPane.halignment="CENTER" GridPane.valignment="TOP">
       <UIConstants fx:constant="BUTTON_GENERATE"/>
     </Button>
-    <Button fx:id="solveButton" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false"
-            onAction="#solve" GridPane.columnIndex="1" GridPane.halignment="LEFT"
-            GridPane.rowIndex="3" GridPane.valignment="CENTER">
+
+    <Button fx:id="resetButton" disable="true" mnemonicParsing="false"
+            GridPane.columnIndex="0" GridPane.rowIndex="4"
+            GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+      <UIConstants fx:constant="BUTTON_RESET"/>
+    </Button>
+
+    <!-- Right column -->
+    <Button fx:id="solveButton" disable="true" mnemonicParsing="false" onAction="#solve"
+            GridPane.columnIndex="1" GridPane.rowIndex="4"
+            GridPane.halignment="CENTER" GridPane.valignment="TOP">
       <UIConstants fx:constant="BUTTON_SOLVE"/>
     </Button>
-    <Line endX="100.0" startX="-100.0" GridPane.columnSpan="2" GridPane.halignment="CENTER"
-          GridPane.rowIndex="1" GridPane.valignment="TOP"/>
-    <Slider fx:id="rateSlider" majorTickUnit="10.0" min="1.0"
-            minorTickCount="10" orientation="VERTICAL" prefHeight="73.0" prefWidth="22.0"
-            value="50.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT"
-            GridPane.rowIndex="3"/>
-    <Button fx:id="showButton" disable="true" mnemonicParsing="false" text="Show"
-            GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+
+    <Button fx:id="showButton" disable="true" mnemonicParsing="false" onAction="#solve"
+            GridPane.columnIndex="1" GridPane.rowIndex="4"
+            GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
       <UIConstants fx:constant="BUTTON_SHOW"/>
     </Button>
   </GridPane>

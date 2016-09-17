@@ -34,6 +34,8 @@ public class MainController extends Application implements Initializable {
   @FXML
   private Button generateButton;
   @FXML
+  private Button resetButton;
+  @FXML
   private Button solveButton = new Button(UIConstants.BUTTON_SHOW);
   @FXML
   private Button showButton = new Button(UIConstants.BUTTON_SOLVE);
@@ -45,11 +47,9 @@ public class MainController extends Application implements Initializable {
   private ChoiceBox<String> renderTypeChoiceBox;
   @FXML
   private Slider rateSlider = new Slider();
-  @FXML
   private Solver solver;
   private PuzzleController puzzleController;
   private PuzzleStepperService puzzleStepperService;
-  private boolean stopSolve;
 
   public static void main(String[] args) {
     launch(args);
@@ -80,6 +80,7 @@ public class MainController extends Application implements Initializable {
   @FXML
   private void generate(ActionEvent event) {
     generateButton.setDisable(true);
+    resetButton.setDisable(true);
     solveButton.setDisable(true);
     showButton.setDisable(true);
 
@@ -100,8 +101,9 @@ public class MainController extends Application implements Initializable {
     } catch (NumberFormatException e) {
       throw new IllegalArgumentException("Bad number input");
     } finally {
-      solveButton.setDisable(false);
       generateButton.setDisable(false);
+      resetButton.setDisable(false);
+      solveButton.setDisable(false);
       showButton.setDisable(false);
     }
   }
@@ -125,12 +127,14 @@ public class MainController extends Application implements Initializable {
     // Set all relevant button text/disability
     solveButton.setText(UIConstants.BUTTON_STOP);
     generateButton.setDisable(true);
+    resetButton.setDisable(true);
   }
 
   private void onSolveStopped() {
     // Set all relevant button text/disability
     solveButton.setText(UIConstants.BUTTON_SOLVE); // Set text back to solve
     generateButton.setDisable(false);
+    resetButton.setDisable(false);
 
     // If the solver finished, disable the solve button
     if (puzzleStepperService.getState() == Worker.State.SUCCEEDED) {
@@ -173,16 +177,7 @@ public class MainController extends Application implements Initializable {
 
     showButton.setOnAction(puzzleController::openPuzzleWindow);
 
-    rateSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-      if (!newValue.equals(oldValue) && timer != null) {
-        stopSolve = true;
-      }
-      solveButton.setText(UIConstants.BUTTON_SOLVE);
-    });
-  }
-
-  private void solveOver() {
-    solveButton.setText(UIConstants.BUTTON_SOLVE);
-    solveButton.setDisable(true);
+    rateSlider.valueProperty().addListener((observable, oldValue, newValue) ->
+                                               solveButton.setText(UIConstants.BUTTON_SOLVE));
   }
 }
