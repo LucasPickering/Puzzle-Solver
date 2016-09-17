@@ -100,6 +100,13 @@ public abstract class AbstractSolver implements Solver {
     return placedPieces;
   }
 
+  /**
+   * Turn the given array of pieces into a {@link PieceList}. This list will be used as the set
+   * of pieces to pull from when solving the puzzle.
+   *
+   * @param pieces the set of pieces to be used
+   * @return a {@link PieceList} of the same pieces
+   */
   protected abstract PieceList makePieceList(Piece[] pieces);
 
   /**
