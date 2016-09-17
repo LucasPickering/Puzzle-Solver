@@ -52,7 +52,12 @@ public class Main {
     // TODO add behaviour for the rest of the arguments
     long seed = new Random().nextLong();
     if (line.hasOption(RANDOM_SEED)) {
-      seed = line.getOptionValue(RANDOM_SEED).hashCode();
+      final String seedString = line.getOptionValue(RANDOM_SEED);
+      try {
+        seed = new Long(seedString);
+      } catch (NumberFormatException e) {
+        seed = seedString.hashCode();
+      }
     }
     Constants.RANDOM.setSeed(seed);
 
