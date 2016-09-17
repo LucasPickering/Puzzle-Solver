@@ -38,6 +38,15 @@ public abstract class AbstractSolver implements Solver {
         y++;
       }
     }
+
+    @Override
+    public String toString() {
+      final int unplacedAmount = unplacedPieces == null ? 0 : unplacedPieces.size();
+      final String solutionString = solution == null ? "null" : solution.length + "x" +
+                                                                solution[0].length;
+      return String.format("[unplacedPieces: %d, solution: %s, x: %d, y: %d]",
+                           unplacedAmount, solutionString, x, y);
+    }
   }
 
   protected State state;
@@ -47,8 +56,8 @@ public abstract class AbstractSolver implements Solver {
   @Override
   public void init(Piece[] pieces) {
     PieceList unplacedPieces = makePieceList(pieces);
-    totalPieces = unplacedPieces.size(); // Keep this for later
-    placedPieces = 0; // Make sure this gets reset
+
+    // Add all pieces to the list, and count edge pieces as we go
     int edges = 0;
     for (Piece piece : pieces) {
       if (piece.definitelyType(PieceType.EDGE)) {
@@ -57,6 +66,10 @@ public abstract class AbstractSolver implements Solver {
       unplacedPieces.add(piece);
     }
 
+    totalPieces = unplacedPieces.size(); // Keep this for later
+    placedPieces = 0; // Make sure this gets reset
+
+    // Calculate dimensions of the puzzle. Use number of edges + 4 corners for perimeter.
     final Pair<Integer, Integer> dimensions = Funcs.getDimensions(edges + 4, pieces.length);
     state = new State(dimensions.left, dimensions.right, unplacedPieces);
   }
@@ -167,5 +180,10 @@ public abstract class AbstractSolver implements Solver {
     state.solution[state.x][state.y] = piece; // Put the piece in the solution
     state.unplacedPieces.remove(piece); // Remove the piece from the bag of unplaced ones
     placedPieces++; // Keep track of how many we've placed
+  }
+
+  @Override
+  public String toString() {
+    return String.format("[state: %s, placed: %d/%d]", state, placedPieces, totalPieces);
   }
 }

@@ -101,7 +101,14 @@ public class MainController extends Application implements Initializable {
 
   @FXML
   private void reset() {
-    initSolver(lastPieces);
+    initSolver(lastPieces); // Re-init the solver
+    puzzleStepperService.reset(); // Reset the stepper service
+
+    // Enable all buttons
+    generateButton.setDisable(false);
+    resetButton.setDisable(false);
+    solveButton.setDisable(false);
+    showButton.setDisable(false);
   }
 
   private void initSolver(Piece[] pieces) {

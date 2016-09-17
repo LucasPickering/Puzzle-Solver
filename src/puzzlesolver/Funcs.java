@@ -87,13 +87,12 @@ public final class Funcs {
   }
 
   /**
-   * Gets the dimensions of a rectangle given its perimeter and area. This is useful for puzzles
-   * because you can find the total amount of pieces in a puzzle given its amount of edges and
-   * total pieces.
+   * Gets the dimensions of a puzzle given its number of edge/corner pieces (perimeter) and
+   * total number of pieces (area).
    *
-   * @param perimeter the perimeter of the rectangle
-   * @param area      the area of the rectangle
-   * @return the dimensions of the rectangle, with {@code left >= right}
+   * @param perimeter the number of edge/corner pieces
+   * @param area      the total number of pieces
+   * @return the dimensions of the puzzle, with {@code left >= right}
    */
   public static Pair<Integer, Integer> getDimensions(int perimeter, int area) {
     final int helper = (perimeter + 4) / 2; // This is used a bunch
