@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.ScheduledService;
+import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +19,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import puzzlesolver.Logger;
 import puzzlesolver.Piece;
 import puzzlesolver.constants.Constants;
@@ -44,10 +47,11 @@ public class MainController extends Application implements Initializable {
   private ChoiceBox<String> renderTypeChoiceBox;
   @FXML
   private Slider rateSlider = new Slider();
-  private Solver solver;
+  private Solver solver = new GreedySolver();
   private Piece[] lastPieces;
   private PuzzleController puzzleController;
   private PuzzleStepperService puzzleStepperService;
+  private ScheduledService<Void> rendererService;
 
   public static void main(String[] args) {
     launch(args);
@@ -102,7 +106,6 @@ public class MainController extends Application implements Initializable {
   @FXML
   private void reset() {
     initSolver(lastPieces); // Re-init the solver
-    puzzleStepperService.reset(); // Reset the stepper service
 
     // Enable all buttons
     generateButton.setDisable(false);
@@ -113,8 +116,9 @@ public class MainController extends Application implements Initializable {
 
   private void initSolver(Piece[] pieces) {
     lastPieces = pieces;
-    solver.init(pieces);
     puzzleController.init(solver);
+    puzzleStepperService.reset();
+    solver.init(pieces);
     puzzleController.openPuzzleWindow();
   }
 
@@ -129,7 +133,8 @@ public class MainController extends Application implements Initializable {
         break;
       case UIConstants.BUTTON_STOP:
         puzzleStepperService.cancel(); // Stop the solver (it will do it gracefully I promise)
-        puzzleStepperService.reset(); // Reset the service we can start it again
+        puzzleStepperService.reset(); // Reset the service we can start it again'
+        break;
     }
   }
 
@@ -167,9 +172,6 @@ public class MainController extends Application implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     puzzleController = new PuzzleController();
-    if (solver == null) {
-      solver = new GreedySolver();
-    }
     puzzleController.init(solver);
 
     // Initialize the service that actually runs the solver
@@ -177,6 +179,22 @@ public class MainController extends Application implements Initializable {
     puzzleStepperService.setOnRunning(event -> onSolveStarted()); // Called when the solve starts
     puzzleStepperService.setOnCancelled(event -> onSolveStopped()); // Called when the solve pauses
     puzzleStepperService.setOnSucceeded(event -> onSolveStopped()); // Called when the solve ends
+
+    rendererService = new ScheduledService<Void>() {
+      @Override
+      protected Task<Void> createTask() {
+        return new Task<Void>() {
+          @Override
+          protected Void call() throws Exception {
+            puzzleController.update();
+            return null;
+          }
+        };
+      }
+    };
+    rendererService.setPeriod(Duration.millis(10));
+    rendererService.setDelay(Duration.millis(10));
+    rendererService.start();
 
     // Set up renderTypeChoiceBox
     renderTypeChoiceBox.getSelectionModel()

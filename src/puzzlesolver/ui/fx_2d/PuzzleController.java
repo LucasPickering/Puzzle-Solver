@@ -8,35 +8,22 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import puzzlesolver.Logger;
-import puzzlesolver.Point;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.constants.UIConstants;
-import puzzlesolver.enums.Direction;
 import puzzlesolver.solver.SimpleSolver;
 import puzzlesolver.solver.Solver;
 
 public class PuzzleController {
 
-  @FXML
-  private AnchorPane puzzlePane;
   private Solver solver = new SimpleSolver();
-  private PuzzleRenderer puzzleRenderer = new DeltaPuzzleRenderer();
+  private GraphicsContext gc;
+  private PuzzleRenderer puzzleRenderer;
   @FXML
   private Canvas puzzleCanvas;
   private Stage stage;
-  private SteppableAnimationTimer animationTimer;
-
-
-  public static Point getGlobalPoint(Point localPoint, Direction orientation, int pieceX,
-                                     int pieceY, int puzzleWidth, int puzzleHeight,
-                                     double windowWidth, double windowHeight) {
-    return PuzzleRenderer.getGlobalPoint(localPoint, orientation, pieceX, pieceY,
-                                         puzzleWidth, puzzleHeight, windowWidth, windowHeight);
-  }
 
   public void init(Solver solver) {
     Objects.requireNonNull(solver);
@@ -44,7 +31,7 @@ public class PuzzleController {
     this.solver = solver;
     stage = null;
     if (puzzleRenderer == null) {
-      puzzleRenderer = new DeltaPuzzleRenderer();
+      puzzleRenderer = new PuzzleRenderer();
     }
   }
 
@@ -69,7 +56,7 @@ public class PuzzleController {
     stage.setMinWidth(UIConstants.WINDOW_MIN_WIDTH);
     stage.setMinHeight(UIConstants.WINDOW_MIN_HEIGHT);
 
-    GraphicsContext gc = puzzleCanvas.getGraphicsContext2D();
+    gc = puzzleCanvas.getGraphicsContext2D();
     root.getChildren().add(puzzleCanvas);
 
     stage.setScene(new Scene(root));
@@ -79,35 +66,19 @@ public class PuzzleController {
     puzzleCanvas.heightProperty().bind(stage.getScene().heightProperty());
 
     stage.setTitle("Puzzle!");
-    animationTimer = new SteppableAnimationTimer(solver, gc, puzzleRenderer);
-    stage.setOnCloseRequest(event -> animationTimer.stop());
-    stage.setOnShowing(event -> animationTimer.start());
-    stage.getScene().setOnMouseClicked(new MouseEventHandler(animationTimer));
     stage.getScene().setFill(new Color(0.3 * Constants.RANDOM.nextDouble(),
                                        0.3 * Constants.RANDOM.nextDouble(),
                                        0.3 * Constants.RANDOM.nextDouble(), 1.0));
     stage.getScene().widthProperty().addListener(
-        (observable, oldValue, newValue) -> puzzleRenderer.draw(gc, solver));
+        (observable, oldValue, newValue) -> puzzleRenderer.update(gc, solver));
     stage.getScene().heightProperty().addListener(
-        (observable, oldValue, newValue) -> puzzleRenderer.draw(gc, solver));
+        (observable, oldValue, newValue) -> puzzleRenderer.update(gc, solver));
 
     if (puzzleRenderer == null) {
       puzzleRenderer = new PuzzleRenderer();
     } else {
       puzzleRenderer.reset(puzzleCanvas.getGraphicsContext2D());
     }
-  }
-
-  public void update() {
-    puzzleRenderer.update(puzzleCanvas.getGraphicsContext2D(), solver);
-  }
-
-  public void draw() {
-    puzzleRenderer.draw(puzzleCanvas.getGraphicsContext2D(), solver);
-  }
-
-  public boolean nextStep() {
-    return animationTimer.nextStep();
   }
 
   public void setRenderMethod(String renderMethod) {
@@ -123,7 +94,7 @@ public class PuzzleController {
         Constants.LOGGER.printf(Logger.INFO, "Changed render method to %s\n", renderMethod);
         break;
       case UIConstants.RENDER_VISUAL_FANCY:
-        puzzleRenderer = new DeltaPuzzleRenderer();
+        puzzleRenderer = new PuzzleRenderer();
         Constants.LOGGER.printf(1, "Changed render method to %s\n", renderMethod);
         break;
       default:
@@ -141,5 +112,9 @@ public class PuzzleController {
     closePuzzleWindow();
     stage = null;
     puzzleCanvas = null;
+  }
+
+  public void update() {
+    puzzleRenderer.update(gc, solver);
   }
 }

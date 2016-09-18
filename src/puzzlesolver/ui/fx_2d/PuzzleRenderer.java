@@ -19,10 +19,8 @@ import puzzlesolver.solver.Solver;
 
 class PuzzleRenderer {
 
-  private int lastDrawnX = 0;
-  private int lastDrawnY = 0;
-  private int previousPuzzleWidth;
-  private int previousPuzzleHeight;
+  private boolean reset = true;
+  private Piece[][] lastSolution;
   protected boolean done;
   private double[] doubles = null;
 
@@ -118,22 +116,6 @@ class PuzzleRenderer {
   }
 
   /**
-   * Reset the scene and draw a fresh puzzle.
-   *
-   * Should only be called on window resize, etc.
-   *
-   * @param gc     {@link GraphicsContext} on which to draw
-   * @param solver to draw
-   */
-  void draw(GraphicsContext gc, Solver solver) {
-    reset(gc);
-    previousPuzzleWidth = 0;
-    previousPuzzleHeight = 0;
-
-    update(gc, solver);
-  }
-
-  /**
    * Clears the canvas.
    *
    * @param gc canvas to clear
@@ -149,9 +131,9 @@ class PuzzleRenderer {
    */
   protected void reset(GraphicsContext gc) {
     clearCanvas(gc);
-    lastDrawnX = 0;
-    lastDrawnY = 0;
+    lastSolution = null;
     done = false;
+    reset = true;
   }
 
   /**
@@ -163,13 +145,32 @@ class PuzzleRenderer {
   void update(GraphicsContext gc, Solver solver) {
     Piece[][] solution = solver.getSolution();
 
-    if (solution.length != previousPuzzleWidth || solution[0].length != previousPuzzleHeight) {
+    if (lastSolution == null || solution.length != lastSolution.length) {
       reset(gc);
-      previousPuzzleWidth = solution.length;
-      previousPuzzleHeight = solution[0].length;
+      lastSolution = solution;
     }
 
     drawPuzzle(gc, solver);
+  }
+
+  private boolean[][] needsRedraw(Piece[][] solution) {
+    final int width = solution.length;
+    final int height = solution[0].length;
+    final boolean[][] result = new boolean[width][height];
+
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        // Re-draw a piece if it's not null and either it was null before, or we're
+        // force re-drawing everything. Maybe we should compare hashcodes between each
+        // piece? Slower, but if in the future a piece will every change after being
+        // placed, it will support that.
+        if (solution[x][y] != null && (reset || lastSolution[x][y] == null)) {
+          result[x][y] = true;
+        }
+      }
+    }
+
+    return result;
   }
 
   protected void drawPuzzle(GraphicsContext gc, Solver solver) {
@@ -177,39 +178,25 @@ class PuzzleRenderer {
       return;
     }
 
-    Piece[][] solution = solver.getSolution();
+    final Piece[][] solution = solver.getSolution();
+    final int width = solution.length;
+    final int height = solution[0].length;
 
-    for (int x = lastDrawnX; x < solution.length; x++) {
-      Piece piece = solution[x][lastDrawnY];
-      if (piece == null) {
-        lastDrawnX = x;
-        return;
-      }
-      if (lastDrawnY == solution[0].length - 1 && x == solution.length - 1) {
-        done = true;
-      }
-
-      drawPiece(gc, piece, x, lastDrawnY, solution.length, solution[0].length);
-      lastDrawnX = x;
+    // If this is the first draw, or the puzzle was rotated, re-draw everything.
+    if (lastSolution == null || lastSolution.length != solution.length) {
+      reset = true;
     }
+    final boolean[][] needsRedraw = needsRedraw(solution);
 
-    if (done) {
-      return;
-    }
-
-    for (int y = lastDrawnY + 1; y < solution[0].length; y++) {
-      for (int x = 0; x < solution.length; x++) {
-        Piece piece = solution[x][y];
-
-        if (piece == null || (x == solution.length - 1 && y == solution[x].length - 1)) {
-          lastDrawnX = x;
-          lastDrawnY = y;
-          return;
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        if (needsRedraw[x][y]) {
+          drawPiece(gc, solution[x][y], x, y, width, height);
         }
-
-        drawPiece(gc, piece, x, y, solution.length, solution[x].length);
       }
     }
+
+    lastSolution = solution.clone();
   }
 
   void drawPiece(GraphicsContext gc, Piece piece, int x, int y,
