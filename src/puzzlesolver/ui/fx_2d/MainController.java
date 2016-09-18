@@ -6,8 +6,6 @@ import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
-import javafx.concurrent.ScheduledService;
-import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,7 +49,7 @@ public class MainController extends Application implements Initializable {
   private Piece[] lastPieces;
   private PuzzleController puzzleController;
   private PuzzleStepperService puzzleStepperService;
-  private ScheduledService<Void> rendererService;
+  private RendererService rendererService;
 
   public static void main(String[] args) {
     launch(args);
@@ -180,20 +178,10 @@ public class MainController extends Application implements Initializable {
     puzzleStepperService.setOnCancelled(event -> onSolveStopped()); // Called when the solve pauses
     puzzleStepperService.setOnSucceeded(event -> onSolveStopped()); // Called when the solve ends
 
-    rendererService = new ScheduledService<Void>() {
-      @Override
-      protected Task<Void> createTask() {
-        return new Task<Void>() {
-          @Override
-          protected Void call() throws Exception {
-            puzzleController.update();
-            return null;
-          }
-        };
-      }
-    };
-    rendererService.setPeriod(Duration.millis(10));
-    rendererService.setDelay(Duration.millis(10));
+    // Initialize the service that periodically renders the puzzle
+    rendererService = new RendererService(puzzleController);
+    rendererService.setPeriod(Duration.millis(10)); // Call it every 10 ms
+    rendererService.setDelay(Duration.millis(10)); // Wait 10 ms because the first time you call it
     rendererService.start();
 
     // Set up renderTypeChoiceBox

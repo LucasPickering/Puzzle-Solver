@@ -5,6 +5,11 @@ import javafx.concurrent.Task;
 import puzzlesolver.PieceNotFoundException;
 import puzzlesolver.solver.Solver;
 
+/**
+ * A service that is called once to start solving the puzzle. This can be started with
+ * {@link #start} and stopped with {@link #cancel}. Note that after cancelling you have to call
+ * {@link #reset} before starting again.
+ */
 public class PuzzleStepperService extends Service<Void> {
 
   private final Solver solver;
