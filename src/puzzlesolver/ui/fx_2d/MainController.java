@@ -181,7 +181,6 @@ public class MainController extends Application implements Initializable {
     // Initialize the service that periodically renders the puzzle
     rendererService = new RendererService(puzzleController);
     rendererService.setPeriod(Duration.millis(10)); // Call it every 10 ms
-    rendererService.setDelay(Duration.millis(10)); // Wait 10 ms because the first time you call it
     rendererService.start();
 
     // Set up renderTypeChoiceBox
