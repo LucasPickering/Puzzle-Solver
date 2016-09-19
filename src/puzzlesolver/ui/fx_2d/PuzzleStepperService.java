@@ -13,6 +13,7 @@ import puzzlesolver.solver.Solver;
 public class PuzzleStepperService extends Service<Void> {
 
   private final Solver solver;
+  private volatile double loopDelay;
 
   public PuzzleStepperService(Solver solver) {
     this.solver = solver;
@@ -26,7 +27,7 @@ public class PuzzleStepperService extends Service<Void> {
           while (!isCancelled() && !solver.done()) {
             solver.nextStep();
             updateProgress(solver.getPiecesPlaced(), solver.getTotalPieces());
-            Thread.sleep(10);
+            Thread.sleep((int) loopDelay);
           }
         } catch (PieceNotFoundException e) {
           e.printStackTrace();
@@ -36,5 +37,9 @@ public class PuzzleStepperService extends Service<Void> {
         return null;
       }
     };
+  }
+
+  public void setLoopDelay(double loopDelay) {
+    this.loopDelay = loopDelay;
   }
 }

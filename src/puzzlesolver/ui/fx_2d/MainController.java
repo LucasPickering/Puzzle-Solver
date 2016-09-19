@@ -155,6 +155,16 @@ public class MainController extends Application implements Initializable {
     }
   }
 
+  private void updateLoopDelay() {
+    final int delay = getLoopDelay();
+    puzzleStepperService.setLoopDelay(delay);
+    rendererService.setPeriod(Duration.millis(Math.max(delay, UIConstants.MIN_RENDER_DELAY)));
+  }
+
+  private int getLoopDelay() {
+    return (int) (rateSlider.getMax() - rateSlider.getValue());
+  }
+
   /**
    * Respond to a change in {@link #renderTypeChoiceBox} by changing the render mode in {@link
    * #puzzleController}.
@@ -180,7 +190,8 @@ public class MainController extends Application implements Initializable {
 
     // Initialize the service that periodically renders the puzzle
     rendererService = new RendererService(puzzleController);
-    rendererService.setPeriod(Duration.millis(10)); // Call it every 10 ms
+
+    updateLoopDelay(); // Update the timing for both services (and start the renderer)
     rendererService.start();
 
     // Set up renderTypeChoiceBox
@@ -192,7 +203,7 @@ public class MainController extends Application implements Initializable {
 
     showButton.setOnAction(puzzleController::openPuzzleWindow);
 
-    rateSlider.valueProperty().addListener((observable, oldValue, newValue) ->
-                                               solveButton.setText(UIConstants.BUTTON_SOLVE));
+    // Whenever the slider value changes, update both timed loops
+    rateSlider.valueProperty().addListener((observable, oldValue, newValue) -> updateLoopDelay());
   }
 }

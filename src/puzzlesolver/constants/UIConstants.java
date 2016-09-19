@@ -23,4 +23,9 @@ public final class UIConstants {
       VISUAL_PIECE_PADDING = Constants.SIDE_LENGTH;
 
   public static final int DEFAULT_PUZZLE_WIDTH = 16, DEFAULT_PUZZLE_HEIGHT = 32;
+
+  /**
+   * The minimum time between refreshes on the renderer. Can't let it go too fast (like Sanic).
+   */
+  public static final int MIN_RENDER_DELAY = 10;
 }
