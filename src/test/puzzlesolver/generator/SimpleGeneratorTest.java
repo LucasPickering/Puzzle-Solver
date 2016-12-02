@@ -1,12 +1,10 @@
-package puzzlesolver.test.generator;
+package puzzlesolver.generator;
 
 import org.junit.Test;
 
 import puzzlesolver.Piece;
 import puzzlesolver.Point;
 import puzzlesolver.enums.Direction;
-import puzzlesolver.generator.Generator;
-import puzzlesolver.generator.SimpleGenerator;
 import puzzlesolver.side.Side;
 
 import static org.junit.Assert.assertEquals;

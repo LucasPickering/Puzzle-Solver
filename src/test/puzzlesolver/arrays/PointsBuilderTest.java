@@ -1,4 +1,4 @@
-package puzzlesolver.test;
+package puzzlesolver.arrays;
 
 import org.junit.Assert;
 import org.junit.Test;

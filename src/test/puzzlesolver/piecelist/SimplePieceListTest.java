@@ -1,4 +1,4 @@
-package puzzlesolver.test.piecelist;
+package puzzlesolver.piecelist;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,8 +8,6 @@ import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.generator.Generator;
 import puzzlesolver.generator.SimpleGenerator;
-import puzzlesolver.piecelist.PieceList;
-import puzzlesolver.piecelist.SimplePieceList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

@@ -1,16 +1,14 @@
-package puzzlesolver.test;
+package puzzlesolver;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import puzzlesolver.Piece;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import puzzlesolver.constants.Constants;
 import puzzlesolver.enums.Direction;
 import puzzlesolver.generator.Generator;
 import puzzlesolver.generator.SimpleGenerator;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class PieceTest {
 

@@ -1,8 +1,6 @@
-package puzzlesolver.test;
+package puzzlesolver;
 
 import org.junit.Test;
-
-import puzzlesolver.DoubleDeltaComparator;
 
 import static org.junit.Assert.assertEquals;
 

@@ -1,9 +1,6 @@
-package puzzlesolver.test.generator;
+package puzzlesolver.generator;
 
 import org.junit.Test;
-
-import puzzlesolver.generator.Generator;
-import puzzlesolver.generator.PolypointGenerator;
 
 public class PolypointGeneratorTest {
 
