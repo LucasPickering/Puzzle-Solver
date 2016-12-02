@@ -27,29 +27,29 @@ import puzzlesolver.solver.Solver;
 @BenchmarkMode(Mode.AverageTime)
 public class PieceTypeSolverBenchmark {
 
-  @Param({"50", "100", "200"})
-  private int size;
-  @Param({"0.2d", "0.1d", "0.05d", "0.01d"})
-  private double complexity;
-  private Piece[] puzzle;
+    @Param({"50", "100", "200"})
+    private int size;
+    @Param({"0.2d", "0.1d", "0.05d", "0.01d"})
+    private double complexity;
+    private Piece[] puzzle;
 
-  @Setup
-  public void setUp() {
-    final Generator generator = new PolypointGenerator(complexity, complexity);
-    puzzle = generator.generate(size, size);
-  }
-
-  @Benchmark
-  public void measureFull() {
-    Solver solver = new PieceTypeRotationSolver();
-    solver.init(puzzle);
-
-    try {
-      while (!solver.done()) {
-        solver.nextStep();
-      }
-    } catch (PieceNotFoundException e) {
-      e.printStackTrace();
+    @Setup
+    public void setUp() {
+        final Generator generator = new PolypointGenerator(complexity, complexity);
+        puzzle = generator.generate(size, size);
     }
-  }
+
+    @Benchmark
+    public void measureFull() {
+        Solver solver = new PieceTypeRotationSolver();
+        solver.init(puzzle);
+
+        try {
+            while (!solver.done()) {
+                solver.nextStep();
+            }
+        } catch (PieceNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }

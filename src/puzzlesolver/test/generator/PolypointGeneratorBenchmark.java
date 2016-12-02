@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 
 import puzzlesolver.generator.Generator;
 import puzzlesolver.generator.PolypointGenerator;
-import puzzlesolver.test.Benchmarks;
 
 
 @State(Scope.Benchmark)

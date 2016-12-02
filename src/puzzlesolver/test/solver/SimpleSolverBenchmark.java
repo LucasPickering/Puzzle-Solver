@@ -26,27 +26,27 @@ import puzzlesolver.solver.SimpleSolver;
 @BenchmarkMode(Mode.AverageTime)
 public class SimpleSolverBenchmark {
 
-  @Param({"50", "100", "200", "300"})
-  private int size;
-  private Piece[] puzzle;
+    @Param({"50", "100", "200", "300"})
+    private int size;
+    private Piece[] puzzle;
 
-  @Setup
-  public void setUp() {
-    final Generator generator = new SimpleGenerator();
-    puzzle = generator.generate(size, size);
-  }
-
-  @Benchmark
-  public void measureFull() {
-    SimpleSolver solver = new SimpleSolver();
-    solver.init(puzzle);
-
-    try {
-      while (!solver.done()) {
-        solver.nextStep();
-      }
-    } catch (PieceNotFoundException e) {
-      e.printStackTrace();
+    @Setup
+    public void setUp() {
+        final Generator generator = new SimpleGenerator();
+        puzzle = generator.generate(size, size);
     }
-  }
+
+    @Benchmark
+    public void measureFull() {
+        SimpleSolver solver = new SimpleSolver();
+        solver.init(puzzle);
+
+        try {
+            while (!solver.done()) {
+                solver.nextStep();
+            }
+        } catch (PieceNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
